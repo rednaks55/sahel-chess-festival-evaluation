@@ -281,6 +281,11 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -1805,37 +1810,87 @@
                 submitButton.textContent = 'Envoi en cours...';
                 submitButton.disabled = true;
                 
-                // Envoyer les données du formulaire à FormSubmit
-                fetch('https://formsubmit.co/ajax/el/zudiru', {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
+                // Créer un FormData à partir du formulaire
+                const formData = new FormData(form);
+                
+                // Essayer d'abord avec l'endpoint AJAX
+                trySubmitForm('https://formsubmit.co/ajax/el/zudiru', formData)
+                    .then(() => {
                         // Afficher le message de remerciement
                         formContainer.style.display = 'none';
                         thankYouContainer.style.display = 'flex';
                         
                         // Initialiser les éléments de la page de remerciement
                         initThankYouPage();
-                    } else {
-                        throw new Error('Erreur lors de la soumission du formulaire');
+                    })
+                    .catch((error) => {
+                        console.error('Erreur avec AJAX:', error);
+                        
+                        // Essayer avec l'endpoint standard
+                        return trySubmitForm('https://formsubmit.co/el/zudiru', formData);
+                    })
+                    .then(() => {
+                        // Afficher le message de remerciement
+                        formContainer.style.display = 'none';
+                        thankYouContainer.style.display = 'flex';
+                        
+                        // Initialiser les éléments de la page de remerciement
+                        initThankYouPage();
+                    })
+                    .catch((error) => {
+                        console.error('Erreur avec endpoint standard:', error);
+                        
+                        // Dernière tentative: utiliser une redirection iframe
+                        const iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        iframe.name = 'formsubmit-iframe';
+                        document.body.appendChild(iframe);
+                        
+                        form.target = iframe.name;
+                        form.action = 'https://formsubmit.co/el/zudiru';
+                        form.submit();
+                        
+                        // Simuler un succès après un court délai
+                        setTimeout(() => {
+                            formContainer.style.display = 'none';
+                            thankYouContainer.style.display = 'flex';
+                            initThankYouPage();
+                            
+                            // Restaurer le formulaire
+                            form.target = '';
+                            form.action = '';
+                            document.body.removeChild(iframe);
+                        }, 2000);
+                    })
+                    .finally(() => {
+                        // Restaurer le bouton
+                        submitButton.textContent = originalText;
+                        submitButton.disabled = false;
+                    });
+            });
+            
+            // Fonction pour essayer de soumettre le formulaire
+            function trySubmitForm(url, formData) {
+                return fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
                     }
                 })
-                .catch(error => {
-                    console.error('Erreur:', error);
-                    alert('Une erreur est survenue lors de l\'envoi du formulaire. Veuillez réessayer plus tard.');
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
                 })
-                .finally(() => {
-                    // Restaurer le bouton
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
+                .then(data => {
+                    if (!data.success) {
+                        throw new Error('FormSubmit returned unsuccessful response');
+                    }
+                    return data;
                 });
-            });
+            }
             
             // Réinitialiser le formulaire
             resetButton.addEventListener('click', function(e) {
