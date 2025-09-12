@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fiche d'Évaluation - Sahel Chess Festival 2025</title>
     <style>
         /* Mode sombre (par défaut) */
@@ -33,11 +33,21 @@
         body {
             background: var(--bg-primary);
             color: var(--text-primary);
-            padding: 20px;
             line-height: 1.6;
             transition: background-color 0.3s ease, color 0.3s ease;
             overflow-x: hidden;
             min-height: 100vh;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .main-container {
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
@@ -50,6 +60,7 @@
             transition: background-color 0.3s ease;
             position: relative;
             z-index: 10;
+            flex: 1;
         }
         
         .header {
@@ -58,7 +69,7 @@
         }
         
         .title {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 10px;
@@ -66,7 +77,7 @@
         }
         
         .subtitle {
-            font-size: 18px;
+            font-size: 16px;
             color: var(--accent-1);
             margin-bottom: 20px;
             transition: color 0.3s ease;
@@ -81,8 +92,8 @@
         }
         
         .section {
-            margin-bottom: 30px;
-            padding: 20px;
+            margin-bottom: 25px;
+            padding: 15px;
             background: var(--bg-section);
             border-radius: 10px;
             border-left: 4px solid var(--accent-1);
@@ -92,10 +103,10 @@
         }
         
         .section-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 600;
             color: var(--accent-2);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             transition: color 0.3s ease;
@@ -105,10 +116,11 @@
             margin-right: 10px;
             color: var(--accent-1);
             transition: color 0.3s ease;
+            font-size: 18px;
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         label {
@@ -117,6 +129,7 @@
             font-weight: 500;
             color: var(--text-primary);
             transition: color 0.3s ease;
+            font-size: 14px;
         }
         
         input[type="text"],
@@ -130,7 +143,7 @@
             border-radius: 5px;
             background: var(--input-bg);
             color: var(--text-primary);
-            font-size: 16px;
+            font-size: 14px;
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         
@@ -161,17 +174,26 @@
             margin-right: 10px;
         }
         
+        .radio-option label,
+        .checkbox-option label {
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+        
         .rating-group {
             display: flex;
             align-items: center;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
         
         .rating-label {
-            min-width: 200px;
+            min-width: 180px;
             font-weight: 500;
             color: var(--text-primary);
             transition: color 0.3s ease;
+            font-size: 14px;
+            margin-bottom: 5px;
         }
         
         .rating-stars {
@@ -185,7 +207,7 @@
         }
         
         .rating-stars label {
-            font-size: 24px;
+            font-size: 20px;
             color: var(--star-color);
             cursor: pointer;
             margin-right: 5px;
@@ -267,12 +289,13 @@
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             z-index: 10;
+            margin-top: 20px;
         }
         
         .btn:hover {
@@ -288,8 +311,8 @@
         
         .footer {
             text-align: center;
-            margin-top: 30px;
-            font-size: 14px;
+            margin-top: 20px;
+            font-size: 12px;
             color: var(--text-secondary);
             transition: color 0.3s ease;
             position: relative;
@@ -472,7 +495,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 30px 20px;
+            padding: 20px 15px;
             position: relative;
             z-index: 10;
             width: 100%;
@@ -483,7 +506,7 @@
         .success-card {
             background: var(--bg-secondary);
             border-radius: 15px;
-            padding: 40px 20px;
+            padding: 30px 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             text-align: center;
             width: 100%;
@@ -495,7 +518,7 @@
         }
         
         .success-icon {
-            font-size: 60px;
+            font-size: 50px;
             color: var(--success-color);
             margin-bottom: 20px;
             animation: scaleIn 0.5s ease-out 1s forwards;
@@ -503,7 +526,7 @@
         }
         
         .success-title {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 15px;
@@ -512,9 +535,9 @@
         }
         
         .success-message {
-            font-size: 16px;
+            font-size: 14px;
             color: var(--text-secondary);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             animation: fadeIn 1s ease-in-out 1.4s forwards;
             opacity: 0;
             line-height: 1.5;
@@ -523,8 +546,8 @@
         .details-card {
             background: var(--card-bg);
             border-radius: 10px;
-            padding: 20px;
-            margin-top: 30px;
+            padding: 15px;
+            margin-top: 25px;
             text-align: left;
             transform: translateY(30px);
             opacity: 0;
@@ -534,10 +557,10 @@
         }
         
         .details-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--accent-2);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
         }
@@ -552,12 +575,12 @@
         }
         
         .details-list li {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: flex;
             align-items: flex-start;
             opacity: 0;
             animation: fadeIn 0.5s ease-in-out forwards;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.4;
         }
         
@@ -582,13 +605,13 @@
         
         .home-btn {
             display: inline-block;
-            margin-top: 30px;
+            margin-top: 25px;
             padding: 12px 25px;
             background: linear-gradient(90deg, var(--accent-1), #1a3a5f);
             color: white;
             border: none;
             border-radius: 30px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
@@ -626,24 +649,24 @@
         
         .countdown-value {
             display: block;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: var(--accent-2);
         }
         
         .countdown-label {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-secondary);
         }
         
         .private-share-container {
-            margin-top: 30px;
+            margin-top: 25px;
         }
         
         .private-share-buttons {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             margin-top: 15px;
             flex-wrap: wrap;
         }
@@ -652,8 +675,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             color: white;
             transition: all 0.3s ease;
@@ -683,7 +706,7 @@
         }
         
         .private-share-button i {
-            font-size: 18px;
+            font-size: 16px;
         }
         
         .copy-tooltip {
@@ -695,7 +718,7 @@
             color: white;
             padding: 5px 10px;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 11px;
             white-space: nowrap;
             opacity: 0;
             transition: opacity 0.3s;
@@ -849,15 +872,21 @@
         
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
+                padding: 20px 15px;
             }
             
             .title {
-                font-size: 28px;
+                font-size: 24px;
             }
             
             .section {
-                padding: 15px;
+                padding: 12px;
+                margin-bottom: 20px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+                margin-bottom: 10px;
             }
             
             .rating-group {
@@ -866,7 +895,7 @@
             }
             
             .rating-label {
-                margin-bottom: 10px;
+                margin-bottom: 8px;
                 min-width: 100%;
             }
             
@@ -891,23 +920,23 @@
             }
             
             .success-card {
-                padding: 30px 15px;
+                padding: 25px 15px;
             }
             
             .success-title {
-                font-size: 24px;
+                font-size: 20px;
             }
             
             .success-message {
-                font-size: 14px;
+                font-size: 13px;
             }
             
             .details-card {
-                padding: 15px;
+                padding: 12px;
             }
             
             .countdown-value {
-                font-size: 18px;
+                font-size: 16px;
             }
             
             .private-share-buttons {
@@ -915,7 +944,7 @@
             }
             
             .thank-you-container {
-                padding: 20px 15px;
+                padding: 15px 10px;
             }
         }
     </style>
@@ -998,993 +1027,255 @@
         <div class="chess-path-line"></div>
     </div>
     
-    <!-- Conteneur du formulaire -->
-    <div id="form-container" class="container">
-        <div class="header">
-            <h1 class="title">Fiche d'Évaluation</h1>
-            <div class="accent-line"></div>
-            <p class="subtitle">Sahel Chess Festival 2025</p>
-        </div>
-        
-        <form id="evaluation-form" action="https://formsubmit.co/el/zudiru" method="POST">
-            <!-- Options cachées pour FormSubmit -->
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_subject" value="Nouvelle évaluation - Sahel Chess Festival 2025">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_next" value="#">
-            
-            <!-- Section 1: Profil du répondant -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-user"></i> Profil du répondant</h2>
-                
-                <div class="form-group">
-                    <label for="nom">Nom & Prénom</label>
-                    <input type="text" id="nom" name="Nom" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="age">Âge</label>
-                    <input type="number" id="age" name="Age" min="10" max="100" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Genre</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="homme" name="Genre" value="Homme" required>
-                            <label for="homme">Homme</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="femme" name="Genre" value="Femme" required>
-                            <label for="femme">Femme</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="autre" name="Genre" value="Autre" required>
-                            <label for="autre">Autre</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="organisation">Organisation / Club / Fédération</label>
-                    <input type="text" id="organisation" name="Organisation">
-                </div>
-                
-                <div class="form-group">
-                    <label for="pays">Pays de provenance</label>
-                    <input type="text" id="pays" name="Pays" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Rôle / Statut</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="joueur" name="Role" value="Joueur" required>
-                            <label for="joueur">Joueur</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="delegation" name="Role" value="Responsable de délégation" required>
-                            <label for="delegation">Responsable de délégation</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="organisateur" name="Role" value="Organisateur" required>
-                            <label for="organisateur">Organisateur</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="media" name="Role" value="Média / Journaliste" required>
-                            <label for="media">Média / Journaliste</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="autre-role" name="Role" value="Autre" required>
-                            <label for="autre-role">Autre</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="main-container">
+        <!-- Conteneur du formulaire -->
+        <div id="form-container" class="container">
+            <div class="header">
+                <h1 class="title">Fiche d'Évaluation</h1>
+                <div class="accent-line"></div>
+                <p class="subtitle">Sahel Chess Festival 2025</p>
             </div>
             
-            <!-- Section 2: Découverte de l'événement -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-search"></i> Découverte de l'événement</h2>
+            <form id="evaluation-form" action="https://formsubmit.co/el/zudiru" method="POST">
+                <!-- Options cachées pour FormSubmit -->
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="Nouvelle évaluation - Sahel Chess Festival 2025">
+                <input type="hidden" name="_template" value="table">
                 
-                <div class="form-group">
-                    <label>Comment avez-vous connu le Sahel Chess Festival ?</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="site-web" name="Decouverte[]" value="Site web officiel">
-                            <label for="site-web">Site web officiel</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="reseaux-sociaux" name="Decouverte[]" value="Réseaux sociaux">
-                            <label for="reseaux-sociaux">Réseaux sociaux</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="bouche-oreille" name="Decouverte[]" value="Bouche-à-oreille">
-                            <label for="bouche-oreille">Bouche-à-oreille</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="club" name="Decouverte[]" value="Club d'échecs local">
-                            <label for="club">Club d'échecs local</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="presse" name="Decouverte[]" value="Presse / Média">
-                            <label for="presse">Presse / Média</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="autre-decouverte" name="Decouverte[]" value="Autre">
-                            <label for="autre-decouverte">Autre</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="influence">Qu'est-ce qui a le plus influencé votre décision de participer ?</label>
-                    <textarea id="influence" name="Influence" rows="3"></textarea>
-                </div>
-            </div>
-            
-            <!-- Section 3: Organisation générale -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Organisation générale</h2>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Qualité générale du festival</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="qualite-5" name="QualiteGenerale" value="5" required>
-                        <label for="qualite-5">★</label>
-                        <input type="radio" id="qualite-4" name="QualiteGenerale" value="4" required>
-                        <label for="qualite-4">★</label>
-                        <input type="radio" id="qualite-3" name="QualiteGenerale" value="3" required>
-                        <label for="qualite-3">★</label>
-                        <input type="radio" id="qualite-2" name="QualiteGenerale" value="2" required>
-                        <label for="qualite-2">★</label>
-                        <input type="radio" id="qualite-1" name="QualiteGenerale" value="1" required>
-                        <label for="qualite-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Respect du programme et des horaires</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="programme-5" name="RespectProgramme" value="5" required>
-                        <label for="programme-5">★</label>
-                        <input type="radio" id="programme-4" name="RespectProgramme" value="4" required>
-                        <label for="programme-4">★</label>
-                        <input type="radio" id="programme-3" name="RespectProgramme" value="3" required>
-                        <label for="programme-3">★</label>
-                        <input type="radio" id="programme-2" name="RespectProgramme" value="2" required>
-                        <label for="programme-2">★</label>
-                        <input type="radio" id="programme-1" name="RespectProgramme" value="1" required>
-                        <label for="programme-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Implication et professionnalisme de l'équipe</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="equipe-5" name="ImplicationEquipe" value="5" required>
-                        <label for="equipe-5">★</label>
-                        <input type="radio" id="equipe-4" name="ImplicationEquipe" value="4" required>
-                        <label for="equipe-4">★</label>
-                        <input type="radio" id="equipe-3" name="ImplicationEquipe" value="3" required>
-                        <label for="equipe-3">★</label>
-                        <input type="radio" id="equipe-2" name="ImplicationEquipe" value="2" required>
-                        <label for="equipe-2">★</label>
-                        <input type="radio" id="equipe-1" name="ImplicationEquipe" value="1" required>
-                        <label for="equipe-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="points-forts">Quels ont été, selon vous, les plus grands points forts de l'événement ?</label>
-                    <textarea id="points-forts" name="PointsForts" rows="3"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="ameliorations">Quels aspects nécessitent des améliorations prioritaires ?</label>
-                    <textarea id="ameliorations" name="Ameliorations" rows="3"></textarea>
-                </div>
-            </div>
-            
-            <!-- Section 4: Tournoi & Niveau sportif -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-chess"></i> Tournoi & Niveau sportif</h2>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Qualité de l'arbitrage</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="arbitrage-5" name="QualiteArbitrage" value="5" required>
-                        <label for="arbitrage-5">★</label>
-                        <input type="radio" id="arbitrage-4" name="QualiteArbitrage" value="4" required>
-                        <label for="arbitrage-4">★</label>
-                        <input type="radio" id="arbitrage-3" name="QualiteArbitrage" value="3" required>
-                        <label for="arbitrage-3">★</label>
-                        <input type="radio" id="arbitrage-2" name="QualiteArbitrage" value="2" required>
-                        <label for="arbitrage-2">★</label>
-                        <input type="radio" id="arbitrage-1" name="QualiteArbitrage" value="1" required>
-                        <label for="arbitrage-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Clarté du règlement et du système d'appariement</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="reglement-5" name="ClarteReglement" value="5" required>
-                        <label for="reglement-5">★</label>
-                        <input type="radio" id="reglement-4" name="ClarteReglement" value="4" required>
-                        <label for="reglement-4">★</label>
-                        <input type="radio" id="reglement-3" name="ClarteReglement" value="3" required>
-                        <label for="reglement-3">★</label>
-                        <input type="radio" id="reglement-2" name="ClarteReglement" value="2" required>
-                        <label for="reglement-2">★</label>
-                        <input type="radio" id="reglement-1" name="ClarteReglement" value="1" required>
-                        <label for="reglement-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Niveau des participants</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="niveau-5" name="NiveauParticipants" value="5" required>
-                        <label for="niveau-5">★</label>
-                        <input type="radio" id="niveau-4" name="NiveauParticipants" value="4" required>
-                        <label for="niveau-4">★</label>
-                        <input type="radio" id="niveau-3" name="NiveauParticipants" value="3" required>
-                        <label for="niveau-3">★</label>
-                        <input type="radio" id="niveau-2" name="NiveauParticipants" value="2" required>
-                        <label for="niveau-2">★</label>
-                        <input type="radio" id="niveau-1" name="NiveauParticipants" value="1" required>
-                        <label for="niveau-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Équité et ambiance sportive</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="equite-5" name="EquiteAmbiance" value="5" required>
-                        <label for="equite-5">★</label>
-                        <input type="radio" id="equite-4" name="EquiteAmbiance" value="4" required>
-                        <label for="equite-4">★</label>
-                        <input type="radio" id="equite-3" name="EquiteAmbiance" value="3" required>
-                        <label for="equite-3">★</label>
-                        <input type="radio" id="equite-2" name="EquiteAmbiance" value="2" required>
-                        <label for="equite-2">★</label>
-                        <input type="radio" id="equite-1" name="EquiteAmbiance" value="1" required>
-                        <label for="equite-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="commentaires-tournoi">Commentaires / Suggestions</label>
-                    <textarea id="commentaires-tournoi" name="CommentairesTournoi" rows="3"></textarea>
-                </div>
-            </div>
-            
-            <!-- Section 5: Logistique & Accueil -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-hotel"></i> Logistique & Accueil</h2>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Hébergement (qualité, confort, proximité)</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="hebergement-5" name="QualiteHebergement" value="5" required>
-                        <label for="hebergement-5">★</label>
-                        <input type="radio" id="hebergement-4" name="QualiteHebergement" value="4" required>
-                        <label for="hebergement-4">★</label>
-                        <input type="radio" id="hebergement-3" name="QualiteHebergement" value="3" required>
-                        <label for="hebergement-3">★</label>
-                        <input type="radio" id="hebergement-2" name="QualiteHebergement" value="2" required>
-                        <label for="hebergement-2">★</label>
-                        <input type="radio" id="hebergement-1" name="QualiteHebergement" value="1" required>
-                        <label for="hebergement-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Restauration (qualité, variété, organisation)</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="restauration-5" name="QualiteRestauration" value="5" required>
-                        <label for="restauration-5">★</label>
-                        <input type="radio" id="restauration-4" name="QualiteRestauration" value="4" required>
-                        <label for="restauration-4">★</label>
-                        <input type="radio" id="restauration-3" name="QualiteRestauration" value="3" required>
-                        <label for="restauration-3">★</label>
-                        <input type="radio" id="restauration-2" name="QualiteRestauration" value="2" required>
-                        <label for="restauration-2">★</label>
-                        <input type="radio" id="restauration-1" name="QualiteRestauration" value="1" required>
-                        <label for="restauration-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Transport (transferts, accessibilité du lieu)</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="transport-5" name="QualiteTransport" value="5" required>
-                        <label for="transport-5">★</label>
-                        <input type="radio" id="transport-4" name="QualiteTransport" value="4" required>
-                        <label for="transport-4">★</label>
-                        <input type="radio" id="transport-3" name="QualiteTransport" value="3" required>
-                        <label for="transport-3">★</label>
-                        <input type="radio" id="transport-2" name="QualiteTransport" value="2" required>
-                        <label for="transport-2">★</label>
-                        <input type="radio" id="transport-1" name="QualiteTransport" value="1" required>
-                        <label for="transport-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Accueil à l'aéroport / gare / hôtel</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="accueil-5" name="QualiteAccueil" value="5" required>
-                        <label for="accueil-5">★</label>
-                        <input type="radio" id="accueil-4" name="QualiteAccueil" value="4" required>
-                        <label for="accueil-4">★</label>
-                        <input type="radio" id="accueil-3" name="QualiteAccueil" value="3" required>
-                        <label for="accueil-3">★</label>
-                        <input type="radio" id="accueil-2" name="QualiteAccueil" value="2" required>
-                        <label for="accueil-2">★</label>
-                        <input type="radio" id="accueil-1" name="QualiteAccueil" value="1" required>
-                        <label for="accueil-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Services offerts (traduction, assistance, information)</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="services-5" name="QualiteServices" value="5" required>
-                        <label for="services-5">★</label>
-                        <input type="radio" id="services-4" name="QualiteServices" value="4" required>
-                        <label for="services-4">★</label>
-                        <input type="radio" id="services-3" name="QualiteServices" value="3" required>
-                        <label for="services-3">★</label>
-                        <input type="radio" id="services-2" name="QualiteServices" value="2" required>
-                        <label for="services-2">★</label>
-                        <input type="radio" id="services-1" name="QualiteServices" value="1" required>
-                        <label for="services-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="commentaires-logistique">Commentaires</label>
-                    <textarea id="commentaires-logistique" name="CommentairesLogistique" rows="3"></textarea>
-                </div>
-            </div>
-            
-            <!-- Section 6: Communication & Promotion -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-bullhorn"></i> Communication & Promotion</h2>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Informations avant l'événement</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="info-avant-5" name="InfoAvant" value="5" required>
-                        <label for="info-avant-5">★</label>
-                        <input type="radio" id="info-avant-4" name="InfoAvant" value="4" required>
-                        <label for="info-avant-4">★</label>
-                        <input type="radio" id="info-avant-3" name="InfoAvant" value="3" required>
-                        <label for="info-avant-3">★</label>
-                        <input type="radio" id="info-avant-2" name="InfoAvant" value="2" required>
-                        <label for="info-avant-2">★</label>
-                        <input type="radio" id="info-avant-1" name="InfoAvant" value="1" required>
-                        <label for="info-avant-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Informations pendant l'événement</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="info-pendant-5" name="InfoPendant" value="5" required>
-                        <label for="info-pendant-5">★</label>
-                        <input type="radio" id="info-pendant-4" name="InfoPendant" value="4" required>
-                        <label for="info-pendant-4">★</label>
-                        <input type="radio" id="info-pendant-3" name="InfoPendant" value="3" required>
-                        <label for="info-pendant-3">★</label>
-                        <input type="radio" id="info-pendant-2" name="InfoPendant" value="2" required>
-                        <label for="info-pendant-2">★</label>
-                        <input type="radio" id="info-pendant-1" name="InfoPendant" value="1" required>
-                        <label for="info-pendant-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Visibilité médiatique et couverture presse</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="visibilite-5" name="VisibiliteMediatique" value="5" required>
-                        <label for="visibilite-5">★</label>
-                        <input type="radio" id="visibilite-4" name="VisibiliteMediatique" value="4" required>
-                        <label for="visibilite-4">★</label>
-                        <input type="radio" id="visibilite-3" name="VisibiliteMediatique" value="3" required>
-                        <label for="visibilite-3">★</label>
-                        <input type="radio" id="visibilite-2" name="VisibiliteMediatique" value="2" required>
-                        <label for="visibilite-2">★</label>
-                        <input type="radio" id="visibilite-1" name="VisibiliteMediatique" value="1" required>
-                        <label for="visibilite-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Clarté des supports digitaux & réseaux sociaux</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="supports-5" name="ClarteSupports" value="5" required>
-                        <label for="supports-5">★</label>
-                        <input type="radio" id="supports-4" name="ClarteSupports" value="4" required>
-                        <label for="supports-4">★</label>
-                        <input type="radio" id="supports-3" name="ClarteSupports" value="3" required>
-                        <label for="supports-3">★</label>
-                        <input type="radio" id="supports-2" name="ClarteSupports" value="2" required>
-                        <label for="supports-2">★</label>
-                        <input type="radio" id="supports-1" name="ClarteSupports" value="1" required>
-                        <label for="supports-1">★</label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="commentaires-communication">Commentaires</label>
-                    <textarea id="commentaires-communication" name="CommentairesCommunication" rows="3"></textarea>
-                </div>
-            </div>
-            
-            <!-- Section 7: Expérience & Impact -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-brain"></i> Expérience & Impact</h2>
-                
-                <div class="form-group">
-                    <label>Le festival a-t-il répondu à vos attentes ?</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="attentes-globale-oui" name="AttentesGlobale" value="Oui totalement" required>
-                            <label for="attentes-globale-oui">Oui totalement</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="attentes-globale-partiel" name="AttentesGlobale" value="Partiellement" required>
-                            <label for="attentes-globale-partiel">Partiellement</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="attentes-globale-non" name="AttentesGlobale" value="Non" required>
-                            <label for="attentes-globale-non">Non</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Avez-vous ressenti une valeur ajoutée sur :</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="networking" name="ValeurAjoutee[]" value="Networking (contacts, échanges, partenariats)">
-                            <label for="networking">Networking (contacts, échanges, partenariats)</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="experience" name="ValeurAjoutee[]" value="Expérience sportive et culturelle">
-                            <label for="experience">Expérience sportive et culturelle</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="developpement" name="ValeurAjoutee[]" value="Développement de l'image des échecs dans la région">
-                            <label for="developpement">Développement de l'image des échecs dans la région</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="autre-valeur" name="ValeurAjoutee[]" value="Autre">
-                            <label for="autre-valeur">Autre</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="nps-group">
-                    <label>Sur une échelle de 0 à 10, quelle est la probabilité que vous recommandiez cet événement à un collègue ou ami ?</label>
-                    <div class="flutter-slider-container">
-                        <div class="slider-value-display" id="slider-value">5</div>
-                        <div class="slider-track">
-                            <div class="slider-progress" id="slider-progress"></div>
-                            <div class="slider-thumb" id="slider-thumb"></div>
-                        </div>
-                        <div class="nps-description">
-                            <span>Pas du tout probable</span>
-                            <span>Très probable</span>
-                        </div>
-                    </div>
-                    <input type="hidden" id="nps-value" name="NPS" value="5">
-                </div>
-                
-                <div class="form-group">
-                    <label for="trois-mots">Trois mots pour décrire votre expérience</label>
-                    <input type="text" id="trois-mots" name="TroisMots" placeholder="Ex: Passionnant, Bien organisé, Enrichissant">
-                </div>
-            </div>
-            
-            <!-- Section 8: Emplacement de la prochaine édition -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Emplacement de la prochaine édition</h2>
-                
-                <div class="form-group">
-                    <label>Pour la 2ᵉ édition du Sahel Chess Festival, quelle ville préférez-vous ?</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="monastir" name="Emplacement" value="Monastir" required>
-                            <label for="monastir">Monastir</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="sousse" name="Emplacement" value="Sousse" required>
-                            <label for="sousse">Sousse</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="mahdia" name="Emplacement" value="Mahdia" required>
-                            <label for="mahdia">Mahdia</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Pourquoi ce choix d'emplacement ?</label>
-                    <textarea id="raison-emplacement" name="RaisonEmplacement" rows="3" placeholder="Partagez les raisons de votre préférence pour cet emplacement..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label>Quels avantages cet emplacement pourrait-il offrir pour le festival ?</label>
-                    <textarea id="avantages-emplacement" name="AvantagesEmplacement" rows="3" placeholder="Décrivez les avantages potentiels de cet emplacement..."></textarea>
-                </div>
-            </div>
-            
-            <!-- Section 9: Suggestions pour la 2ᵉ édition -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-lightbulb"></i> Suggestions pour la 2ᵉ édition</h2>
-                
-                <div class="form-group">
-                    <label>Quels nouveaux services / activités aimeriez-vous voir ajoutés ?</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="conferences" name="NouveauxServices[]" value="Conférences / Masterclass">
-                            <label for="conferences">Conférences / Masterclass</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="simultanees" name="NouveauxServices[]" value="Simultanées avec grands maîtres">
-                            <label for="simultanees">Simultanées avec grands maîtres</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="culturelles" name="NouveauxServices[]" value="Activités culturelles & touristiques">
-                            <label for="culturelles">Activités culturelles & touristiques</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="junior" name="NouveauxServices[]" value="Tournoi junior / amateur parallèle">
-                            <label for="junior">Tournoi junior / amateur parallèle</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="autre-service" name="NouveauxServices[]" value="Autre">
-                            <label for="autre-service">Autre</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="recommandations">Avez-vous des recommandations précises pour améliorer la prochaine édition ?</label>
-                    <textarea id="recommandations" name="Recommandations" rows="4"></textarea>
-                </div>
-            </div>
-            
-            <!-- Section 10: Recommandation & Fidélisation -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-heart"></i> Recommandation & Fidélisation</h2>
-                
-                <div class="form-group">
-                    <label>Recommanderiez-vous le Sahel Chess Festival à d'autres joueurs/organisations ?</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="recommandation-oui" name="Recommandation" value="Oui, absolument" required>
-                            <label for="recommandation-oui">Oui, absolument</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="recommandation-peut-etre" name="Recommandation" value="Peut-être" required>
-                            <label for="recommandation-peut-etre">Peut-être</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="recommandation-non" name="Recommandation" value="Non" required>
-                            <label for="recommandation-non">Non</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Souhaitez-vous être contacté pour la 2ᵉ édition ?</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="contact-oui" name="ContactProchaineEdition" value="Oui" required>
-                            <label for="contact-oui">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="contact-non" name="ContactProchaineEdition" value="Non" required>
-                            <label for="contact-non">Non</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Préférence de contact pour les futures communications :</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="pref-email" name="PreferenceContact" value="Email" required>
-                            <label for="pref-email">Email</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="pref-whatsapp" name="PreferenceContact" value="WhatsApp" required>
-                            <label for="pref-whatsapp">WhatsApp</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="pref-sms" name="PreferenceContact" value="SMS" required>
-                            <label for="pref-sms">SMS</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="pref-autre" name="PreferenceContact" value="Autre" required>
-                            <label for="pref-autre">Autre</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="coordonnees">Coordonnées email / WhatsApp</label>
-                    <input type="text" id="coordonnees" name="Coordonnees" placeholder="votre@email.com ou numéro WhatsApp">
-                </div>
-            </div>
-            
-            <button type="submit" class="btn">Soumettre l'évaluation</button>
-        </form>
-        
-        <div class="footer">
-            <p>✅ Merci infiniment pour vos retours 🙏<br>
-            Vous contribuez directement à la réussite de la prochaine édition du Sahel Chess Festival 🌍♟️</p>
-        </div>
-    </div>
-    
-    <!-- Conteneur de remerciement (initialement caché) -->
-    <div id="thank-you-container" class="thank-you-container">
-        <div class="success-card">
-            <div class="success-icon">✓</div>
-            <h1 class="success-title">Merci pour votre évaluation !</h1>
-            <p class="success-message">Votre feedback a été soumis avec succès et contribuera directement à l'amélioration de la prochaine édition du Sahel Chess Festival.</p>
-            
-            <div class="details-card">
-                <h3 class="details-title"><i class="fas fa-info-circle"></i> Que se passe-t-il maintenant ?</h3>
-                <ul class="details-list">
-                    <li><i class="fas fa-check-circle"></i> Votre évaluation sera analysée par notre équipe d'organisation</li>
-                    <li><i class="fas fa-check-circle"></i> Vos suggestions seront prises en compte pour la 2ᵉ édition</li>
-                    <li><i class="fas fa-check-circle"></i> Vous recevrez une confirmation par email si vous avez demandé à être contacté</li>
-                </ul>
-                
-                <!-- Décompte pour la prochaine édition -->
-                <div class="countdown-container">
-                    <h3 class="details-title"><i class="fas fa-clock"></i> Prochaine édition</h3>
-                    <div class="countdown" id="countdown">
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="days">0</span>
-                            <span class="countdown-label">Jours</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="hours">0</span>
-                            <span class="countdown-label">Heures</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="minutes">0</span>
-                            <span class="countdown-label">Minutes</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-value" id="seconds">0</span>
-                            <span class="countdown-label">Secondes</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Partage privé -->
-                <div class="private-share-container">
-                    <h3 class="details-title"><i class="fas fa-envelope"></i> Partager en privé</h3>
-                    <div class="private-share-buttons">
-                        <a href="#" class="private-share-button whatsapp" title="Partager sur WhatsApp" target="_blank">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                        <a href="#" class="private-share-button messenger" title="Partager sur Messenger" target="_blank">
-                            <i class="fab fa-facebook-messenger"></i>
-                        </a>
-                        <a href="#" class="private-share-button instagram" title="Partager sur Instagram" id="instagram-share">
-                            <i class="fab fa-instagram"></i>
-                            <span class="copy-tooltip">Texte copié !</span>
-                        </a>
-                        <a href="#" class="private-share-button gmail" title="Partager par Gmail" target="_blank">
-                            <i class="fab fa-google"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <a href="#" id="reset-form" class="home-btn">Remplir un autre formulaire</a>
-        </div>
-        
-        <div class="footer">
-            <p>Sahel Chess Festival 2025 • Tous droits réservés</p>
-            <p>Merci de faire partie de notre communauté d'échecs ♟️</p>
-        </div>
-    </div>
-    
-    <!-- Ajout de Font Awesome pour les icônes -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Détecter le mode clair du navigateur et appliquer la classe appropriée
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-                document.body.classList.add('light-mode');
-            }
-            
-            // Écouter les changements de mode de couleur
-            if (window.matchMedia) {
-                window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
-                    if (e.matches) {
-                        document.body.classList.add('light-mode');
-                    } else {
-                        document.body.classList.remove('light-mode');
-                    }
-                });
-            }
-            
-            // Créer des particules d'échecs
-            function createChessParticles() {
-                const container = document.body;
-                const particleCount = 20;
-                
-                for (let i = 0; i < particleCount; i++) {
-                    setTimeout(() => {
-                        const particle = document.createElement('div');
-                        particle.className = 'chess-particle';
-                        
-                        // Position aléatoire
-                        const posX = Math.random() * window.innerWidth;
-                        const posY = Math.random() * window.innerHeight;
-                        
-                        particle.style.left = `${posX}px`;
-                        particle.style.top = `${posY}px`;
-                        
-                        // Animation de mouvement
-                        const duration = 3 + Math.random() * 5; // 3-8 secondes
-                        const delay = Math.random() * 2; // Jusqu'à 2 secondes de délai
-                        
-                        particle.style.animation = `floatParticle ${duration}s ease-in-out ${delay}s infinite`;
-                        
-                        container.appendChild(particle);
-                    }, i * 100);
-                }
-            }
-            
-            // Initialiser les particules
-            createChessParticles();
-            
-            // Slider Flutter-style pour l'échelle NPS
-            const sliderTrack = document.querySelector('.slider-track');
-            const sliderThumb = document.getElementById('slider-thumb');
-            const sliderProgress = document.getElementById('slider-progress');
-            const sliderValue = document.getElementById('slider-value');
-            const npsValue = document.getElementById('nps-value');
-            
-            let isDragging = false;
-            let currentValue = 5;
-            
-            function updateSlider(clientX) {
-                const rect = sliderTrack.getBoundingClientRect();
-                const position = (clientX - rect.left) / rect.width;
-                const percentage = Math.max(0, Math.min(1, position));
-                currentValue = Math.round(percentage * 10);
-                
-                sliderThumb.style.left = `${percentage * 100}%`;
-                sliderProgress.style.width = `${percentage * 100}%`;
-                sliderValue.textContent = currentValue;
-                npsValue.value = currentValue;
-            }
-            
-            sliderThumb.addEventListener('mousedown', function(e) {
-                isDragging = true;
-                e.preventDefault();
-            });
-            
-            document.addEventListener('mousemove', function(e) {
-                if (isDragging) {
-                    updateSlider(e.clientX);
-                }
-            });
-            
-            document.addEventListener('mouseup', function() {
-                isDragging = false;
-            });
-            
-            sliderTrack.addEventListener('click', function(e) {
-                if (e.target !== sliderThumb) {
-                    updateSlider(e.clientX);
-                }
-            });
-            
-            // Support tactile
-            sliderThumb.addEventListener('touchstart', function(e) {
-                isDragging = true;
-                e.preventDefault();
-            });
-            
-            document.addEventListener('touchmove', function(e) {
-                if (isDragging) {
-                    updateSlider(e.touches[0].clientX);
-                }
-            });
-            
-            document.addEventListener('touchend', function() {
-                isDragging = false;
-            });
-            
-            // Gestion de la soumission du formulaire
-            const form = document.getElementById('evaluation-form');
-            const formContainer = document.getElementById('form-container');
-            const thankYouContainer = document.getElementById('thank-you-container');
-            const resetButton = document.getElementById('reset-form');
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Afficher un indicateur de chargement
-                const submitButton = form.querySelector('.btn');
-                const originalText = submitButton.textContent;
-                submitButton.textContent = 'Envoi en cours...';
-                submitButton.disabled = true;
-                
-                // Créer un FormData à partir du formulaire
-                const formData = new FormData(form);
-                
-                // Envoyer les données du formulaire à FormSubmit
-                fetch('https://formsubmit.co/el/zudiru', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    // Vérifier si la réponse est OK (statut 200-299)
-                    if (response.ok) {
-                        // Afficher le message de remerciement
-                        formContainer.style.display = 'none';
-                        thankYouContainer.style.display = 'flex';
-                        
-                        // Initialiser les éléments de la page de remerciement
-                        initThankYouPage();
-                        
-                        return response.json(); // Essayer de parser la réponse JSON
-                    } else {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                })
-                .then(data => {
-                    // Si nous avons des données JSON, vérifier le succès
-                    if (data && data.success === false) {
-                        throw new Error('FormSubmit returned unsuccessful response');
-                    }
-                    console.log('Formulaire soumis avec succès:', data);
-                })
-                .catch(error => {
-                    console.error('Erreur lors de la soumission:', error);
+                <!-- Section 1: Profil du répondant -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-user"></i> Profil du répondant</h2>
                     
-                    // Même en cas d'erreur, afficher le message de remerciement
-                    // car le formulaire a probablement été soumis malgré tout
-                    formContainer.style.display = 'none';
-                    thankYouContainer.style.display = 'flex';
-                    initThankYouPage();
-                })
-                .finally(() => {
-                    // Restaurer le bouton
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
-                });
-            });
-            
-            // Réinitialiser le formulaire
-            resetButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                form.reset();
-                formContainer.style.display = 'block';
-                thankYouContainer.style.display = 'none';
-                
-                // Réinitialiser le slider
-                currentValue = 5;
-                sliderThumb.style.left = '50%';
-                sliderProgress.style.width = '50%';
-                sliderValue.textContent = '5';
-                npsValue.value = '5';
-            });
-            
-            // Initialiser la page de remerciement
-            function initThankYouPage() {
-                // Mettre à jour le décompte chaque seconde
-                // Date de la prochaine édition (1er septembre 2026)
-                const nextEditionDate = new Date('2026-09-01T09:00:00');
-                
-                function updateCountdown() {
-                    const now = new Date();
-                    const diff = nextEditionDate - now;
+                    <div class="form-group">
+                        <label for="nom">Nom & Prénom</label>
+                        <input type="text" id="nom" name="Nom" required>
+                    </div>
                     
-                    if (diff > 0) {
-                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                        
-                        document.getElementById('days').textContent = days;
-                        document.getElementById('hours').textContent = hours;
-                        document.getElementById('minutes').textContent = minutes;
-                        document.getElementById('seconds').textContent = seconds;
-                    }
-                }
-                
-                updateCountdown();
-                setInterval(updateCountdown, 1000);
-                
-                // Configurer les liens de partage privé
-                const shareText = "J'ai participé au Sahel Chess Festival 2025 ! La prochaine édition aura lieu du 1er au 9 septembre 2026. Rejoignez-nous pour cette expérience exceptionnelle !";
-                const shareUrl = "https://sahelchessfestival.com";
-                
-                // WhatsApp
-                document.querySelector('.private-share-button.whatsapp').href = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
-                
-                // Messenger
-                document.querySelector('.private-share-button.messenger').href = `https://www.facebook.com/dialog/send?link=${encodeURIComponent(shareUrl)}&app_id=YOUR_APP_ID&redirect_uri=${encodeURIComponent(shareUrl)}`;
-                
-                // Instagram (copier le texte)
-                const instagramShare = document.getElementById('instagram-share');
-                const copyTooltip = instagramShare.querySelector('.copy-tooltip');
-                
-                instagramShare.addEventListener('click', function(e) {
-                    e.preventDefault();
+                    <div class="form-group">
+                        <label for="age">Âge</label>
+                        <input type="number" id="age" name="Age" min="10" max="100" required>
+                    </div>
                     
-                    // Copier le texte dans le presse-papiers
-                    navigator.clipboard.writeText(shareText + ' ' + shareUrl).then(function() {
-                        // Afficher l'infobulle
-                        copyTooltip.classList.add('show');
-                        
-                        // Masquer l'infobulle après 2 secondes
-                        setTimeout(function() {
-                            copyTooltip.classList.remove('show');
-                        }, 2000);
-                    }).catch(function(err) {
-                        console.error('Erreur lors de la copie du texte: ', err);
-                    });
-                });
-                
-                // Gmail
-                document.querySelector('.private-share-button.gmail').href = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=Sahel Chess Festival 2026&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`;
-                
-                // Ajouter une animation de confetti
-                function createConfetti() {
-                    const colors = ['#f9c74f', '#2ca6a0', '#1a3a5f', '#0d1f2f'];
-                    const confettiCount = 100;
+                    <div class="form-group">
+                        <label>Genre</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="homme" name="Genre" value="Homme" required>
+                                <label for="homme">Homme</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="femme" name="Genre" value="Femme" required>
+                                <label for="femme">Femme</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="autre" name="Genre" value="Autre" required>
+                                <label for="autre">Autre</label>
+                            </div>
+                        </div>
+                    </div>
                     
-                    for (let i = 0; i < confettiCount; i++) {
-                        setTimeout(() => {
-                            const confetti = document.createElement('div');
-                            confetti.className = 'confetti';
-                            
-                            // Position et style aléatoires
-                            const posX = Math.random() * window.innerWidth;
-                            const color = colors[Math.floor(Math.random() * colors.length)];
-                            const size = Math.random() * 10 + 5;
-                            const rotation = Math.random() * 360;
-                            const duration = Math.random() * 3 + 2; // 2-5 secondes
-                            
-                            confetti.style.left = `${posX}px`;
-                            confetti.style.top = `-20px`;
-                            confetti.style.width = `${size}px`;
-                            confetti.style.height = `${size}px`;
-                            confetti.style.backgroundColor = color;
-                            confetti.style.transform = `rotate(${rotation}deg)`;
-                            confetti.style.animation = `fallConfetti ${duration}s linear forwards`;
-                            
-                            document.body.appendChild(confetti);
-                            
-                            // Supprimer le confetti après l'animation
-                            setTimeout(() => {
-                                confetti.remove();
-                            }, duration * 1000);
-                        }, i * 30);
-                    }
-                }
+                    <div class="form-group">
+                        <label for="organisation">Organisation / Club / Fédération</label>
+                        <input type="text" id="organisation" name="Organisation">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pays">Pays de provenance</label>
+                        <input type="text" id="pays" name="Pays" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Rôle / Statut</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="joueur" name="Role" value="Joueur" required>
+                                <label for="joueur">Joueur</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="delegation" name="Role" value="Responsable de délégation" required>
+                                <label for="delegation">Responsable de délégation</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="organisateur" name="Role" value="Organisateur" required>
+                                <label for="organisateur">Organisateur</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="media" name="Role" value="Média / Journaliste" required>
+                                <label for="media">Média / Journaliste</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="autre-role" name="Role" value="Autre" required>
+                                <label for="autre-role">Autre</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-                // Lancer le confetti après un délai
-                setTimeout(createConfetti, 1000);
-            }
-        });
-    </script>
-</body>
-</html>
+                <!-- Section 2: Découverte de l'événement -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-search"></i> Découverte de l'événement</h2>
+                    
+                    <div class="form-group">
+                        <label>Comment avez-vous connu le Sahel Chess Festival ?</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="site-web" name="Decouverte[]" value="Site web officiel">
+                                <label for="site-web">Site web officiel</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="reseaux-sociaux" name="Decouverte[]" value="Réseaux sociaux">
+                                <label for="reseaux-sociaux">Réseaux sociaux</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="bouche-oreille" name="Decouverte[]" value="Bouche-à-oreille">
+                                <label for="bouche-oreille">Bouche-à-oreille</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="club" name="Decouverte[]" value="Club d'échecs local">
+                                <label for="club">Club d'échecs local</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="presse" name="Decouverte[]" value="Presse / Média">
+                                <label for="presse">Presse / Média</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="autre-decouverte" name="Decouverte[]" value="Autre">
+                                <label for="autre-decouverte">Autre</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="influence">Qu'est-ce qui a le plus influencé votre décision de participer ?</label>
+                        <textarea id="influence" name="Influence" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Section 3: Organisation générale -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Organisation générale</h2>
+                    
+                    <div class="rating-group">
+                        <div class="rating-label">Qualité générale du festival</div>
+                        <div class="rating-stars">
+                            <input type="radio" id="qualite-5" name="QualiteGenerale" value="5" required>
+                            <label for="qualite-5">★</label>
+                            <input type="radio" id="qualite-4" name="QualiteGenerale" value="4" required>
+                            <label for="qualite-4">★</label>
+                            <input type="radio" id="qualite-3" name="QualiteGenerale" value="3" required>
+                            <label for="qualite-3">★</label>
+                            <input type="radio" id="qualite-2" name="QualiteGenerale" value="2" required>
+                            <label for="qualite-2">★</label>
+                            <input type="radio" id="qualite-1" name="QualiteGenerale" value="1" required>
+                            <label for="qualite-1">★</label>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-group">
+                        <div class="rating-label">Respect du programme et des horaires</div>
+                        <div class="rating-stars">
+                            <input type="radio" id="programme-5" name="RespectProgramme" value="5" required>
+                            <label for="programme-5">★</label>
+                            <input type="radio" id="programme-4" name="RespectProgramme" value="4" required>
+                            <label for="programme-4">★</label>
+                            <input type="radio" id="programme-3" name="RespectProgramme" value="3" required>
+                            <label for="programme-3">★</label>
+                            <input type="radio" id="programme-2" name="RespectProgramme" value="2" required>
+                            <label for="programme-2">★</label>
+                            <input type="radio" id="programme-1" name="RespectProgramme" value="1" required>
+                            <label for="programme-1">★</label>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-group">
+                        <div class="rating-label">Implication et professionnalisme de l'équipe</div>
+                        <div class="rating-stars">
+                            <input type="radio" id="equipe-5" name="ImplicationEquipe" value="5" required>
+                            <label for="equipe-5">★</label>
+                            <input type="radio" id="equipe-4" name="ImplicationEquipe" value="4" required>
+                            <label for="equipe-4">★</label>
+                            <input type="radio" id="equipe-3" name="ImplicationEquipe" value="3" required>
+                            <label for="equipe-3">★</label>
+                            <input type="radio" id="equipe-2" name="ImplicationEquipe" value="2" required>
+                            <label for="equipe-2">★</label>
+                            <input type="radio" id="equipe-1" name="ImplicationEquipe" value="1" required>
+                            <label for="equipe-1">★</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="points-forts">Quels ont été, selon vous, les plus grands points forts de l'événement ?</label>
+                        <textarea id="points-forts" name="PointsForts" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ameliorations">Quels aspects nécessitent des améliorations prioritaires ?</label>
+                        <textarea id="ameliorations" name="Ameliorations" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Section 4: Tournoi & Niveau sportif -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-chess"></i> Tournoi & Niveau sportif</h2>
+                    
+                    <div class="rating-group">
+                        <div class="rating-label">Qualité de l'arbitrage</div>
+                        <div class="rating-stars">
+                            <input type="radio" id="arbitrage-5" name="QualiteArbitrage" value="5" required>
+                            <label for="arbitrage-5">★</label>
+                            <input type="radio" id="arbitrage-4" name="QualiteArbitrage" value="4" required>
+                            <label for="arbitrage-4">★</label>
+                            <input type="radio" id="arbitrage-3" name="QualiteArbitrage" value="3" required>
+                            <label for="arbitrage-3">★</label>
+                            <input type="radio" id="arbitrage-2" name="QualiteArbitrage" value="2" required>
+                            <label for="arbitrage-2">★</label>
+                            <input type="radio" id="arbitrage-1" name="QualiteArbitrage" value="1" required>
+                            <label for="arbitrage-1">★</label>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-group">
+                        <div class="rating-label">Clarté du règlement et du système d'appariement</div>
+                        <div class="rating-stars">
+                            <input type="radio" id="reglement-5" name="ClarteReglement" value="5" required>
+                            <label for="reglement-5">★</label>
+                            <input type="radio" id="reglement-4" name="ClarteReglement" value="4" required>
+                            <label for="reglement-4">★</label>
+                            <input type="radio" id="reglement-3" name="ClarteReglement" value="3" required>
+                            <label for="reglement-3">★</label>
+                            <input type="radio" id="reglement-2" name="ClarteReglement" value="2" required>
+                            <label for="reglement-2">★</label>
+                            <input type="radio" id="reglement-1" name="ClarteReglement" value="1" required>
+                            <label for="reglement-1">★</label>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-group">
+                        <div class="rating-label">Niveau des participants</div>
+                        <div class="rating-stars">
+                            <input type="radio" id="niveau-5" name="NiveauParticipants" value="5" required>
+                            <label for="niveau-5">★</label>
+                            <input type="radio" id="niveau-4" name="NiveauParticipants" value="4" required>
+                            <label for="niveau-4">★</label>
+                            <input type="radio" id="niveau-3" name="NiveauParticipants" value="3" required>
+                            <label for="niveau-3">★</label>
+                            <input type="radio" id="niveau-2" name="NiveauParticipants" value="2" required>
+                            <label for="niveau-2">★</label>
+                            <input type="radio" id="niveau-1" name="NiveauParticipants" value="1" required>
+                            <label for="niveau-1">★</label>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-group">
+                        <div class="rating-label">Équité et ambiance sportive</div>
+                        <div class="rating-stars">
+                            <input type="radio" id="equite-5" name="EquiteAmbiance" value="5" required>
+                            <label for="equite-5">★</label>
+                            <input type="radio" id="equite-4" name="EquiteAmbiance" value="4" required>
+                            <label for="equite-4">★</label>
+                            <input type="radio" id="equite-3" name="EquiteAmbiance" value="3" required>
+                            <label for="equite-3">★</label>
+                            <input type="radio" id="equite-2" name="EquiteAmbiance" value="2" required>
+                            <label for="equite-2">★</label>
+                            <input type="radio" id="equite-1" name="EquiteAmbiance" value="1" required>
+                            <label for="equite-1">★</label>
