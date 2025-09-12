@@ -19,6 +19,8 @@
             --star-color: rgba(255, 255, 255, 0.3);
             --chess-light: #f0d9b5;
             --chess-dark: #b58863;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --success-color: #4caf50;
         }
         
         * {
@@ -459,6 +461,243 @@
             z-index: 3;
         }
         
+        /* Page de remerciement */
+        .thank-you-container {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .success-card {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideUp 0.8s ease-out 0.5s forwards;
+            position: relative;
+            z-index: 20;
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            color: var(--success-color);
+            margin-bottom: 20px;
+            animation: scaleIn 0.5s ease-out 1s forwards;
+            transform: scale(0);
+        }
+        
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-in-out 1.2s forwards;
+            opacity: 0;
+        }
+        
+        .success-message {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in-out 1.4s forwards;
+            opacity: 0;
+        }
+        
+        .details-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: left;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideUp 0.8s ease-out 1.6s forwards;
+            position: relative;
+            z-index: 20;
+        }
+        
+        .details-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent-2);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .details-title i {
+            margin-right: 10px;
+            color: var(--accent-1);
+        }
+        
+        .details-list {
+            list-style: none;
+        }
+        
+        .details-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+        
+        .details-list li:nth-child(1) {
+            animation-delay: 1.8s;
+        }
+        
+        .details-list li:nth-child(2) {
+            animation-delay: 2s;
+        }
+        
+        .details-list li:nth-child(3) {
+            animation-delay: 2.2s;
+        }
+        
+        .details-list li i {
+            color: var(--accent-1);
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        .home-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: linear-gradient(90deg, var(--accent-1), #1a3a5f);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s ease-out 2.6s forwards;
+            position: relative;
+            z-index: 20;
+        }
+        
+        .home-btn:hover {
+            background: linear-gradient(90deg, #1a3a5f, var(--accent-1));
+            transform: translateY(0) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .countdown-container {
+            margin-top: 20px;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        
+        .countdown-item {
+            text-align: center;
+        }
+        
+        .countdown-value {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-2);
+        }
+        
+        .countdown-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .private-share-container {
+            margin-top: 30px;
+        }
+        
+        .private-share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .private-share-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .private-share-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .private-share-button.whatsapp {
+            background-color: #25d366;
+        }
+        
+        .private-share-button.messenger {
+            background-color: #0084ff;
+        }
+        
+        .private-share-button.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .private-share-button.gmail {
+            background-color: #ea4335;
+        }
+        
+        .private-share-button i {
+            font-size: 20px;
+        }
+        
+        .copy-tooltip {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .copy-tooltip.show {
+            opacity: 1;
+        }
+        
+        .confetti {
+            position: fixed;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
         /* Mode clair */
         body.light-mode {
             --bg-primary: #ffffff;
@@ -473,6 +712,8 @@
             --star-color: #dadce0;
             --chess-light: #f0d9b5;
             --chess-dark: #b58863;
+            --card-bg: #f1f3f4;
+            --success-color: #34a853;
         }
         
         body.light-mode .btn {
@@ -489,6 +730,14 @@
         body.light-mode select:focus,
         body.light-mode textarea:focus {
             box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        
+        body.light-mode .home-btn {
+            background: linear-gradient(90deg, var(--accent-1), #4285f4);
+        }
+        
+        body.light-mode .home-btn:hover {
+            background: linear-gradient(90deg, #4285f4, var(--accent-1));
         }
         
         /* Animations */
@@ -543,6 +792,46 @@
             }
         }
         
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fallConfetti {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -585,14 +874,36 @@
             .floating-chess {
                 font-size: 80px;
             }
+            
+            .success-card {
+                padding: 30px 20px;
+            }
+            
+            .success-title {
+                font-size: 28px;
+            }
+            
+            .success-message {
+                font-size: 16px;
+            }
+            
+            .details-card {
+                padding: 20px;
+            }
+            
+            .countdown-value {
+                font-size: 20px;
+            }
+            
+            .private-share-buttons {
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Plateau d'échecs en arrière-plan -->
     <div class="chess-board">
-        <div class="chess-square"></div>
-        <div class="chess-square"></div>
         <div class="chess-square"></div>
         <div class="chess-square"></div>
         <div class="chess-square"></div>
@@ -667,17 +978,17 @@
         <div class="chess-path-line"></div>
     </div>
     
-    <div class="container">
+    <!-- Conteneur du formulaire -->
+    <div id="form-container" class="container">
         <div class="header">
             <h1 class="title">Fiche d'Évaluation</h1>
             <div class="accent-line"></div>
             <p class="subtitle">Sahel Chess Festival 2025</p>
         </div>
         
-        <form action="https://formsubmit.co/el/zudiru" method="POST">
+        <form id="evaluation-form">
             <!-- Options cachées -->
             <input type="hidden" name="_captcha" value="true">
-            <input type="hidden" name="_next" value="https://rednaks55.github.io/sahel-chess-festival-evaluation/merci.html"">
             <input type="hidden" name="_subject" value="Nouvelle évaluation - Sahel Chess Festival 2025">
             
             <!-- Section 1: Profil du répondant -->
@@ -1298,6 +1609,74 @@
         </div>
     </div>
     
+    <!-- Conteneur de remerciement (initialement caché) -->
+    <div id="thank-you-container" class="thank-you-container">
+        <div class="success-card">
+            <div class="success-icon">✓</div>
+            <h1 class="success-title">Merci pour votre évaluation !</h1>
+            <p class="success-message">Votre feedback a été soumis avec succès et contribuera directement à l'amélioration de la prochaine édition du Sahel Chess Festival.</p>
+            
+            <div class="details-card">
+                <h3 class="details-title"><i class="fas fa-info-circle"></i> Que se passe-t-il maintenant ?</h3>
+                <ul class="details-list">
+                    <li><i class="fas fa-check-circle"></i> Votre évaluation sera analysée par notre équipe d'organisation</li>
+                    <li><i class="fas fa-check-circle"></i> Vos suggestions seront prises en compte pour la 2ᵉ édition</li>
+                    <li><i class="fas fa-check-circle"></i> Vous recevrez une confirmation par email si vous avez demandé à être contacté</li>
+                </ul>
+                
+                <!-- Décompte pour la prochaine édition -->
+                <div class="countdown-container">
+                    <h3 class="details-title"><i class="fas fa-clock"></i> Prochaine édition</h3>
+                    <div class="countdown" id="countdown">
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="days">0</span>
+                            <span class="countdown-label">Jours</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="hours">0</span>
+                            <span class="countdown-label">Heures</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="minutes">0</span>
+                            <span class="countdown-label">Minutes</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="seconds">0</span>
+                            <span class="countdown-label">Secondes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Partage privé -->
+                <div class="private-share-container">
+                    <h3 class="details-title"><i class="fas fa-envelope"></i> Partager en privé</h3>
+                    <div class="private-share-buttons">
+                        <a href="#" class="private-share-button whatsapp" title="Partager sur WhatsApp" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="private-share-button messenger" title="Partager sur Messenger" target="_blank">
+                            <i class="fab fa-facebook-messenger"></i>
+                        </a>
+                        <a href="#" class="private-share-button instagram" title="Partager sur Instagram" id="instagram-share">
+                            <i class="fab fa-instagram"></i>
+                            <span class="copy-tooltip">Texte copié !</span>
+                        </a>
+                        <a href="#" class="private-share-button gmail" title="Partager par Gmail" target="_blank">
+                            <i class="fab fa-google"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="#" id="reset-form" class="home-btn">Remplir un autre formulaire</a>
+        </div>
+        
+        <div class="footer">
+            <p>Sahel Chess Festival 2025 • Tous droits réservés</p>
+            <p>Merci de faire partie de notre communauté d'échecs ♟️</p>
+        </div>
+    </div>
+    
     <!-- Ajout de Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
@@ -1408,10 +1787,153 @@
             document.addEventListener('touchend', function() {
                 isDragging = false;
             });
+            
+            // Gestion de la soumission du formulaire
+            const form = document.getElementById('evaluation-form');
+            const formContainer = document.getElementById('form-container');
+            const thankYouContainer = document.getElementById('thank-you-container');
+            const resetButton = document.getElementById('reset-form');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Envoyer les données du formulaire à FormSubmit
+                fetch('https://formsubmit.co/el/zudiru', {
+                    method: 'POST',
+                    body: new FormData(form)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Afficher le message de remerciement
+                        formContainer.style.display = 'none';
+                        thankYouContainer.style.display = 'flex';
+                        
+                        // Initialiser les éléments de la page de remerciement
+                        initThankYouPage();
+                    } else {
+                        throw new Error('Erreur lors de la soumission du formulaire');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Une erreur est survenue lors de l\'envoi du formulaire. Veuillez réessayer plus tard.');
+                });
+            });
+            
+            // Réinitialiser le formulaire
+            resetButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                form.reset();
+                formContainer.style.display = 'block';
+                thankYouContainer.style.display = 'none';
+                
+                // Réinitialiser le slider
+                currentValue = 5;
+                sliderThumb.style.left = '50%';
+                sliderProgress.style.width = '50%';
+                sliderValue.textContent = '5';
+                npsValue.value = '5';
+            });
+            
+            // Initialiser la page de remerciement
+            function initThankYouPage() {
+                // Mettre à jour le décompte chaque seconde
+                // Date de la prochaine édition (1er septembre 2026)
+                const nextEditionDate = new Date('2026-09-01T09:00:00');
+                
+                function updateCountdown() {
+                    const now = new Date();
+                    const diff = nextEditionDate - now;
+                    
+                    if (diff > 0) {
+                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                        
+                        document.getElementById('days').textContent = days;
+                        document.getElementById('hours').textContent = hours;
+                        document.getElementById('minutes').textContent = minutes;
+                        document.getElementById('seconds').textContent = seconds;
+                    }
+                }
+                
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+                
+                // Configurer les liens de partage privé
+                const shareText = "J'ai participé au Sahel Chess Festival 2025 ! La prochaine édition aura lieu du 1er au 9 septembre 2026. Rejoignez-nous pour cette expérience exceptionnelle !";
+                const shareUrl = "https://sahelchessfestival.com";
+                
+                // WhatsApp
+                document.querySelector('.private-share-button.whatsapp').href = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+                
+                // Messenger
+                document.querySelector('.private-share-button.messenger').href = `https://www.facebook.com/dialog/send?link=${encodeURIComponent(shareUrl)}&app_id=YOUR_APP_ID&redirect_uri=${encodeURIComponent(shareUrl)}`;
+                
+                // Instagram (copier le texte)
+                const instagramShare = document.getElementById('instagram-share');
+                const copyTooltip = instagramShare.querySelector('.copy-tooltip');
+                
+                instagramShare.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Copier le texte dans le presse-papiers
+                    navigator.clipboard.writeText(shareText + ' ' + shareUrl).then(function() {
+                        // Afficher l'infobulle
+                        copyTooltip.classList.add('show');
+                        
+                        // Masquer l'infobulle après 2 secondes
+                        setTimeout(function() {
+                            copyTooltip.classList.remove('show');
+                        }, 2000);
+                    }).catch(function(err) {
+                        console.error('Erreur lors de la copie du texte: ', err);
+                    });
+                });
+                
+                // Gmail
+                document.querySelector('.private-share-button.gmail').href = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=Sahel Chess Festival 2026&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`;
+                
+                // Ajouter une animation de confetti
+                function createConfetti() {
+                    const colors = ['#f9c74f', '#2ca6a0', '#1a3a5f', '#0d1f2f'];
+                    const confettiCount = 100;
+                    
+                    for (let i = 0; i < confettiCount; i++) {
+                        setTimeout(() => {
+                            const confetti = document.createElement('div');
+                            confetti.className = 'confetti';
+                            
+                            // Position et style aléatoires
+                            const posX = Math.random() * window.innerWidth;
+                            const color = colors[Math.floor(Math.random() * colors.length)];
+                            const size = Math.random() * 10 + 5;
+                            const rotation = Math.random() * 360;
+                            const duration = Math.random() * 3 + 2; // 2-5 secondes
+                            
+                            confetti.style.left = `${posX}px`;
+                            confetti.style.top = `-20px`;
+                            confetti.style.width = `${size}px`;
+                            confetti.style.height = `${size}px`;
+                            confetti.style.backgroundColor = color;
+                            confetti.style.transform = `rotate(${rotation}deg)`;
+                            confetti.style.animation = `fallConfetti ${duration}s linear forwards`;
+                            
+                            document.body.appendChild(confetti);
+                            
+                            // Supprimer le confetti après l'animation
+                            setTimeout(() => {
+                                confetti.remove();
+                            }, duration * 1000);
+                        }, i * 30);
+                    }
+                }
+                
+                // Lancer le confetti après un délai
+                setTimeout(createConfetti, 1000);
+            }
         });
     </script>
 </body>
 </html>
-
-
-
