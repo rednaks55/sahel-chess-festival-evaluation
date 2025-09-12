@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merci - Sahel Chess Festival 2025</title>
+    <style>
+        /* Mode sombre (par défaut) */
+        :root {
+            --bg-primary: linear-gradient(135deg, #1a3a5f 0%, #0d1f2f 100%);
+            --bg-secondary: rgba(26, 58, 95, 0.7);
+            --bg-section: rgba(13, 31, 47, 0.5);
+            --text-primary: #fff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent-1: #2ca6a0;
+            --accent-2: #f9c74f;
+            --border-color: rgba(255, 255, 255, 0.2);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --success-color: #4caf50;
+            --chess-light: #f0d9b5;
+            --chess-dark: #b58863;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .success-card {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideUp 0.8s ease-out 0.5s forwards;
+            position: relative;
+            z-index: 20;
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            color: var(--success-color);
+            margin-bottom: 20px;
+            animation: scaleIn 0.5s ease-out 1s forwards;
+            transform: scale(0);
+        }
+        
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-in-out 1.2s forwards;
+            opacity: 0;
+        }
+        
+        .success-message {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in-out 1.4s forwards;
+            opacity: 0;
+        }
+        
+        .details-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: left;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideUp 0.8s ease-out 1.6s forwards;
+            position: relative;
+            z-index: 20;
+        }
+        
+        .details-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent-2);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .details-title i {
+            margin-right: 10px;
+            color: var(--accent-1);
+        }
+        
+        .details-list {
+            list-style: none;
+        }
+        
+        .details-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+        
+        .details-list li:nth-child(1) {
+            animation-delay: 1.8s;
+        }
+        
+        .details-list li:nth-child(2) {
+            animation-delay: 2s;
+        }
+        
+        .details-list li:nth-child(3) {
+            animation-delay: 2.2s;
+        }
+        
+        .details-list li i {
+            color: var(--accent-1);
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 16px;
+            color: var(--text-secondary);
+            animation: fadeIn 1s ease-in-out 2.4s forwards;
+            opacity: 0;
+            position: relative;
+            z-index: 20;
+        }
+        
+        .home-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: linear-gradient(90deg, var(--accent-1), #1a3a5f);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s ease-out 2.6s forwards;
+            position: relative;
+            z-index: 20;
+        }
+        
+        .home-btn:hover {
+            background: linear-gradient(90deg, #1a3a5f, var(--accent-1));
+            transform: translateY(0) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Éléments d'échecs animés - Repositionnés */
+        .chess-board {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            right: -150px;
+            transform: rotate(45deg);
+            z-index: 1;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        
+        .chess-square {
+            position: absolute;
+            width: 37.5px;
+            height: 37.5px;
+        }
+        
+        .chess-square:nth-child(odd) {
+            background-color: var(--chess-light);
+        }
+        
+        .chess-square:nth-child(even) {
+            background-color: var(--chess-dark);
+        }
+        
+        .chess-piece {
+            position: fixed;
+            font-size: 60px;
+            z-index: 5;
+            user-select: none;
+            pointer-events: none;
+            opacity: 0.07;
+        }
+        
+        .king-white {
+            top: 10%;
+            right: 5%;
+            animation: float 10s ease-in-out infinite;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .queen-black {
+            bottom: 10%;
+            left: 5%;
+            animation: float 12s ease-in-out infinite 2s;
+            color: #000000;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .rook-white {
+            top: 15%;
+            left: 8%;
+            animation: float 8s ease-in-out infinite 4s;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .bishop-black {
+            bottom: 15%;
+            right: 8%;
+            animation: float 9s ease-in-out infinite 1s;
+            color: #000000;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .knight-white {
+            top: 70%;
+            right: 12%;
+            animation: float 11s ease-in-out infinite 3s;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .pawn-black {
+            bottom: 30%;
+            left: 12%;
+            animation: float 7s ease-in-out infinite 5s;
+            color: #000000;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .floating-chess {
+            position: fixed;
+            font-size: 120px;
+            opacity: 0.02;
+            z-index: 1;
+            user-select: none;
+            pointer-events: none;
+        }
+        
+        .floating-chess-1 {
+            top: 5%;
+            left: 5%;
+            animation: rotate 20s linear infinite;
+        }
+        
+        .floating-chess-2 {
+            bottom: 5%;
+            right: 5%;
+            animation: rotate 25s linear infinite reverse;
+        }
+        
+        .floating-chess-3 {
+            top: 70%;
+            right: 10%;
+            animation: rotate 30s linear infinite;
+        }
+        
+        .floating-chess-4 {
+            bottom: 20%;
+            left: 15%;
+            animation: rotate 35s linear infinite reverse;
+        }
+        
+        .chess-path {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .chess-path-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
+            height: 2px;
+            width: 100px;
+            opacity: 0;
+            animation: pathAnimation 15s linear infinite;
+        }
+        
+        .chess-path-line:nth-child(1) {
+            top: 20%;
+            left: -100px;
+            animation-delay: 0s;
+        }
+        
+        .chess-path-line:nth-child(2) {
+            top: 40%;
+            left: -100px;
+            animation-delay: 5s;
+        }
+        
+        .chess-path-line:nth-child(3) {
+            top: 60%;
+            left: -100px;
+            animation-delay: 10s;
+        }
+        
+        .chess-path-line:nth-child(4) {
+            top: 80%;
+            left: -100px;
+            animation-delay: 15s;
+        }
+        
+        .chess-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: var(--accent-2);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 3;
+        }
+        
+        /* Nouveaux éléments */
+        .countdown-container {
+            margin-top: 20px;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        
+        .countdown-item {
+            text-align: center;
+        }
+        
+        .countdown-value {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-2);
+        }
+        
+        .countdown-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .private-share-container {
+            margin-top: 30px;
+        }
+        
+        .private-share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .private-share-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .private-share-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .private-share-button.whatsapp {
+            background-color: #25d366;
+        }
+        
+        .private-share-button.messenger {
+            background-color: #0084ff;
+        }
+        
+        .private-share-button.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        
+        .private-share-button.gmail {
+            background-color: #ea4335;
+        }
+        
+        .private-share-button i {
+            font-size: 20px;
+        }
+        
+        .copy-tooltip {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .copy-tooltip.show {
+            opacity: 1;
+        }
+        
+        .confetti {
+            position: fixed;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
+        /* Mode clair */
+        body.light-mode {
+            --bg-primary: #ffffff;
+            --bg-secondary: #ffffff;
+            --bg-section: #f8f9fa;
+            --text-primary: #1a73e8;
+            --text-secondary: #5f6368;
+            --accent-1: #1a73e8;
+            --accent-2: #f9ab00;
+            --border-color: #dadce0;
+            --card-bg: #f1f3f4;
+            --success-color: #34a853;
+            --chess-light: #f0d9b5;
+            --chess-dark: #b58863;
+        }
+        
+        body.light-mode .home-btn {
+            background: linear-gradient(90deg, var(--accent-1), #4285f4);
+        }
+        
+        body.light-mode .home-btn:hover {
+            background: linear-gradient(90deg, #4285f4, var(--accent-1));
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pathAnimation {
+            0% {
+                left: -100px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+        
+        @keyframes floatParticle {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            50% {
+                transform: translate(${Math.random() > 0.5 ? '-' : ''}${50 + Math.random() * 100}px, ${Math.random() > 0.5 ? '-' : ''}${50 + Math.random() * 100}px);
+            }
+        }
+        
+        @keyframes fallConfetti {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .success-card {
+                padding: 30px 20px;
+            }
+            
+            .success-title {
+                font-size: 28px;
+            }
+            
+            .success-message {
+                font-size: 16px;
+            }
+            
+            .details-card {
+                padding: 20px;
+            }
+            
+            .chess-board {
+                width: 200px;
+                height: 200px;
+                bottom: -100px;
+                right: -100px;
+            }
+            
+            .chess-square {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .chess-piece {
+                font-size: 40px;
+            }
+            
+            .floating-chess {
+                font-size: 80px;
+            }
+            
+            .countdown-value {
+                font-size: 20px;
+            }
+            
+            .private-share-buttons {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Plateau d'échecs en arrière-plan - Repositionné -->
+    <div class="chess-board">
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+    </div>
+    
+    <!-- Pièces d'échecs animées - Repositionnées -->
+    <div class="chess-piece king-white">♔</div>
+    <div class="chess-piece queen-black">♛</div>
+    <div class="chess-piece rook-white">♖</div>
+    <div class="chess-piece bishop-black">♝</div>
+    <div class="chess-piece knight-white">♘</div>
+    <div class="chess-piece pawn-black">♟</div>
+    
+    <!-- Pièces d'échecs décoratives en rotation -->
+    <div class="floating-chess floating-chess-1">♚</div>
+    <div class="floating-chess floating-chess-2">♔</div>
+    <div class="floating-chess floating-chess-3">♜</div>
+    <div class="floating-chess floating-chess-4">♛</div>
+    
+    <!-- Chemins animés -->
+    <div class="chess-path">
+        <div class="chess-path-line"></div>
+        <div class="chess-path-line"></div>
+        <div class="chess-path-line"></div>
+        <div class="chess-path-line"></div>
+    </div>
+    
+    <div class="container">
+        <div class="success-card">
+            <div class="success-icon">✓</div>
+            <h1 class="success-title">Merci pour votre évaluation !</h1>
+            <p class="success-message">Votre feedback a été soumis avec succès et contribuera directement à l'amélioration de la prochaine édition du Sahel Chess Festival.</p>
+            
+            <div class="details-card">
+                <h3 class="details-title"><i class="fas fa-info-circle"></i> Que se passe-t-il maintenant ?</h3>
+                <ul class="details-list">
+                    <li><i class="fas fa-check-circle"></i> Votre évaluation sera analysée par notre équipe d'organisation</li>
+                    <li><i class="fas fa-check-circle"></i> Vos suggestions seront prises en compte pour la 2ᵉ édition</li>
+                    <li><i class="fas fa-check-circle"></i> Vous recevrez une confirmation par email si vous avez demandé à être contacté</li>
+                </ul>
+                
+                <!-- Décompte pour la prochaine édition -->
+                <div class="countdown-container">
+                    <h3 class="details-title"><i class="fas fa-clock"></i> Prochaine édition</h3>
+                    <div class="countdown" id="countdown">
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="days">0</span>
+                            <span class="countdown-label">Jours</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="hours">0</span>
+                            <span class="countdown-label">Heures</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="minutes">0</span>
+                            <span class="countdown-label">Minutes</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-value" id="seconds">0</span>
+                            <span class="countdown-label">Secondes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Partage privé -->
+                <div class="private-share-container">
+                    <h3 class="details-title"><i class="fas fa-envelope"></i> Partager en privé</h3>
+                    <div class="private-share-buttons">
+                        <a href="#" class="private-share-button whatsapp" title="Partager sur WhatsApp" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="private-share-button messenger" title="Partager sur Messenger" target="_blank">
+                            <i class="fab fa-facebook-messenger"></i>
+                        </a>
+                        <a href="#" class="private-share-button instagram" title="Partager sur Instagram" id="instagram-share">
+                            <i class="fab fa-instagram"></i>
+                            <span class="copy-tooltip">Texte copié !</span>
+                        </a>
+                        <a href="#" class="private-share-button gmail" title="Partager par Gmail" target="_blank">
+                            <i class="fab fa-google"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="index.html" class="home-btn">Retour à l'accueil</a>
+        </div>
+        
+        <div class="footer">
+            <p>Sahel Chess Festival 2025 • Tous droits réservés</p>
+            <p>Merci de faire partie de notre communauté d'échecs ♟️</p>
+        </div>
+    </div>
+    
+    <!-- Ajout de Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Détecter le mode clair du navigateur et appliquer la classe appropriée
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                document.body.classList.add('light-mode');
+            }
+            
+            // Écouter les changements de mode de couleur
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+                    if (e.matches) {
+                        document.body.classList.add('light-mode');
+                    } else {
+                        document.body.classList.remove('light-mode');
+                    }
+                });
+            }
+            
+            // Créer des particules d'échecs
+            function createChessParticles() {
+                const container = document.body;
+                const particleCount = 20;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.className = 'chess-particle';
+                        
+                        // Position aléatoire
+                        const posX = Math.random() * window.innerWidth;
+                        const posY = Math.random() * window.innerHeight;
+                        
+                        particle.style.left = `${posX}px`;
+                        particle.style.top = `${posY}px`;
+                        
+                        // Animation de mouvement
+                        const duration = 3 + Math.random() * 5; // 3-8 secondes
+                        const delay = Math.random() * 2; // Jusqu'à 2 secondes de délai
+                        
+                        particle.style.animation = `floatParticle ${duration}s ease-in-out ${delay}s infinite`;
+                        
+                        container.appendChild(particle);
+                    }, i * 100);
+                }
+            }
+            
+            // Initialiser les particules
+            createChessParticles();
+            
+            // Mettre à jour le décompte chaque seconde
+            // Date de la prochaine édition (1er septembre 2026)
+            const nextEditionDate = new Date('2026-09-01T09:00:00');
+            
+            function updateCountdown() {
+                const now = new Date();
+                const diff = nextEditionDate - now;
+                
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    
+                    document.getElementById('days').textContent = days;
+                    document.getElementById('hours').textContent = hours;
+                    document.getElementById('minutes').textContent = minutes;
+                    document.getElementById('seconds').textContent = seconds;
+                }
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            // Configurer les liens de partage privé
+            const shareText = "J'ai participé au Sahel Chess Festival 2025 ! La prochaine édition aura lieu du 1er au 9 septembre 2026. Rejoignez-nous pour cette expérience exceptionnelle !";
+            const shareUrl = "https://sahelchessfestival.com";
+            
+            // WhatsApp
+            document.querySelector('.private-share-button.whatsapp').href = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+            
+            // Messenger
+            document.querySelector('.private-share-button.messenger').href = `https://www.facebook.com/dialog/send?link=${encodeURIComponent(shareUrl)}&app_id=YOUR_APP_ID&redirect_uri=${encodeURIComponent(shareUrl)}`;
+            
+            // Instagram (copier le texte)
+            const instagramShare = document.getElementById('instagram-share');
+            const copyTooltip = instagramShare.querySelector('.copy-tooltip');
+            
+            instagramShare.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Copier le texte dans le presse-papiers
+                navigator.clipboard.writeText(shareText + ' ' + shareUrl).then(function() {
+                    // Afficher l'infobulle
+                    copyTooltip.classList.add('show');
+                    
+                    // Masquer l'infobulle après 2 secondes
+                    setTimeout(function() {
+                        copyTooltip.classList.remove('show');
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Erreur lors de la copie du texte: ', err);
+                });
+            });
+            
+            // Gmail
+            document.querySelector('.private-share-button.gmail').href = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=Sahel Chess Festival 2026&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`;
+            
+            // Ajouter une animation de confetti
+            function createConfetti() {
+                const colors = ['#f9c74f', '#2ca6a0', '#1a3a5f', '#0d1f2f'];
+                const confettiCount = 100;
+                
+                for (let i = 0; i < confettiCount; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        
+                        // Position et style aléatoires
+                        const posX = Math.random() * window.innerWidth;
+                        const color = colors[Math.floor(Math.random() * colors.length)];
+                        const size = Math.random() * 10 + 5;
+                        const rotation = Math.random() * 360;
+                        const duration = Math.random() * 3 + 2; // 2-5 secondes
+                        
+                        confetti.style.left = `${posX}px`;
+                        confetti.style.top = `-20px`;
+                        confetti.style.width = `${size}px`;
+                        confetti.style.height = `${size}px`;
+                        confetti.style.backgroundColor = color;
+                        confetti.style.transform = `rotate(${rotation}deg)`;
+                        confetti.style.animation = `fallConfetti ${duration}s linear forwards`;
+                        
+                        document.body.appendChild(confetti);
+                        
+                        // Supprimer le confetti après l'animation
+                        setTimeout(() => {
+                            confetti.remove();
+                        }, duration * 1000);
+                    }, i * 30);
+                }
+            }
+            
+            // Lancer le confetti après un délai
+            setTimeout(createConfetti, 1000);
+        });
+    </script>
+</body>
+</html>
