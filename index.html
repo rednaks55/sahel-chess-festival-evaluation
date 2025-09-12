@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiche d'Évaluation - Sahel Chess Festival 2025</title>
     <style>
+        :root {
+            --bg-primary: linear-gradient(135deg, #1a3a5f 0%, #0d1f2f 100%);
+            --bg-secondary: rgba(26, 58, 95, 0.7);
+            --bg-section: rgba(13, 31, 47, 0.5);
+            --text-primary: #fff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent-1: #2ca6a0;
+            --accent-2: #f9c74f;
+            --border-color: rgba(255, 255, 255, 0.2);
+            --input-bg: rgba(255, 255, 255, 0.1);
+            --star-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Mode clair */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-primary: linear-gradient(135deg, #f0f8ff 0%, #e6f2ff 100%);
+                --bg-secondary: rgba(255, 255, 255, 0.9);
+                --bg-section: rgba(240, 248, 255, 0.8);
+                --text-primary: #1a3a5f;
+                --text-secondary: rgba(26, 58, 95, 0.7);
+                --accent-1: #1a73e8;
+                --accent-2: #f9ab00;
+                --border-color: rgba(26, 58, 95, 0.2);
+                --input-bg: rgba(255, 255, 255, 0.8);
+                --star-color: rgba(26, 58, 95, 0.3);
+            }
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,8 +42,8 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1a3a5f 0%, #0d1f2f 100%);
-            color: #fff;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             padding: 20px;
             line-height: 1.6;
         }
@@ -22,7 +51,7 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: rgba(26, 58, 95, 0.7);
+            background: var(--bg-secondary);
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -36,20 +65,20 @@
         .title {
             font-size: 32px;
             font-weight: 700;
-            color: #fff;
+            color: var(--text-primary);
             margin-bottom: 10px;
         }
         
         .subtitle {
             font-size: 18px;
-            color: #2ca6a0;
+            color: var(--accent-1);
             margin-bottom: 20px;
         }
         
         .accent-line {
             width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, #2ca6a0, #f9c74f);
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
             margin: 0 auto 20px;
             border-radius: 2px;
         }
@@ -57,15 +86,15 @@
         .section {
             margin-bottom: 30px;
             padding: 20px;
-            background: rgba(13, 31, 47, 0.5);
+            background: var(--bg-section);
             border-radius: 10px;
-            border-left: 4px solid #2ca6a0;
+            border-left: 4px solid var(--accent-1);
         }
         
         .section-title {
             font-size: 22px;
             font-weight: 600;
-            color: #f9c74f;
+            color: var(--accent-2);
             margin-bottom: 15px;
             display: flex;
             align-items: center;
@@ -73,7 +102,7 @@
         
         .section-title i {
             margin-right: 10px;
-            color: #2ca6a0;
+            color: var(--accent-1);
         }
         
         .form-group {
@@ -84,7 +113,7 @@
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
-            color: #fff;
+            color: var(--text-primary);
         }
         
         input[type="text"],
@@ -94,10 +123,10 @@
         textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border-color);
             border-radius: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
+            background: var(--input-bg);
+            color: var(--text-primary);
             font-size: 16px;
         }
         
@@ -107,7 +136,7 @@
         select:focus,
         textarea:focus {
             outline: none;
-            border-color: #2ca6a0;
+            border-color: var(--accent-1);
             box-shadow: 0 0 0 2px rgba(44, 166, 160, 0.3);
         }
         
@@ -141,8 +170,8 @@
         
         .rating-stars {
             display: flex;
-            flex-direction: row; /* Sens normal de gauche à droite */
-            justify-content: flex-start; /* Aligne les étoiles à gauche */
+            flex-direction: row-reverse;
+            justify-content: flex-end;
         }
         
         .rating-stars input[type="radio"] {
@@ -151,53 +180,90 @@
         
         .rating-stars label {
             font-size: 24px;
-            color: rgba(255, 255, 255, 0.3);
+            color: var(--star-color);
             cursor: pointer;
-            margin-right: 5px; /* Espacement entre les étoiles */
+            margin-right: 5px;
             transition: color 0.2s;
         }
         
-        /* Style pour les étoiles cochées et leurs précédentes */
-        .rating-stars input[type="radio"]:checked ~ label {
-            color: rgba(255, 255, 255, 0.3); /* Réinitialise toutes les étoiles */
-        }
-        
-        /* Logique pour colorier les étoiles correctement */
-        .rating-stars label {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .rating-stars input[type="radio"]:checked ~ label {
-            color: rgba(255, 255, 255, 0.3);
-        }
-        
-        .rating-stars input[type="radio"]:checked {
-            position: relative;
-            z-index: 0;
-        }
-        
-        .rating-stars input[type="radio"]:checked + label,
-        .rating-stars input[type="radio"]:checked + label ~ label {
-            color: #f9c74f;
-        }
-        
-        /* Effet au survol */
+        .rating-stars input[type="radio"]:checked ~ label,
         .rating-stars label:hover,
         .rating-stars label:hover ~ label {
-            color: rgba(255, 255, 255, 0.3);
+            color: var(--accent-2);
         }
         
-        .rating-stars input[type="radio"]:checked + label:hover,
-        .rating-stars input[type="radio"]:checked + label:hover ~ label {
-            color: #f9c74f;
+        .rating-text {
+            display: flex;
+            justify-content: space-between;
+            width: 130px;
+            margin-left: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .nps-group {
+            margin-bottom: 15px;
+        }
+        
+        .flutter-slider-container {
+            margin-top: 20px;
+        }
+        
+        .slider-value-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-2);
+            margin: 10px 0;
+        }
+        
+        .slider-track {
+            position: relative;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            margin: 15px 0;
+        }
+        
+        .slider-progress {
+            position: absolute;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            border-radius: 3px;
+            width: 50%;
+        }
+        
+        .slider-thumb {
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--accent-2);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .slider-thumb:hover {
+            transform: translateX(-50%) scale(1.2);
+        }
+        
+        .nps-description {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
         }
         
         .btn {
             display: block;
             width: 100%;
             padding: 15px;
-            background: linear-gradient(90deg, #2ca6a0, #1a3a5f);
+            background: linear-gradient(90deg, var(--accent-1), #1a3a5f);
             color: white;
             border: none;
             border-radius: 5px;
@@ -208,7 +274,7 @@
         }
         
         .btn:hover {
-            background: linear-gradient(90deg, #1a3a5f, #2ca6a0);
+            background: linear-gradient(90deg, #1a3a5f, var(--accent-1));
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -217,7 +283,7 @@
             text-align: center;
             margin-top: 30px;
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-secondary);
         }
         
         @media (max-width: 768px) {
@@ -240,6 +306,7 @@
             
             .rating-label {
                 margin-bottom: 10px;
+                min-width: 100%;
             }
         }
     </style>
@@ -304,16 +371,12 @@
                     <label>Rôle / Statut</label>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="radio" id="joueur" name="Role" value="Joueur (catégorie A)" required>
-                            <label for="joueur">Joueur (catégorie A)</label>
+                            <input type="radio" id="joueur" name="Role" value="Joueur" required>
+                            <label for="joueur">Joueur</label>
                         </div>
                         <div class="radio-option">
                             <input type="radio" id="delegation" name="Role" value="Responsable de délégation" required>
                             <label for="delegation">Responsable de délégation</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="sponsor" name="Role" value="Partenaire / Sponsor" required>
-                            <label for="sponsor">Partenaire / Sponsor</label>
                         </div>
                         <div class="radio-option">
                             <input type="radio" id="organisateur" name="Role" value="Organisateur" required>
@@ -379,7 +442,7 @@
                     </div>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group" id="participation-precedente-group" style="display: none;">
                     <label>Si oui, combien de fois y avez-vous participé précédemment ?</label>
                     <div class="radio-group">
                         <div class="radio-option">
@@ -410,53 +473,65 @@
                 <div class="rating-group">
                     <div class="rating-label">Qualité générale du festival</div>
                     <div class="rating-stars">
-                        <input type="radio" id="qualite-1" name="QualiteGenerale" value="1" required>
-                        <label for="qualite-1">★</label>
-                        <input type="radio" id="qualite-2" name="QualiteGenerale" value="2" required>
-                        <label for="qualite-2">★</label>
-                        <input type="radio" id="qualite-3" name="QualiteGenerale" value="3" required>
-                        <label for="qualite-3">★</label>
-                        <input type="radio" id="qualite-4" name="QualiteGenerale" value="4" required>
-                        <label for="qualite-4">★</label>
                         <input type="radio" id="qualite-5" name="QualiteGenerale" value="5" required>
                         <label for="qualite-5">★</label>
+                        <input type="radio" id="qualite-4" name="QualiteGenerale" value="4" required>
+                        <label for="qualite-4">★</label>
+                        <input type="radio" id="qualite-3" name="QualiteGenerale" value="3" required>
+                        <label for="qualite-3">★</label>
+                        <input type="radio" id="qualite-2" name="QualiteGenerale" value="2" required>
+                        <label for="qualite-2">★</label>
+                        <input type="radio" id="qualite-1" name="QualiteGenerale" value="1" required>
+                        <label for="qualite-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Faible</span>
+                        <span>Excellent</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Respect du programme et des horaires</div>
                     <div class="rating-stars">
-                        <input type="radio" id="programme-1" name="RespectProgramme" value="1" required>
-                        <label for="programme-1">★</label>
-                        <input type="radio" id="programme-2" name="RespectProgramme" value="2" required>
-                        <label for="programme-2">★</label>
-                        <input type="radio" id="programme-3" name="RespectProgramme" value="3" required>
-                        <label for="programme-3">★</label>
-                        <input type="radio" id="programme-4" name="RespectProgramme" value="4" required>
-                        <label for="programme-4">★</label>
                         <input type="radio" id="programme-5" name="RespectProgramme" value="5" required>
                         <label for="programme-5">★</label>
+                        <input type="radio" id="programme-4" name="RespectProgramme" value="4" required>
+                        <label for="programme-4">★</label>
+                        <input type="radio" id="programme-3" name="RespectProgramme" value="3" required>
+                        <label for="programme-3">★</label>
+                        <input type="radio" id="programme-2" name="RespectProgramme" value="2" required>
+                        <label for="programme-2">★</label>
+                        <input type="radio" id="programme-1" name="RespectProgramme" value="1" required>
+                        <label for="programme-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Pas respecté</span>
+                        <span>Toujours respecté</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Implication et professionnalisme de l'équipe</div>
                     <div class="rating-stars">
-                        <input type="radio" id="equipe-1" name="ImplicationEquipe" value="1" required>
-                        <label for="equipe-1">★</label>
-                        <input type="radio" id="equipe-2" name="ImplicationEquipe" value="2" required>
-                        <label for="equipe-2">★</label>
-                        <input type="radio" id="equipe-3" name="ImplicationEquipe" value="3" required>
-                        <label for="equipe-3">★</label>
-                        <input type="radio" id="equipe-4" name="ImplicationEquipe" value="4" required>
-                        <label for="equipe-4">★</label>
                         <input type="radio" id="equipe-5" name="ImplicationEquipe" value="5" required>
                         <label for="equipe-5">★</label>
+                        <input type="radio" id="equipe-4" name="ImplicationEquipe" value="4" required>
+                        <label for="equipe-4">★</label>
+                        <input type="radio" id="equipe-3" name="ImplicationEquipe" value="3" required>
+                        <label for="equipe-3">★</label>
+                        <input type="radio" id="equipe-2" name="ImplicationEquipe" value="2" required>
+                        <label for="equipe-2">★</label>
+                        <input type="radio" id="equipe-1" name="ImplicationEquipe" value="1" required>
+                        <label for="equipe-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Faible</span>
+                        <span>Excellent</span>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="points-forts">Quels ont été, selon vous, les 3 plus grands points forts de l'événement ?</label>
+                    <label for="points-forts">Quels ont été, selon vous, les plus grands points forts de l'événement ?</label>
                     <textarea id="points-forts" name="PointsForts" rows="3"></textarea>
                 </div>
                 
@@ -473,64 +548,80 @@
                 <div class="rating-group">
                     <div class="rating-label">Qualité de l'arbitrage</div>
                     <div class="rating-stars">
-                        <input type="radio" id="arbitrage-1" name="QualiteArbitrage" value="1" required>
-                        <label for="arbitrage-1">★</label>
-                        <input type="radio" id="arbitrage-2" name="QualiteArbitrage" value="2" required>
-                        <label for="arbitrage-2">★</label>
-                        <input type="radio" id="arbitrage-3" name="QualiteArbitrage" value="3" required>
-                        <label for="arbitrage-3">★</label>
-                        <input type="radio" id="arbitrage-4" name="QualiteArbitrage" value="4" required>
-                        <label for="arbitrage-4">★</label>
                         <input type="radio" id="arbitrage-5" name="QualiteArbitrage" value="5" required>
                         <label for="arbitrage-5">★</label>
+                        <input type="radio" id="arbitrage-4" name="QualiteArbitrage" value="4" required>
+                        <label for="arbitrage-4">★</label>
+                        <input type="radio" id="arbitrage-3" name="QualiteArbitrage" value="3" required>
+                        <label for="arbitrage-3">★</label>
+                        <input type="radio" id="arbitrage-2" name="QualiteArbitrage" value="2" required>
+                        <label for="arbitrage-2">★</label>
+                        <input type="radio" id="arbitrage-1" name="QualiteArbitrage" value="1" required>
+                        <label for="arbitrage-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Insuffisant</span>
+                        <span>Excellent</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Clarté du règlement et du système d'appariement</div>
                     <div class="rating-stars">
-                        <input type="radio" id="reglement-1" name="ClarteReglement" value="1" required>
-                        <label for="reglement-1">★</label>
-                        <input type="radio" id="reglement-2" name="ClarteReglement" value="2" required>
-                        <label for="reglement-2">★</label>
-                        <input type="radio" id="reglement-3" name="ClarteReglement" value="3" required>
-                        <label for="reglement-3">★</label>
-                        <input type="radio" id="reglement-4" name="ClarteReglement" value="4" required>
-                        <label for="reglement-4">★</label>
                         <input type="radio" id="reglement-5" name="ClarteReglement" value="5" required>
                         <label for="reglement-5">★</label>
+                        <input type="radio" id="reglement-4" name="ClarteReglement" value="4" required>
+                        <label for="reglement-4">★</label>
+                        <input type="radio" id="reglement-3" name="ClarteReglement" value="3" required>
+                        <label for="reglement-3">★</label>
+                        <input type="radio" id="reglement-2" name="ClarteReglement" value="2" required>
+                        <label for="reglement-2">★</label>
+                        <input type="radio" id="reglement-1" name="ClarteReglement" value="1" required>
+                        <label for="reglement-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Confus</span>
+                        <span>Très clair</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Niveau des participants</div>
                     <div class="rating-stars">
-                        <input type="radio" id="niveau-1" name="NiveauParticipants" value="1" required>
-                        <label for="niveau-1">★</label>
-                        <input type="radio" id="niveau-2" name="NiveauParticipants" value="2" required>
-                        <label for="niveau-2">★</label>
-                        <input type="radio" id="niveau-3" name="NiveauParticipants" value="3" required>
-                        <label for="niveau-3">★</label>
-                        <input type="radio" id="niveau-4" name="NiveauParticipants" value="4" required>
-                        <label for="niveau-4">★</label>
                         <input type="radio" id="niveau-5" name="NiveauParticipants" value="5" required>
                         <label for="niveau-5">★</label>
+                        <input type="radio" id="niveau-4" name="NiveauParticipants" value="4" required>
+                        <label for="niveau-4">★</label>
+                        <input type="radio" id="niveau-3" name="NiveauParticipants" value="3" required>
+                        <label for="niveau-3">★</label>
+                        <input type="radio" id="niveau-2" name="NiveauParticipants" value="2" required>
+                        <label for="niveau-2">★</label>
+                        <input type="radio" id="niveau-1" name="NiveauParticipants" value="1" required>
+                        <label for="niveau-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Faible</span>
+                        <span>Très élevé</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Équité et ambiance sportive</div>
                     <div class="rating-stars">
-                        <input type="radio" id="equite-1" name="EquiteAmbiance" value="1" required>
-                        <label for="equite-1">★</label>
-                        <input type="radio" id="equite-2" name="EquiteAmbiance" value="2" required>
-                        <label for="equite-2">★</label>
-                        <input type="radio" id="equite-3" name="EquiteAmbiance" value="3" required>
-                        <label for="equite-3">★</label>
-                        <input type="radio" id="equite-4" name="EquiteAmbiance" value="4" required>
-                        <label for="equite-4">★</label>
                         <input type="radio" id="equite-5" name="EquiteAmbiance" value="5" required>
                         <label for="equite-5">★</label>
+                        <input type="radio" id="equite-4" name="EquiteAmbiance" value="4" required>
+                        <label for="equite-4">★</label>
+                        <input type="radio" id="equite-3" name="EquiteAmbiance" value="3" required>
+                        <label for="equite-3">★</label>
+                        <input type="radio" id="equite-2" name="EquiteAmbiance" value="2" required>
+                        <label for="equite-2">★</label>
+                        <input type="radio" id="equite-1" name="EquiteAmbiance" value="1" required>
+                        <label for="equite-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Mauvaise</span>
+                        <span>Excellente</span>
                     </div>
                 </div>
                 
@@ -547,80 +638,100 @@
                 <div class="rating-group">
                     <div class="rating-label">Hébergement (qualité, confort, proximité)</div>
                     <div class="rating-stars">
-                        <input type="radio" id="hebergement-1" name="QualiteHebergement" value="1" required>
-                        <label for="hebergement-1">★</label>
-                        <input type="radio" id="hebergement-2" name="QualiteHebergement" value="2" required>
-                        <label for="hebergement-2">★</label>
-                        <input type="radio" id="hebergement-3" name="QualiteHebergement" value="3" required>
-                        <label for="hebergement-3">★</label>
-                        <input type="radio" id="hebergement-4" name="QualiteHebergement" value="4" required>
-                        <label for="hebergement-4">★</label>
                         <input type="radio" id="hebergement-5" name="QualiteHebergement" value="5" required>
                         <label for="hebergement-5">★</label>
+                        <input type="radio" id="hebergement-4" name="QualiteHebergement" value="4" required>
+                        <label for="hebergement-4">★</label>
+                        <input type="radio" id="hebergement-3" name="QualiteHebergement" value="3" required>
+                        <label for="hebergement-3">★</label>
+                        <input type="radio" id="hebergement-2" name="QualiteHebergement" value="2" required>
+                        <label for="hebergement-2">★</label>
+                        <input type="radio" id="hebergement-1" name="QualiteHebergement" value="1" required>
+                        <label for="hebergement-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Insuffisant</span>
+                        <span>Excellent</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Restauration (qualité, variété, organisation)</div>
                     <div class="rating-stars">
-                        <input type="radio" id="restauration-1" name="QualiteRestauration" value="1" required>
-                        <label for="restauration-1">★</label>
-                        <input type="radio" id="restauration-2" name="QualiteRestauration" value="2" required>
-                        <label for="restauration-2">★</label>
-                        <input type="radio" id="restauration-3" name="QualiteRestauration" value="3" required>
-                        <label for="restauration-3">★</label>
-                        <input type="radio" id="restauration-4" name="QualiteRestauration" value="4" required>
-                        <label for="restauration-4">★</label>
                         <input type="radio" id="restauration-5" name="QualiteRestauration" value="5" required>
                         <label for="restauration-5">★</label>
+                        <input type="radio" id="restauration-4" name="QualiteRestauration" value="4" required>
+                        <label for="restauration-4">★</label>
+                        <input type="radio" id="restauration-3" name="QualiteRestauration" value="3" required>
+                        <label for="restauration-3">★</label>
+                        <input type="radio" id="restauration-2" name="QualiteRestauration" value="2" required>
+                        <label for="restauration-2">★</label>
+                        <input type="radio" id="restauration-1" name="QualiteRestauration" value="1" required>
+                        <label for="restauration-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Mauvaise</span>
+                        <span>Excellente</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Transport (transferts, accessibilité du lieu)</div>
                     <div class="rating-stars">
-                        <input type="radio" id="transport-1" name="QualiteTransport" value="1" required>
-                        <label for="transport-1">★</label>
-                        <input type="radio" id="transport-2" name="QualiteTransport" value="2" required>
-                        <label for="transport-2">★</label>
-                        <input type="radio" id="transport-3" name="QualiteTransport" value="3" required>
-                        <label for="transport-3">★</label>
-                        <input type="radio" id="transport-4" name="QualiteTransport" value="4" required>
-                        <label for="transport-4">★</label>
                         <input type="radio" id="transport-5" name="QualiteTransport" value="5" required>
                         <label for="transport-5">★</label>
+                        <input type="radio" id="transport-4" name="QualiteTransport" value="4" required>
+                        <label for="transport-4">★</label>
+                        <input type="radio" id="transport-3" name="QualiteTransport" value="3" required>
+                        <label for="transport-3">★</label>
+                        <input type="radio" id="transport-2" name="QualiteTransport" value="2" required>
+                        <label for="transport-2">★</label>
+                        <input type="radio" id="transport-1" name="QualiteTransport" value="1" required>
+                        <label for="transport-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Difficile</span>
+                        <span>Très facile</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Accueil à l'aéroport / gare / hôtel</div>
                     <div class="rating-stars">
-                        <input type="radio" id="accueil-1" name="QualiteAccueil" value="1" required>
-                        <label for="accueil-1">★</label>
-                        <input type="radio" id="accueil-2" name="QualiteAccueil" value="2" required>
-                        <label for="accueil-2">★</label>
-                        <input type="radio" id="accueil-3" name="QualiteAccueil" value="3" required>
-                        <label for="accueil-3">★</label>
-                        <input type="radio" id="accueil-4" name="QualiteAccueil" value="4" required>
-                        <label for="accueil-4">★</label>
                         <input type="radio" id="accueil-5" name="QualiteAccueil" value="5" required>
                         <label for="accueil-5">★</label>
+                        <input type="radio" id="accueil-4" name="QualiteAccueil" value="4" required>
+                        <label for="accueil-4">★</label>
+                        <input type="radio" id="accueil-3" name="QualiteAccueil" value="3" required>
+                        <label for="accueil-3">★</label>
+                        <input type="radio" id="accueil-2" name="QualiteAccueil" value="2" required>
+                        <label for="accueil-2">★</label>
+                        <input type="radio" id="accueil-1" name="QualiteAccueil" value="1" required>
+                        <label for="accueil-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Inexistant</span>
+                        <span>Exceptionnel</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Services offerts (traduction, assistance, information)</div>
                     <div class="rating-stars">
-                        <input type="radio" id="services-1" name="QualiteServices" value="1" required>
-                        <label for="services-1">★</label>
-                        <input type="radio" id="services-2" name="QualiteServices" value="2" required>
-                        <label for="services-2">★</label>
-                        <input type="radio" id="services-3" name="QualiteServices" value="3" required>
-                        <label for="services-3">★</label>
-                        <input type="radio" id="services-4" name="QualiteServices" value="4" required>
-                        <label for="services-4">★</label>
                         <input type="radio" id="services-5" name="QualiteServices" value="5" required>
                         <label for="services-5">★</label>
+                        <input type="radio" id="services-4" name="QualiteServices" value="4" required>
+                        <label for="services-4">★</label>
+                        <input type="radio" id="services-3" name="QualiteServices" value="3" required>
+                        <label for="services-3">★</label>
+                        <input type="radio" id="services-2" name="QualiteServices" value="2" required>
+                        <label for="services-2">★</label>
+                        <input type="radio" id="services-1" name="QualiteServices" value="1" required>
+                        <label for="services-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Insuffisants</span>
+                        <span>Complets</span>
                     </div>
                 </div>
                 
@@ -637,64 +748,80 @@
                 <div class="rating-group">
                     <div class="rating-label">Informations avant l'événement</div>
                     <div class="rating-stars">
-                        <input type="radio" id="info-avant-1" name="InfoAvant" value="1" required>
-                        <label for="info-avant-1">★</label>
-                        <input type="radio" id="info-avant-2" name="InfoAvant" value="2" required>
-                        <label for="info-avant-2">★</label>
-                        <input type="radio" id="info-avant-3" name="InfoAvant" value="3" required>
-                        <label for="info-avant-3">★</label>
-                        <input type="radio" id="info-avant-4" name="InfoAvant" value="4" required>
-                        <label for="info-avant-4">★</label>
                         <input type="radio" id="info-avant-5" name="InfoAvant" value="5" required>
                         <label for="info-avant-5">★</label>
+                        <input type="radio" id="info-avant-4" name="InfoAvant" value="4" required>
+                        <label for="info-avant-4">★</label>
+                        <input type="radio" id="info-avant-3" name="InfoAvant" value="3" required>
+                        <label for="info-avant-3">★</label>
+                        <input type="radio" id="info-avant-2" name="InfoAvant" value="2" required>
+                        <label for="info-avant-2">★</label>
+                        <input type="radio" id="info-avant-1" name="InfoAvant" value="1" required>
+                        <label for="info-avant-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Insuffisantes</span>
+                        <span>Très complètes</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Informations pendant l'événement</div>
                     <div class="rating-stars">
-                        <input type="radio" id="info-pendant-1" name="InfoPendant" value="1" required>
-                        <label for="info-pendant-1">★</label>
-                        <input type="radio" id="info-pendant-2" name="InfoPendant" value="2" required>
-                        <label for="info-pendant-2">★</label>
-                        <input type="radio" id="info-pendant-3" name="InfoPendant" value="3" required>
-                        <label for="info-pendant-3">★</label>
-                        <input type="radio" id="info-pendant-4" name="InfoPendant" value="4" required>
-                        <label for="info-pendant-4">★</label>
                         <input type="radio" id="info-pendant-5" name="InfoPendant" value="5" required>
                         <label for="info-pendant-5">★</label>
+                        <input type="radio" id="info-pendant-4" name="InfoPendant" value="4" required>
+                        <label for="info-pendant-4">★</label>
+                        <input type="radio" id="info-pendant-3" name="InfoPendant" value="3" required>
+                        <label for="info-pendant-3">★</label>
+                        <input type="radio" id="info-pendant-2" name="InfoPendant" value="2" required>
+                        <label for="info-pendant-2">★</label>
+                        <input type="radio" id="info-pendant-1" name="InfoPendant" value="1" required>
+                        <label for="info-pendant-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Confuses</span>
+                        <span>Claires et utiles</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Visibilité médiatique et couverture presse</div>
                     <div class="rating-stars">
-                        <input type="radio" id="visibilite-1" name="VisibiliteMediatique" value="1" required>
-                        <label for="visibilite-1">★</label>
-                        <input type="radio" id="visibilite-2" name="VisibiliteMediatique" value="2" required>
-                        <label for="visibilite-2">★</label>
-                        <input type="radio" id="visibilite-3" name="VisibiliteMediatique" value="3" required>
-                        <label for="visibilite-3">★</label>
-                        <input type="radio" id="visibilite-4" name="VisibiliteMediatique" value="4" required>
-                        <label for="visibilite-4">★</label>
                         <input type="radio" id="visibilite-5" name="VisibiliteMediatique" value="5" required>
                         <label for="visibilite-5">★</label>
+                        <input type="radio" id="visibilite-4" name="VisibiliteMediatique" value="4" required>
+                        <label for="visibilite-4">★</label>
+                        <input type="radio" id="visibilite-3" name="VisibiliteMediatique" value="3" required>
+                        <label for="visibilite-3">★</label>
+                        <input type="radio" id="visibilite-2" name="VisibiliteMediatique" value="2" required>
+                        <label for="visibilite-2">★</label>
+                        <input type="radio" id="visibilite-1" name="VisibiliteMediatique" value="1" required>
+                        <label for="visibilite-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Faible</span>
+                        <span>Excellente</span>
                     </div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Clarté des supports digitaux & réseaux sociaux</div>
                     <div class="rating-stars">
-                        <input type="radio" id="supports-1" name="ClarteSupports" value="1" required>
-                        <label for="supports-1">★</label>
-                        <input type="radio" id="supports-2" name="ClarteSupports" value="2" required>
-                        <label for="supports-2">★</label>
-                        <input type="radio" id="supports-3" name="ClarteSupports" value="3" required>
-                        <label for="supports-3">★</label>
-                        <input type="radio" id="supports-4" name="ClarteSupports" value="4" required>
-                        <label for="supports-4">★</label>
                         <input type="radio" id="supports-5" name="ClarteSupports" value="5" required>
                         <label for="supports-5">★</label>
+                        <input type="radio" id="supports-4" name="ClarteSupports" value="4" required>
+                        <label for="supports-4">★</label>
+                        <input type="radio" id="supports-3" name="ClarteSupports" value="3" required>
+                        <label for="supports-3">★</label>
+                        <input type="radio" id="supports-2" name="ClarteSupports" value="2" required>
+                        <label for="supports-2">★</label>
+                        <input type="radio" id="supports-1" name="ClarteSupports" value="1" required>
+                        <label for="supports-1">★</label>
+                    </div>
+                    <div class="rating-text">
+                        <span>Confus</span>
+                        <span>Très clairs</span>
                     </div>
                 </div>
                 
@@ -704,96 +831,7 @@
                 </div>
             </div>
             
-            <!-- Section 7: Valeur perçue et retour sur investissement -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-chart-line"></i> Valeur perçue et retour sur investissement</h2>
-                
-                <div class="form-group">
-                    <label>Pour les joueurs et participants :</label>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Rapport qualité-prix de l'expérience globale</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="qualite-prix-1" name="QualitePrix" value="1" required>
-                        <label for="qualite-prix-1">★</label>
-                        <input type="radio" id="qualite-prix-2" name="QualitePrix" value="2" required>
-                        <label for="qualite-prix-2">★</label>
-                        <input type="radio" id="qualite-prix-3" name="QualitePrix" value="3" required>
-                        <label for="qualite-prix-3">★</label>
-                        <input type="radio" id="qualite-prix-4" name="QualitePrix" value="4" required>
-                        <label for="qualite-prix-4">★</label>
-                        <input type="radio" id="qualite-prix-5" name="QualitePrix" value="5" required>
-                        <label for="qualite-prix-5">★</label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>L'événement a-t-il répondu à vos attentes en termes de valeur ?</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="attentes-depasse" name="AttentesValeur" value="Dépassé les attentes" required>
-                            <label for="attentes-depasse">Dépassé les attentes</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="attentes-repondu" name="AttentesValeur" value="Répondu aux attentes" required>
-                            <label for="attentes-repondu">Répondu aux attentes</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="attentes-deca" name="AttentesValeur" value="En deçà des attentes" required>
-                            <label for="attentes-deca">En deçà des attentes</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="elements-valeur">Quels éléments ont apporté le plus de valeur à votre expérience ?</label>
-                    <textarea id="elements-valeur" name="ElementsValeur" rows="3"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label>Pour les sponsors et partenaires (si applicable) :</label>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Satisfaction quant à la visibilité offerte</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="visibilite-sponsor-1" name="VisibiliteSponsor" value="1">
-                        <label for="visibilite-sponsor-1">★</label>
-                        <input type="radio" id="visibilite-sponsor-2" name="VisibiliteSponsor" value="2">
-                        <label for="visibilite-sponsor-2">★</label>
-                        <input type="radio" id="visibilite-sponsor-3" name="VisibiliteSponsor" value="3">
-                        <label for="visibilite-sponsor-3">★</label>
-                        <input type="radio" id="visibilite-sponsor-4" name="VisibiliteSponsor" value="4">
-                        <label for="visibilite-sponsor-4">★</label>
-                        <input type="radio" id="visibilite-sponsor-5" name="VisibiliteSponsor" value="5">
-                        <label for="visibilite-sponsor-5">★</label>
-                    </div>
-                </div>
-                
-                <div class="rating-group">
-                    <div class="rating-label">Retour sur investissement perçu</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="roi-1" name="ROISponsor" value="1">
-                        <label for="roi-1">★</label>
-                        <input type="radio" id="roi-2" name="ROISponsor" value="2">
-                        <label for="roi-2">★</label>
-                        <input type="radio" id="roi-3" name="ROISponsor" value="3">
-                        <label for="roi-3">★</label>
-                        <input type="radio" id="roi-4" name="ROISponsor" value="4">
-                        <label for="roi-4">★</label>
-                        <input type="radio" id="roi-5" name="ROISponsor" value="5">
-                        <label for="roi-5">★</label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="commentaires-valeur">Commentaires</label>
-                    <textarea id="commentaires-valeur" name="CommentairesValeur" rows="3"></textarea>
-                </div>
-            </div>
-            
-            <!-- Section 8: Expérience & Impact -->
+            <!-- Section 7: Expérience & Impact -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-brain"></i> Expérience & Impact</h2>
                 
@@ -837,54 +875,20 @@
                     </div>
                 </div>
                 
-                <div class="form-group">
+                <div class="nps-group">
                     <label>Sur une échelle de 0 à 10, quelle est la probabilité que vous recommandiez cet événement à un collègue ou ami ?</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="nps-0" name="NPS" value="0" required>
-                            <label for="nps-0">0</label>
+                    <div class="flutter-slider-container">
+                        <div class="slider-value-display" id="slider-value">5</div>
+                        <div class="slider-track">
+                            <div class="slider-progress" id="slider-progress"></div>
+                            <div class="slider-thumb" id="slider-thumb"></div>
                         </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-1" name="NPS" value="1" required>
-                            <label for="nps-1">1</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-2" name="NPS" value="2" required>
-                            <label for="nps-2">2</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-3" name="NPS" value="3" required>
-                            <label for="nps-3">3</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-4" name="NPS" value="4" required>
-                            <label for="nps-4">4</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-5" name="NPS" value="5" required>
-                            <label for="nps-5">5</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-6" name="NPS" value="6" required>
-                            <label for="nps-6">6</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-7" name="NPS" value="7" required>
-                            <label for="nps-7">7</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-8" name="NPS" value="8" required>
-                            <label for="nps-8">8</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-9" name="NPS" value="9" required>
-                            <label for="nps-9">9</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="nps-10" name="NPS" value="10" required>
-                            <label for="nps-10">10</label>
+                        <div class="nps-description">
+                            <span>Pas du tout probable</span>
+                            <span>Très probable</span>
                         </div>
                     </div>
+                    <input type="hidden" id="nps-value" name="NPS" value="5">
                 </div>
                 
                 <div class="form-group">
@@ -893,7 +897,7 @@
                 </div>
             </div>
             
-            <!-- Section 9: Suggestions pour la 2ᵉ édition -->
+            <!-- Section 8: Suggestions pour la 2ᵉ édition -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-lightbulb"></i> Suggestions pour la 2ᵉ édition</h2>
                 
@@ -929,32 +933,7 @@
                 </div>
             </div>
             
-            <!-- Section 10: Analyse SWOT -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-chart-pie"></i> Mini-Analyse SWOT</h2>
-                
-                <div class="form-group">
-                    <label for="forces">Forces (Strengths) - Quelles sont, selon vous, les principales forces de cette 1ère édition ?</label>
-                    <textarea id="forces" name="Forces" rows="3"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="faiblesses">Faiblesses (Weaknesses) - Quels points doivent absolument être améliorés ?</label>
-                    <textarea id="faiblesses" name="Faiblesses" rows="3"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="opportunites">Opportunités (Opportunities) - Quelles opportunités voyez-vous pour développer et renforcer ce festival dans les prochaines années ?</label>
-                    <textarea id="opportunites" name="Opportunites" rows="3"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="menaces">Menaces (Threats) - Quels risques ou obstacles pourraient freiner la réussite des prochaines éditions ?</label>
-                    <textarea id="menaces" name="Menaces" rows="3"></textarea>
-                </div>
-            </div>
-            
-            <!-- Section 11: Recommandation & Fidélisation -->
+            <!-- Section 9: Recommandation & Fidélisation -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-heart"></i> Recommandation & Fidélisation</h2>
                 
@@ -1030,58 +1009,85 @@
     <!-- Ajout de Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
-    <!-- Script pour la détection de langue -->
     <script>
-        // Détecter la langue du navigateur
-        var userLang = navigator.language || navigator.userLanguage;
-        var langCode = userLang.substring(0, 2); // Obtenir les deux premiers caractères (ex: 'fr', 'en')
-        
-        // Tableau des langues supportées
-        var supportedLanguages = {
-            'fr': {
-                title: 'Fiche d\'Évaluation',
-                subtitle: 'Sahel Chess Festival 2025',
-                submit: 'Soumettre l\'évaluation'
-            },
-            'en': {
-                title: 'Evaluation Form',
-                subtitle: 'Sahel Chess Festival 2025',
-                submit: 'Submit Evaluation'
-            },
-            'es': {
-                title: 'Formulario de Evaluación',
-                subtitle: 'Sahel Chess Festival 2025',
-                submit: 'Enviar Evaluación'
-            },
-            'ar': {
-                title: 'نموذج التقييم',
-                subtitle: 'مهرجان الشطرنج الساحلي 2025',
-                submit: 'إرسال التقييم'
+        // Afficher/masquer la section de participation précédente
+        document.addEventListener('DOMContentLoaded', function() {
+            const premiereFoisOui = document.getElementById('premiere-fois-oui');
+            const premiereFoisNon = document.getElementById('premiere-fois-non');
+            const participationPrecedenteGroup = document.getElementById('participation-precedente-group');
+            
+            premiereFoisOui.addEventListener('change', function() {
+                if (this.checked) {
+                    participationPrecedenteGroup.style.display = 'block';
+                }
+            });
+            
+            premiereFoisNon.addEventListener('change', function() {
+                if (this.checked) {
+                    participationPrecedenteGroup.style.display = 'none';
+                }
+            });
+            
+            // Slider Flutter-style pour l'échelle NPS
+            const sliderTrack = document.querySelector('.slider-track');
+            const sliderThumb = document.getElementById('slider-thumb');
+            const sliderProgress = document.getElementById('slider-progress');
+            const sliderValue = document.getElementById('slider-value');
+            const npsValue = document.getElementById('nps-value');
+            
+            let isDragging = false;
+            let currentValue = 5;
+            
+            function updateSlider(clientX) {
+                const rect = sliderTrack.getBoundingClientRect();
+                const position = (clientX - rect.left) / rect.width;
+                const percentage = Math.max(0, Math.min(1, position));
+                currentValue = Math.round(percentage * 10);
+                
+                sliderThumb.style.left = `${percentage * 100}%`;
+                sliderProgress.style.width = `${percentage * 100}%`;
+                sliderValue.textContent = currentValue;
+                npsValue.value = currentValue;
             }
-        };
-        
-        // Vérifier si la langue est supportée
-        if (supportedLanguages[langCode]) {
-            // Mettre à jour le texte selon la langue
-            document.querySelector('.title').textContent = supportedLanguages[langCode].title;
-            document.querySelector('.subtitle').textContent = supportedLanguages[langCode].subtitle;
-            document.querySelector('.btn').textContent = supportedLanguages[langCode].submit;
             
-            // Afficher un message de bienvenue dans la langue détectée
-            var welcomeMessage = document.createElement('div');
-            welcomeMessage.style.cssText = 'text-align: center; margin-bottom: 20px; padding: 10px; background-color: rgba(44, 166, 160, 0.2); border-radius: 5px;';
-            welcomeMessage.innerHTML = '<p>Nous avons détecté que votre navigateur est en ' + 
-                (langCode === 'fr' ? 'français' : 
-                 langCode === 'en' ? 'anglais' : 
-                 langCode === 'es' ? 'espagnol' : 
-                 langCode === 'ar' ? 'arabe' : 'votre langue') + 
-                '. Le formulaire est disponible dans cette langue.</p>';
+            sliderThumb.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                e.preventDefault();
+            });
             
-            // Insérer le message avant le formulaire
-            var container = document.querySelector('.container');
-            var form = document.querySelector('form');
-            container.insertBefore(welcomeMessage, form);
-        }
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    updateSlider(e.clientX);
+                }
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+            
+            sliderTrack.addEventListener('click', function(e) {
+                if (e.target !== sliderThumb) {
+                    updateSlider(e.clientX);
+                }
+            });
+            
+            // Support tactile
+            sliderThumb.addEventListener('touchstart', function(e) {
+                isDragging = true;
+                e.preventDefault();
+            });
+            
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    updateSlider(e.touches[0].clientX);
+                }
+            });
+            
+            document.addEventListener('touchend', function() {
+                isDragging = false;
+            });
+        });
     </script>
 </body>
 </html>
+
