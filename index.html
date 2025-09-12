@@ -21,16 +21,16 @@
         /* Mode clair */
         @media (prefers-color-scheme: light) {
             :root {
-                --bg-primary: linear-gradient(135deg, #f0f8ff 0%, #e6f2ff 100%);
-                --bg-secondary: rgba(255, 255, 255, 0.9);
-                --bg-section: rgba(240, 248, 255, 0.8);
-                --text-primary: #1a3a5f;
-                --text-secondary: rgba(26, 58, 95, 0.7);
+                --bg-primary: #ffffff;
+                --bg-secondary: #ffffff;
+                --bg-section: #f8f9fa;
+                --text-primary: #1a73e8;
+                --text-secondary: #5f6368;
                 --accent-1: #1a73e8;
                 --accent-2: #f9ab00;
-                --border-color: rgba(26, 58, 95, 0.2);
-                --input-bg: rgba(255, 255, 255, 0.8);
-                --star-color: rgba(26, 58, 95, 0.3);
+                --border-color: #dadce0;
+                --input-bg: #ffffff;
+                --star-color: #dadce0;
             }
         }
         
@@ -54,7 +54,7 @@
             background: var(--bg-secondary);
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
         .header {
@@ -137,7 +137,7 @@
         textarea:focus {
             outline: none;
             border-color: var(--accent-1);
-            box-shadow: 0 0 0 2px rgba(44, 166, 160, 0.3);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
         }
         
         .radio-group,
@@ -192,15 +192,6 @@
             color: var(--accent-2);
         }
         
-        .rating-text {
-            display: flex;
-            justify-content: space-between;
-            width: 130px;
-            margin-left: 10px;
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        
         .nps-group {
             margin-bottom: 15px;
         }
@@ -243,7 +234,7 @@
             background: var(--accent-2);
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             transition: all 0.2s ease;
         }
         
@@ -276,7 +267,7 @@
         .btn:hover {
             background: linear-gradient(90deg, #1a3a5f, var(--accent-1));
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .footer {
@@ -484,10 +475,6 @@
                         <input type="radio" id="qualite-1" name="QualiteGenerale" value="1" required>
                         <label for="qualite-1">★</label>
                     </div>
-                    <div class="rating-text">
-                        <span>Faible</span>
-                        <span>Excellent</span>
-                    </div>
                 </div>
                 
                 <div class="rating-group">
@@ -504,10 +491,6 @@
                         <input type="radio" id="programme-1" name="RespectProgramme" value="1" required>
                         <label for="programme-1">★</label>
                     </div>
-                    <div class="rating-text">
-                        <span>Pas respecté</span>
-                        <span>Toujours respecté</span>
-                    </div>
                 </div>
                 
                 <div class="rating-group">
@@ -523,10 +506,6 @@
                         <label for="equipe-2">★</label>
                         <input type="radio" id="equipe-1" name="ImplicationEquipe" value="1" required>
                         <label for="equipe-1">★</label>
-                    </div>
-                    <div class="rating-text">
-                        <span>Faible</span>
-                        <span>Excellent</span>
                     </div>
                 </div>
                 
@@ -559,10 +538,6 @@
                         <input type="radio" id="arbitrage-1" name="QualiteArbitrage" value="1" required>
                         <label for="arbitrage-1">★</label>
                     </div>
-                    <div class="rating-text">
-                        <span>Insuffisant</span>
-                        <span>Excellent</span>
-                    </div>
                 </div>
                 
                 <div class="rating-group">
@@ -578,10 +553,6 @@
                         <label for="reglement-2">★</label>
                         <input type="radio" id="reglement-1" name="ClarteReglement" value="1" required>
                         <label for="reglement-1">★</label>
-                    </div>
-                    <div class="rating-text">
-                        <span>Confus</span>
-                        <span>Très clair</span>
                     </div>
                 </div>
                 
@@ -599,10 +570,6 @@
                         <input type="radio" id="niveau-1" name="NiveauParticipants" value="1" required>
                         <label for="niveau-1">★</label>
                     </div>
-                    <div class="rating-text">
-                        <span>Faible</span>
-                        <span>Très élevé</span>
-                    </div>
                 </div>
                 
                 <div class="rating-group">
@@ -618,10 +585,6 @@
                         <label for="equite-2">★</label>
                         <input type="radio" id="equite-1" name="EquiteAmbiance" value="1" required>
                         <label for="equite-1">★</label>
-                    </div>
-                    <div class="rating-text">
-                        <span>Mauvaise</span>
-                        <span>Excellente</span>
                     </div>
                 </div>
                 
@@ -649,10 +612,6 @@
                         <input type="radio" id="hebergement-1" name="QualiteHebergement" value="1" required>
                         <label for="hebergement-1">★</label>
                     </div>
-                    <div class="rating-text">
-                        <span>Insuffisant</span>
-                        <span>Excellent</span>
-                    </div>
                 </div>
                 
                 <div class="rating-group">
@@ -668,10 +627,6 @@
                         <label for="restauration-2">★</label>
                         <input type="radio" id="restauration-1" name="QualiteRestauration" value="1" required>
                         <label for="restauration-1">★</label>
-                    </div>
-                    <div class="rating-text">
-                        <span>Mauvaise</span>
-                        <span>Excellente</span>
                     </div>
                 </div>
                 
@@ -689,10 +644,6 @@
                         <input type="radio" id="transport-1" name="QualiteTransport" value="1" required>
                         <label for="transport-1">★</label>
                     </div>
-                    <div class="rating-text">
-                        <span>Difficile</span>
-                        <span>Très facile</span>
-                    </div>
                 </div>
                 
                 <div class="rating-group">
@@ -709,10 +660,6 @@
                         <input type="radio" id="accueil-1" name="QualiteAccueil" value="1" required>
                         <label for="accueil-1">★</label>
                     </div>
-                    <div class="rating-text">
-                        <span>Inexistant</span>
-                        <span>Exceptionnel</span>
-                    </div>
                 </div>
                 
                 <div class="rating-group">
@@ -728,10 +675,6 @@
                         <label for="services-2">★</label>
                         <input type="radio" id="services-1" name="QualiteServices" value="1" required>
                         <label for="services-1">★</label>
-                    </div>
-                    <div class="rating-text">
-                        <span>Insuffisants</span>
-                        <span>Complets</span>
                     </div>
                 </div>
                 
@@ -759,10 +702,6 @@
                         <input type="radio" id="info-avant-1" name="InfoAvant" value="1" required>
                         <label for="info-avant-1">★</label>
                     </div>
-                    <div class="rating-text">
-                        <span>Insuffisantes</span>
-                        <span>Très complètes</span>
-                    </div>
                 </div>
                 
                 <div class="rating-group">
@@ -778,10 +717,6 @@
                         <label for="info-pendant-2">★</label>
                         <input type="radio" id="info-pendant-1" name="InfoPendant" value="1" required>
                         <label for="info-pendant-1">★</label>
-                    </div>
-                    <div class="rating-text">
-                        <span>Confuses</span>
-                        <span>Claires et utiles</span>
                     </div>
                 </div>
                 
@@ -799,10 +734,6 @@
                         <input type="radio" id="visibilite-1" name="VisibiliteMediatique" value="1" required>
                         <label for="visibilite-1">★</label>
                     </div>
-                    <div class="rating-text">
-                        <span>Faible</span>
-                        <span>Excellente</span>
-                    </div>
                 </div>
                 
                 <div class="rating-group">
@@ -818,10 +749,6 @@
                         <label for="supports-2">★</label>
                         <input type="radio" id="supports-1" name="ClarteSupports" value="1" required>
                         <label for="supports-1">★</label>
-                    </div>
-                    <div class="rating-text">
-                        <span>Confus</span>
-                        <span>Très clairs</span>
                     </div>
                 </div>
                 
