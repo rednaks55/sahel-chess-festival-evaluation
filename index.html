@@ -642,7 +642,6 @@
         <div class="chess-square"></div>
         <div class="chess-square"></div>
         <div class="chess-square"></div>
-        <div class="chess-square"></div>
     </div>
     
     <!-- Pièces d'échecs animées -->
@@ -674,10 +673,10 @@
             <p class="subtitle">Sahel Chess Festival 2025</p>
         </div>
         
-        <form action="https://formsubmit.co/el/zudiru" method="POST">
+        <!-- Formulaire avec gestion JavaScript de la soumission -->
+        <form id="evaluation-form" onsubmit="handleSubmit(event)">
             <!-- Options cachées -->
             <input type="hidden" name="_captcha" value="true">
-            <input type="hidden" name="_next" value="merci.html">
             <input type="hidden" name="_subject" value="Nouvelle évaluation - Sahel Chess Festival 2025">
             
             <!-- Section 1: Profil du répondant -->
@@ -1409,7 +1408,29 @@
                 isDragging = false;
             });
         });
+        
+        // Fonction pour gérer la soumission du formulaire
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('evaluation-form');
+            const formData = new FormData(form);
+            
+            // Envoyer les données à FormSubmit
+            fetch('https://formsubmit.co/el/zudiru', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                // Rediriger vers la page de remerciements
+                window.location.href = 'merci.html';
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                // En cas d'erreur, rediriger quand même
+                window.location.href = 'merci.html';
+            });
+        }
     </script>
 </body>
 </html>
-
