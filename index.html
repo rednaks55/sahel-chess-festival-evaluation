@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiche d'Évaluation - Sahel Chess Festival 2025</title>
     <style>
+        /* Mode sombre (par défaut) */
         :root {
             --bg-primary: linear-gradient(135deg, #1a3a5f 0%, #0d1f2f 100%);
             --bg-secondary: rgba(26, 58, 95, 0.7);
@@ -16,22 +17,6 @@
             --border-color: rgba(255, 255, 255, 0.2);
             --input-bg: rgba(255, 255, 255, 0.1);
             --star-color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Mode clair */
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg-primary: #ffffff;
-                --bg-secondary: #ffffff;
-                --bg-section: #f8f9fa;
-                --text-primary: #1a73e8;
-                --text-secondary: #5f6368;
-                --accent-1: #1a73e8;
-                --accent-2: #f9ab00;
-                --border-color: #dadce0;
-                --input-bg: #ffffff;
-                --star-color: #dadce0;
-            }
         }
         
         * {
@@ -46,6 +31,7 @@
             color: var(--text-primary);
             padding: 20px;
             line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         .container {
@@ -54,7 +40,8 @@
             background: var(--bg-secondary);
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
         }
         
         .header {
@@ -67,12 +54,14 @@
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 10px;
+            transition: color 0.3s ease;
         }
         
         .subtitle {
             font-size: 18px;
             color: var(--accent-1);
             margin-bottom: 20px;
+            transition: color 0.3s ease;
         }
         
         .accent-line {
@@ -89,6 +78,7 @@
             background: var(--bg-section);
             border-radius: 10px;
             border-left: 4px solid var(--accent-1);
+            transition: background-color 0.3s ease;
         }
         
         .section-title {
@@ -98,11 +88,13 @@
             margin-bottom: 15px;
             display: flex;
             align-items: center;
+            transition: color 0.3s ease;
         }
         
         .section-title i {
             margin-right: 10px;
             color: var(--accent-1);
+            transition: color 0.3s ease;
         }
         
         .form-group {
@@ -114,6 +106,7 @@
             margin-bottom: 5px;
             font-weight: 500;
             color: var(--text-primary);
+            transition: color 0.3s ease;
         }
         
         input[type="text"],
@@ -128,6 +121,7 @@
             background: var(--input-bg);
             color: var(--text-primary);
             font-size: 16px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         
         input[type="text"]:focus,
@@ -137,7 +131,7 @@
         textarea:focus {
             outline: none;
             border-color: var(--accent-1);
-            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+            box-shadow: 0 0 0 2px rgba(44, 166, 160, 0.3);
         }
         
         .radio-group,
@@ -166,6 +160,8 @@
         .rating-label {
             min-width: 200px;
             font-weight: 500;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
         }
         
         .rating-stars {
@@ -206,6 +202,7 @@
             font-weight: bold;
             color: var(--accent-2);
             margin: 10px 0;
+            transition: color 0.3s ease;
         }
         
         .slider-track {
@@ -214,6 +211,7 @@
             background: var(--border-color);
             border-radius: 3px;
             margin: 15px 0;
+            transition: background-color 0.3s ease;
         }
         
         .slider-progress {
@@ -234,7 +232,7 @@
             background: var(--accent-2);
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             transition: all 0.2s ease;
         }
         
@@ -248,6 +246,7 @@
             margin-top: 10px;
             font-size: 12px;
             color: var(--text-secondary);
+            transition: color 0.3s ease;
         }
         
         .btn {
@@ -267,7 +266,7 @@
         .btn:hover {
             background: linear-gradient(90deg, #1a3a5f, var(--accent-1));
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .footer {
@@ -275,6 +274,37 @@
             margin-top: 30px;
             font-size: 14px;
             color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        
+        /* Mode clair */
+        body.light-mode {
+            --bg-primary: #ffffff;
+            --bg-secondary: #ffffff;
+            --bg-section: #f8f9fa;
+            --text-primary: #1a73e8;
+            --text-secondary: #5f6368;
+            --accent-1: #1a73e8;
+            --accent-2: #f9ab00;
+            --border-color: #dadce0;
+            --input-bg: #ffffff;
+            --star-color: #dadce0;
+        }
+        
+        body.light-mode .btn {
+            background: linear-gradient(90deg, var(--accent-1), #4285f4);
+        }
+        
+        body.light-mode .btn:hover {
+            background: linear-gradient(90deg, #4285f4, var(--accent-1));
+        }
+        
+        body.light-mode input[type="text"]:focus,
+        body.light-mode input[type="email"]:focus,
+        body.light-mode input[type="number"]:focus,
+        body.light-mode select:focus,
+        body.light-mode textarea:focus {
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
         }
         
         @media (max-width: 768px) {
@@ -415,38 +445,6 @@
                         <div class="checkbox-option">
                             <input type="checkbox" id="autre-decouverte" name="Decouverte[]" value="Autre">
                             <label for="autre-decouverte">Autre</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Étiez-vous déjà au courant de cet événement avant cette année ?</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="premiere-fois-oui" name="PremiereFois" value="Oui" required>
-                            <label for="premiere-fois-oui">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="premiere-fois-non" name="PremiereFois" value="Non" required>
-                            <label for="premiere-fois-non">Non</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group" id="participation-precedente-group" style="display: none;">
-                    <label>Si oui, combien de fois y avez-vous participé précédemment ?</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="participation-1" name="ParticipationPrecedente" value="1 fois">
-                            <label for="participation-1">1 fois</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="participation-2" name="ParticipationPrecedente" value="2 fois">
-                            <label for="participation-2">2 fois</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="participation-3" name="ParticipationPrecedente" value="3 fois ou plus">
-                            <label for="participation-3">3 fois ou plus</label>
                         </div>
                     </div>
                 </div>
@@ -824,7 +822,40 @@
                 </div>
             </div>
             
-            <!-- Section 8: Suggestions pour la 2ᵉ édition -->
+            <!-- Section 8: Emplacement de la prochaine édition -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Emplacement de la prochaine édition</h2>
+                
+                <div class="form-group">
+                    <label>Pour la 2ᵉ édition du Sahel Chess Festival, quelle ville préférez-vous ?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="monastir" name="Emplacement" value="Monastir" required>
+                            <label for="monastir">Monastir</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="sousse" name="Emplacement" value="Sousse" required>
+                            <label for="sousse">Sousse</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="mahdia" name="Emplacement" value="Mahdia" required>
+                            <label for="mahdia">Mahdia</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Pourquoi ce choix d'emplacement ?</label>
+                    <textarea id="raison-emplacement" name="RaisonEmplacement" rows="3" placeholder="Partagez les raisons de votre préférence pour cet emplacement..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Quels avantages cet emplacement pourrait-il offrir pour le festival ?</label>
+                    <textarea id="avantages-emplacement" name="AvantagesEmplacement" rows="3" placeholder="Décrivez les avantages potentiels de cet emplacement..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 9: Suggestions pour la 2ᵉ édition -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-lightbulb"></i> Suggestions pour la 2ᵉ édition</h2>
                 
@@ -860,7 +891,7 @@
                 </div>
             </div>
             
-            <!-- Section 9: Recommandation & Fidélisation -->
+            <!-- Section 10: Recommandation & Fidélisation -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-heart"></i> Recommandation & Fidélisation</h2>
                 
@@ -939,21 +970,21 @@
     <script>
         // Afficher/masquer la section de participation précédente
         document.addEventListener('DOMContentLoaded', function() {
-            const premiereFoisOui = document.getElementById('premiere-fois-oui');
-            const premiereFoisNon = document.getElementById('premiere-fois-non');
-            const participationPrecedenteGroup = document.getElementById('participation-precedente-group');
+            // Détecter le mode clair du navigateur et appliquer la classe appropriée
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                document.body.classList.add('light-mode');
+            }
             
-            premiereFoisOui.addEventListener('change', function() {
-                if (this.checked) {
-                    participationPrecedenteGroup.style.display = 'block';
-                }
-            });
-            
-            premiereFoisNon.addEventListener('change', function() {
-                if (this.checked) {
-                    participationPrecedenteGroup.style.display = 'none';
-                }
-            });
+            // Écouter les changements de mode de couleur
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+                    if (e.matches) {
+                        document.body.classList.add('light-mode');
+                    } else {
+                        document.body.classList.remove('light-mode');
+                    }
+                });
+            }
             
             // Slider Flutter-style pour l'échelle NPS
             const sliderTrack = document.querySelector('.slider-track');
