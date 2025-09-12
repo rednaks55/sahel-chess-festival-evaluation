@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche d'Évaluation - Sahel Chess Festival 2025</title>
+    <style>
+        /* Mode sombre (par défaut) */
+        :root {
+            --bg-primary: linear-gradient(135deg, #1a3a5f 0%, #0d1f2f 100%);
+            --bg-secondary: rgba(26, 58, 95, 0.7);
+            --bg-section: rgba(13, 31, 47, 0.5);
+            --text-primary: #fff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent-1: #2ca6a0;
+            --accent-2: #f9c74f;
+            --border-color: rgba(255, 255, 255, 0.2);
+            --input-bg: rgba(255, 255, 255, 0.1);
+            --star-color: rgba(255, 255, 255, 0.3);
+            --chess-light: #f0d9b5;
+            --chess-dark: #b58863;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 20px;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: var(--accent-1);
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+        
+        .accent-line {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            margin: 0 auto 20px;
+            border-radius: 2px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-section);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-1);
+            transition: background-color 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent-2);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            color: var(--accent-1);
+            transition: color 0.3s ease;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 2px rgba(44, 166, 160, 0.3);
+        }
+        
+        .radio-group,
+        .checkbox-group {
+            margin-bottom: 10px;
+        }
+        
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .radio-option input,
+        .checkbox-option input {
+            margin-right: 10px;
+        }
+        
+        .rating-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .rating-label {
+            min-width: 200px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+        
+        .rating-stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+        
+        .rating-stars input[type="radio"] {
+            display: none;
+        }
+        
+        .rating-stars label {
+            font-size: 24px;
+            color: var(--star-color);
+            cursor: pointer;
+            margin-right: 5px;
+            transition: color 0.2s;
+        }
+        
+        .rating-stars input[type="radio"]:checked ~ label,
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label {
+            color: var(--accent-2);
+        }
+        
+        .nps-group {
+            margin-bottom: 15px;
+        }
+        
+        .flutter-slider-container {
+            margin-top: 20px;
+        }
+        
+        .slider-value-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-2);
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+        
+        .slider-track {
+            position: relative;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            margin: 15px 0;
+            transition: background-color 0.3s ease;
+        }
+        
+        .slider-progress {
+            position: absolute;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            border-radius: 3px;
+            width: 50%;
+        }
+        
+        .slider-thumb {
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--accent-2);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .slider-thumb:hover {
+            transform: translateX(-50%) scale(1.2);
+        }
+        
+        .nps-description {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--accent-1), #1a3a5f);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(90deg, #1a3a5f, var(--accent-1));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Éléments d'échecs animés */
+        .chess-board {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            right: -150px;
+            transform: rotate(45deg);
+            z-index: 1;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        
+        .chess-square {
+            position: absolute;
+            width: 37.5px;
+            height: 37.5px;
+        }
+        
+        .chess-square:nth-child(odd) {
+            background-color: var(--chess-light);
+        }
+        
+        .chess-square:nth-child(even) {
+            background-color: var(--chess-dark);
+        }
+        
+        .chess-piece {
+            position: fixed;
+            font-size: 60px;
+            z-index: 5;
+            user-select: none;
+            pointer-events: none;
+            opacity: 0.07;
+        }
+        
+        .king-white {
+            top: 10%;
+            right: 5%;
+            animation: float 10s ease-in-out infinite;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .queen-black {
+            bottom: 10%;
+            left: 5%;
+            animation: float 12s ease-in-out infinite 2s;
+            color: #000000;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .rook-white {
+            top: 15%;
+            left: 8%;
+            animation: float 8s ease-in-out infinite 4s;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .bishop-black {
+            bottom: 15%;
+            right: 8%;
+            animation: float 9s ease-in-out infinite 1s;
+            color: #000000;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .knight-white {
+            top: 70%;
+            right: 12%;
+            animation: float 11s ease-in-out infinite 3s;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .pawn-black {
+            bottom: 30%;
+            left: 12%;
+            animation: float 7s ease-in-out infinite 5s;
+            color: #000000;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .floating-chess {
+            position: fixed;
+            font-size: 120px;
+            opacity: 0.02;
+            z-index: 1;
+            user-select: none;
+            pointer-events: none;
+        }
+        
+        .floating-chess-1 {
+            top: 5%;
+            left: 5%;
+            animation: rotate 20s linear infinite;
+        }
+        
+        .floating-chess-2 {
+            bottom: 5%;
+            right: 5%;
+            animation: rotate 25s linear infinite reverse;
+        }
+        
+        .floating-chess-3 {
+            top: 70%;
+            right: 10%;
+            animation: rotate 30s linear infinite;
+        }
+        
+        .floating-chess-4 {
+            bottom: 20%;
+            left: 15%;
+            animation: rotate 35s linear infinite reverse;
+        }
+        
+        .chess-path {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .chess-path-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--accent-1), transparent);
+            height: 2px;
+            width: 100px;
+            opacity: 0;
+            animation: pathAnimation 15s linear infinite;
+        }
+        
+        .chess-path-line:nth-child(1) {
+            top: 20%;
+            left: -100px;
+            animation-delay: 0s;
+        }
+        
+        .chess-path-line:nth-child(2) {
+            top: 40%;
+            left: -100px;
+            animation-delay: 5s;
+        }
+        
+        .chess-path-line:nth-child(3) {
+            top: 60%;
+            left: -100px;
+            animation-delay: 10s;
+        }
+        
+        .chess-path-line:nth-child(4) {
+            top: 80%;
+            left: -100px;
+            animation-delay: 15s;
+        }
+        
+        .chess-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: var(--accent-2);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 3;
+        }
+        
+        /* Mode clair */
+        body.light-mode {
+            --bg-primary: #ffffff;
+            --bg-secondary: #ffffff;
+            --bg-section: #f8f9fa;
+            --text-primary: #1a73e8;
+            --text-secondary: #5f6368;
+            --accent-1: #1a73e8;
+            --accent-2: #f9ab00;
+            --border-color: #dadce0;
+            --input-bg: #ffffff;
+            --star-color: #dadce0;
+            --chess-light: #f0d9b5;
+            --chess-dark: #b58863;
+        }
+        
+        body.light-mode .btn {
+            background: linear-gradient(90deg, var(--accent-1), #4285f4);
+        }
+        
+        body.light-mode .btn:hover {
+            background: linear-gradient(90deg, #4285f4, var(--accent-1));
+        }
+        
+        body.light-mode input[type="text"]:focus,
+        body.light-mode input[type="email"]:focus,
+        body.light-mode input[type="number"]:focus,
+        body.light-mode select:focus,
+        body.light-mode textarea:focus {
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pathAnimation {
+            0% {
+                left: -100px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+        
+        @keyframes floatParticle {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            50% {
+                transform: translate(${Math.random() > 0.5 ? '-' : ''}${50 + Math.random() * 100}px, ${Math.random() > 0.5 ? '-' : ''}${50 + Math.random() * 100}px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+            
+            .rating-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .rating-label {
+                margin-bottom: 10px;
+                min-width: 100%;
+            }
+            
+            .chess-board {
+                width: 200px;
+                height: 200px;
+                bottom: -100px;
+                right: -100px;
+            }
+            
+            .chess-square {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .chess-piece {
+                font-size: 40px;
+            }
+            
+            .floating-chess {
+                font-size: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Plateau d'échecs en arrière-plan -->
+    <div class="chess-board">
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+        <div class="chess-square"></div>
+    </div>
+    
+    <!-- Pièces d'échecs animées -->
+    <div class="chess-piece king-white">♔</div>
+    <div class="chess-piece queen-black">♛</div>
+    <div class="chess-piece rook-white">♖</div>
+    <div class="chess-piece bishop-black">♝</div>
+    <div class="chess-piece knight-white">♘</div>
+    <div class="chess-piece pawn-black">♟</div>
+    
+    <!-- Pièces d'échecs décoratives en rotation -->
+    <div class="floating-chess floating-chess-1">♚</div>
+    <div class="floating-chess floating-chess-2">♔</div>
+    <div class="floating-chess floating-chess-3">♜</div>
+    <div class="floating-chess floating-chess-4">♛</div>
+    
+    <!-- Chemins animés -->
+    <div class="chess-path">
+        <div class="chess-path-line"></div>
+        <div class="chess-path-line"></div>
+        <div class="chess-path-line"></div>
+        <div class="chess-path-line"></div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Fiche d'Évaluation</h1>
+            <div class="accent-line"></div>
+            <p class="subtitle">Sahel Chess Festival 2025</p>
+        </div>
+        
+        <form action="https://formsubmit.co/el/zudiru" method="POST">
+            <!-- Options cachées -->
+            <input type="hidden" name="_captcha" value="true">
+            <input type="hidden" name="_next" value="https://github.com/rednaks55/sahel-chess-festival-evaluation/blob/main/merci.html">
+            <input type="hidden" name="_subject" value="Nouvelle évaluation - Sahel Chess Festival 2025">
+            
+            <!-- Section 1: Profil du répondant -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-user"></i> Profil du répondant</h2>
+                
+                <div class="form-group">
+                    <label for="nom">Nom & Prénom</label>
+                    <input type="text" id="nom" name="Nom" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Âge</label>
+                    <input type="number" id="age" name="Age" min="10" max="100" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Genre</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="homme" name="Genre" value="Homme" required>
+                            <label for="homme">Homme</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="femme" name="Genre" value="Femme" required>
+                            <label for="femme">Femme</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="autre" name="Genre" value="Autre" required>
+                            <label for="autre">Autre</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="organisation">Organisation / Club / Fédération</label>
+                    <input type="text" id="organisation" name="Organisation">
+                </div>
+                
+                <div class="form-group">
+                    <label for="pays">Pays de provenance</label>
+                    <input type="text" id="pays" name="Pays" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rôle / Statut</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="joueur" name="Role" value="Joueur" required>
+                            <label for="joueur">Joueur</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="delegation" name="Role" value="Responsable de délégation" required>
+                            <label for="delegation">Responsable de délégation</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="organisateur" name="Role" value="Organisateur" required>
+                            <label for="organisateur">Organisateur</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="media" name="Role" value="Média / Journaliste" required>
+                            <label for="media">Média / Journaliste</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="autre-role" name="Role" value="Autre" required>
+                            <label for="autre-role">Autre</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Découverte de l'événement -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-search"></i> Découverte de l'événement</h2>
+                
+                <div class="form-group">
+                    <label>Comment avez-vous connu le Sahel Chess Festival ?</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="site-web" name="Decouverte[]" value="Site web officiel">
+                            <label for="site-web">Site web officiel</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="reseaux-sociaux" name="Decouverte[]" value="Réseaux sociaux">
+                            <label for="reseaux-sociaux">Réseaux sociaux</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="bouche-oreille" name="Decouverte[]" value="Bouche-à-oreille">
+                            <label for="bouche-oreille">Bouche-à-oreille</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="club" name="Decouverte[]" value="Club d'échecs local">
+                            <label for="club">Club d'échecs local</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="presse" name="Decouverte[]" value="Presse / Média">
+                            <label for="presse">Presse / Média</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="autre-decouverte" name="Decouverte[]" value="Autre">
+                            <label for="autre-decouverte">Autre</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="influence">Qu'est-ce qui a le plus influencé votre décision de participer ?</label>
+                    <textarea id="influence" name="Influence" rows="3"></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 3: Organisation générale -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Organisation générale</h2>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Qualité générale du festival</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="qualite-5" name="QualiteGenerale" value="5" required>
+                        <label for="qualite-5">★</label>
+                        <input type="radio" id="qualite-4" name="QualiteGenerale" value="4" required>
+                        <label for="qualite-4">★</label>
+                        <input type="radio" id="qualite-3" name="QualiteGenerale" value="3" required>
+                        <label for="qualite-3">★</label>
+                        <input type="radio" id="qualite-2" name="QualiteGenerale" value="2" required>
+                        <label for="qualite-2">★</label>
+                        <input type="radio" id="qualite-1" name="QualiteGenerale" value="1" required>
+                        <label for="qualite-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Respect du programme et des horaires</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="programme-5" name="RespectProgramme" value="5" required>
+                        <label for="programme-5">★</label>
+                        <input type="radio" id="programme-4" name="RespectProgramme" value="4" required>
+                        <label for="programme-4">★</label>
+                        <input type="radio" id="programme-3" name="RespectProgramme" value="3" required>
+                        <label for="programme-3">★</label>
+                        <input type="radio" id="programme-2" name="RespectProgramme" value="2" required>
+                        <label for="programme-2">★</label>
+                        <input type="radio" id="programme-1" name="RespectProgramme" value="1" required>
+                        <label for="programme-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Implication et professionnalisme de l'équipe</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="equipe-5" name="ImplicationEquipe" value="5" required>
+                        <label for="equipe-5">★</label>
+                        <input type="radio" id="equipe-4" name="ImplicationEquipe" value="4" required>
+                        <label for="equipe-4">★</label>
+                        <input type="radio" id="equipe-3" name="ImplicationEquipe" value="3" required>
+                        <label for="equipe-3">★</label>
+                        <input type="radio" id="equipe-2" name="ImplicationEquipe" value="2" required>
+                        <label for="equipe-2">★</label>
+                        <input type="radio" id="equipe-1" name="ImplicationEquipe" value="1" required>
+                        <label for="equipe-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="points-forts">Quels ont été, selon vous, les plus grands points forts de l'événement ?</label>
+                    <textarea id="points-forts" name="PointsForts" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ameliorations">Quels aspects nécessitent des améliorations prioritaires ?</label>
+                    <textarea id="ameliorations" name="Ameliorations" rows="3"></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 4: Tournoi & Niveau sportif -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-chess"></i> Tournoi & Niveau sportif</h2>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Qualité de l'arbitrage</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="arbitrage-5" name="QualiteArbitrage" value="5" required>
+                        <label for="arbitrage-5">★</label>
+                        <input type="radio" id="arbitrage-4" name="QualiteArbitrage" value="4" required>
+                        <label for="arbitrage-4">★</label>
+                        <input type="radio" id="arbitrage-3" name="QualiteArbitrage" value="3" required>
+                        <label for="arbitrage-3">★</label>
+                        <input type="radio" id="arbitrage-2" name="QualiteArbitrage" value="2" required>
+                        <label for="arbitrage-2">★</label>
+                        <input type="radio" id="arbitrage-1" name="QualiteArbitrage" value="1" required>
+                        <label for="arbitrage-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Clarté du règlement et du système d'appariement</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="reglement-5" name="ClarteReglement" value="5" required>
+                        <label for="reglement-5">★</label>
+                        <input type="radio" id="reglement-4" name="ClarteReglement" value="4" required>
+                        <label for="reglement-4">★</label>
+                        <input type="radio" id="reglement-3" name="ClarteReglement" value="3" required>
+                        <label for="reglement-3">★</label>
+                        <input type="radio" id="reglement-2" name="ClarteReglement" value="2" required>
+                        <label for="reglement-2">★</label>
+                        <input type="radio" id="reglement-1" name="ClarteReglement" value="1" required>
+                        <label for="reglement-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Niveau des participants</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="niveau-5" name="NiveauParticipants" value="5" required>
+                        <label for="niveau-5">★</label>
+                        <input type="radio" id="niveau-4" name="NiveauParticipants" value="4" required>
+                        <label for="niveau-4">★</label>
+                        <input type="radio" id="niveau-3" name="NiveauParticipants" value="3" required>
+                        <label for="niveau-3">★</label>
+                        <input type="radio" id="niveau-2" name="NiveauParticipants" value="2" required>
+                        <label for="niveau-2">★</label>
+                        <input type="radio" id="niveau-1" name="NiveauParticipants" value="1" required>
+                        <label for="niveau-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Équité et ambiance sportive</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="equite-5" name="EquiteAmbiance" value="5" required>
+                        <label for="equite-5">★</label>
+                        <input type="radio" id="equite-4" name="EquiteAmbiance" value="4" required>
+                        <label for="equite-4">★</label>
+                        <input type="radio" id="equite-3" name="EquiteAmbiance" value="3" required>
+                        <label for="equite-3">★</label>
+                        <input type="radio" id="equite-2" name="EquiteAmbiance" value="2" required>
+                        <label for="equite-2">★</label>
+                        <input type="radio" id="equite-1" name="EquiteAmbiance" value="1" required>
+                        <label for="equite-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="commentaires-tournoi">Commentaires / Suggestions</label>
+                    <textarea id="commentaires-tournoi" name="CommentairesTournoi" rows="3"></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 5: Logistique & Accueil -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-hotel"></i> Logistique & Accueil</h2>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Hébergement (qualité, confort, proximité)</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="hebergement-5" name="QualiteHebergement" value="5" required>
+                        <label for="hebergement-5">★</label>
+                        <input type="radio" id="hebergement-4" name="QualiteHebergement" value="4" required>
+                        <label for="hebergement-4">★</label>
+                        <input type="radio" id="hebergement-3" name="QualiteHebergement" value="3" required>
+                        <label for="hebergement-3">★</label>
+                        <input type="radio" id="hebergement-2" name="QualiteHebergement" value="2" required>
+                        <label for="hebergement-2">★</label>
+                        <input type="radio" id="hebergement-1" name="QualiteHebergement" value="1" required>
+                        <label for="hebergement-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Restauration (qualité, variété, organisation)</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="restauration-5" name="QualiteRestauration" value="5" required>
+                        <label for="restauration-5">★</label>
+                        <input type="radio" id="restauration-4" name="QualiteRestauration" value="4" required>
+                        <label for="restauration-4">★</label>
+                        <input type="radio" id="restauration-3" name="QualiteRestauration" value="3" required>
+                        <label for="restauration-3">★</label>
+                        <input type="radio" id="restauration-2" name="QualiteRestauration" value="2" required>
+                        <label for="restauration-2">★</label>
+                        <input type="radio" id="restauration-1" name="QualiteRestauration" value="1" required>
+                        <label for="restauration-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Transport (transferts, accessibilité du lieu)</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="transport-5" name="QualiteTransport" value="5" required>
+                        <label for="transport-5">★</label>
+                        <input type="radio" id="transport-4" name="QualiteTransport" value="4" required>
+                        <label for="transport-4">★</label>
+                        <input type="radio" id="transport-3" name="QualiteTransport" value="3" required>
+                        <label for="transport-3">★</label>
+                        <input type="radio" id="transport-2" name="QualiteTransport" value="2" required>
+                        <label for="transport-2">★</label>
+                        <input type="radio" id="transport-1" name="QualiteTransport" value="1" required>
+                        <label for="transport-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Accueil à l'aéroport / gare / hôtel</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="accueil-5" name="QualiteAccueil" value="5" required>
+                        <label for="accueil-5">★</label>
+                        <input type="radio" id="accueil-4" name="QualiteAccueil" value="4" required>
+                        <label for="accueil-4">★</label>
+                        <input type="radio" id="accueil-3" name="QualiteAccueil" value="3" required>
+                        <label for="accueil-3">★</label>
+                        <input type="radio" id="accueil-2" name="QualiteAccueil" value="2" required>
+                        <label for="accueil-2">★</label>
+                        <input type="radio" id="accueil-1" name="QualiteAccueil" value="1" required>
+                        <label for="accueil-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Services offerts (traduction, assistance, information)</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="services-5" name="QualiteServices" value="5" required>
+                        <label for="services-5">★</label>
+                        <input type="radio" id="services-4" name="QualiteServices" value="4" required>
+                        <label for="services-4">★</label>
+                        <input type="radio" id="services-3" name="QualiteServices" value="3" required>
+                        <label for="services-3">★</label>
+                        <input type="radio" id="services-2" name="QualiteServices" value="2" required>
+                        <label for="services-2">★</label>
+                        <input type="radio" id="services-1" name="QualiteServices" value="1" required>
+                        <label for="services-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="commentaires-logistique">Commentaires</label>
+                    <textarea id="commentaires-logistique" name="CommentairesLogistique" rows="3"></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 6: Communication & Promotion -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-bullhorn"></i> Communication & Promotion</h2>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Informations avant l'événement</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="info-avant-5" name="InfoAvant" value="5" required>
+                        <label for="info-avant-5">★</label>
+                        <input type="radio" id="info-avant-4" name="InfoAvant" value="4" required>
+                        <label for="info-avant-4">★</label>
+                        <input type="radio" id="info-avant-3" name="InfoAvant" value="3" required>
+                        <label for="info-avant-3">★</label>
+                        <input type="radio" id="info-avant-2" name="InfoAvant" value="2" required>
+                        <label for="info-avant-2">★</label>
+                        <input type="radio" id="info-avant-1" name="InfoAvant" value="1" required>
+                        <label for="info-avant-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Informations pendant l'événement</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="info-pendant-5" name="InfoPendant" value="5" required>
+                        <label for="info-pendant-5">★</label>
+                        <input type="radio" id="info-pendant-4" name="InfoPendant" value="4" required>
+                        <label for="info-pendant-4">★</label>
+                        <input type="radio" id="info-pendant-3" name="InfoPendant" value="3" required>
+                        <label for="info-pendant-3">★</label>
+                        <input type="radio" id="info-pendant-2" name="InfoPendant" value="2" required>
+                        <label for="info-pendant-2">★</label>
+                        <input type="radio" id="info-pendant-1" name="InfoPendant" value="1" required>
+                        <label for="info-pendant-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Visibilité médiatique et couverture presse</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="visibilite-5" name="VisibiliteMediatique" value="5" required>
+                        <label for="visibilite-5">★</label>
+                        <input type="radio" id="visibilite-4" name="VisibiliteMediatique" value="4" required>
+                        <label for="visibilite-4">★</label>
+                        <input type="radio" id="visibilite-3" name="VisibiliteMediatique" value="3" required>
+                        <label for="visibilite-3">★</label>
+                        <input type="radio" id="visibilite-2" name="VisibiliteMediatique" value="2" required>
+                        <label for="visibilite-2">★</label>
+                        <input type="radio" id="visibilite-1" name="VisibiliteMediatique" value="1" required>
+                        <label for="visibilite-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="rating-group">
+                    <div class="rating-label">Clarté des supports digitaux & réseaux sociaux</div>
+                    <div class="rating-stars">
+                        <input type="radio" id="supports-5" name="ClarteSupports" value="5" required>
+                        <label for="supports-5">★</label>
+                        <input type="radio" id="supports-4" name="ClarteSupports" value="4" required>
+                        <label for="supports-4">★</label>
+                        <input type="radio" id="supports-3" name="ClarteSupports" value="3" required>
+                        <label for="supports-3">★</label>
+                        <input type="radio" id="supports-2" name="ClarteSupports" value="2" required>
+                        <label for="supports-2">★</label>
+                        <input type="radio" id="supports-1" name="ClarteSupports" value="1" required>
+                        <label for="supports-1">★</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="commentaires-communication">Commentaires</label>
+                    <textarea id="commentaires-communication" name="CommentairesCommunication" rows="3"></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 7: Expérience & Impact -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-brain"></i> Expérience & Impact</h2>
+                
+                <div class="form-group">
+                    <label>Le festival a-t-il répondu à vos attentes ?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="attentes-globale-oui" name="AttentesGlobale" value="Oui totalement" required>
+                            <label for="attentes-globale-oui">Oui totalement</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="attentes-globale-partiel" name="AttentesGlobale" value="Partiellement" required>
+                            <label for="attentes-globale-partiel">Partiellement</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="attentes-globale-non" name="AttentesGlobale" value="Non" required>
+                            <label for="attentes-globale-non">Non</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Avez-vous ressenti une valeur ajoutée sur :</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="networking" name="ValeurAjoutee[]" value="Networking (contacts, échanges, partenariats)">
+                            <label for="networking">Networking (contacts, échanges, partenariats)</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="experience" name="ValeurAjoutee[]" value="Expérience sportive et culturelle">
+                            <label for="experience">Expérience sportive et culturelle</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="developpement" name="ValeurAjoutee[]" value="Développement de l'image des échecs dans la région">
+                            <label for="developpement">Développement de l'image des échecs dans la région</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="autre-valeur" name="ValeurAjoutee[]" value="Autre">
+                            <label for="autre-valeur">Autre</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nps-group">
+                    <label>Sur une échelle de 0 à 10, quelle est la probabilité que vous recommandiez cet événement à un collègue ou ami ?</label>
+                    <div class="flutter-slider-container">
+                        <div class="slider-value-display" id="slider-value">5</div>
+                        <div class="slider-track">
+                            <div class="slider-progress" id="slider-progress"></div>
+                            <div class="slider-thumb" id="slider-thumb"></div>
+                        </div>
+                        <div class="nps-description">
+                            <span>Pas du tout probable</span>
+                            <span>Très probable</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="nps-value" name="NPS" value="5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="trois-mots">Trois mots pour décrire votre expérience</label>
+                    <input type="text" id="trois-mots" name="TroisMots" placeholder="Ex: Passionnant, Bien organisé, Enrichissant">
+                </div>
+            </div>
+            
+            <!-- Section 8: Emplacement de la prochaine édition -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Emplacement de la prochaine édition</h2>
+                
+                <div class="form-group">
+                    <label>Pour la 2ᵉ édition du Sahel Chess Festival, quelle ville préférez-vous ?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="monastir" name="Emplacement" value="Monastir" required>
+                            <label for="monastir">Monastir</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="sousse" name="Emplacement" value="Sousse" required>
+                            <label for="sousse">Sousse</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="mahdia" name="Emplacement" value="Mahdia" required>
+                            <label for="mahdia">Mahdia</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Pourquoi ce choix d'emplacement ?</label>
+                    <textarea id="raison-emplacement" name="RaisonEmplacement" rows="3" placeholder="Partagez les raisons de votre préférence pour cet emplacement..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Quels avantages cet emplacement pourrait-il offrir pour le festival ?</label>
+                    <textarea id="avantages-emplacement" name="AvantagesEmplacement" rows="3" placeholder="Décrivez les avantages potentiels de cet emplacement..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 9: Suggestions pour la 2ᵉ édition -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-lightbulb"></i> Suggestions pour la 2ᵉ édition</h2>
+                
+                <div class="form-group">
+                    <label>Quels nouveaux services / activités aimeriez-vous voir ajoutés ?</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="conferences" name="NouveauxServices[]" value="Conférences / Masterclass">
+                            <label for="conferences">Conférences / Masterclass</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="simultanees" name="NouveauxServices[]" value="Simultanées avec grands maîtres">
+                            <label for="simultanees">Simultanées avec grands maîtres</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="culturelles" name="NouveauxServices[]" value="Activités culturelles & touristiques">
+                            <label for="culturelles">Activités culturelles & touristiques</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="junior" name="NouveauxServices[]" value="Tournoi junior / amateur parallèle">
+                            <label for="junior">Tournoi junior / amateur parallèle</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="autre-service" name="NouveauxServices[]" value="Autre">
+                            <label for="autre-service">Autre</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="recommandations">Avez-vous des recommandations précises pour améliorer la prochaine édition ?</label>
+                    <textarea id="recommandations" name="Recommandations" rows="4"></textarea>
+                </div>
+            </div>
+            
+            <!-- Section 10: Recommandation & Fidélisation -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-heart"></i> Recommandation & Fidélisation</h2>
+                
+                <div class="form-group">
+                    <label>Recommanderiez-vous le Sahel Chess Festival à d'autres joueurs/organisations ?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="recommandation-oui" name="Recommandation" value="Oui, absolument" required>
+                            <label for="recommandation-oui">Oui, absolument</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="recommandation-peut-etre" name="Recommandation" value="Peut-être" required>
+                            <label for="recommandation-peut-etre">Peut-être</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="recommandation-non" name="Recommandation" value="Non" required>
+                            <label for="recommandation-non">Non</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Souhaitez-vous être contacté pour la 2ᵉ édition ?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="contact-oui" name="ContactProchaineEdition" value="Oui" required>
+                            <label for="contact-oui">Oui</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="contact-non" name="ContactProchaineEdition" value="Non" required>
+                            <label for="contact-non">Non</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Préférence de contact pour les futures communications :</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="pref-email" name="PreferenceContact" value="Email" required>
+                            <label for="pref-email">Email</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="pref-whatsapp" name="PreferenceContact" value="WhatsApp" required>
+                            <label for="pref-whatsapp">WhatsApp</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="pref-sms" name="PreferenceContact" value="SMS" required>
+                            <label for="pref-sms">SMS</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="pref-autre" name="PreferenceContact" value="Autre" required>
+                            <label for="pref-autre">Autre</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="coordonnees">Coordonnées email / WhatsApp</label>
+                    <input type="text" id="coordonnees" name="Coordonnees" placeholder="votre@email.com ou numéro WhatsApp">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn">Soumettre l'évaluation</button>
+        </form>
+        
+        <div class="footer">
+            <p>✅ Merci infiniment pour vos retours 🙏<br>
+            Vous contribuez directement à la réussite de la prochaine édition du Sahel Chess Festival 🌍♟️</p>
+        </div>
+    </div>
+    
+    <!-- Ajout de Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Détecter le mode clair du navigateur et appliquer la classe appropriée
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                document.body.classList.add('light-mode');
+            }
+            
+            // Écouter les changements de mode de couleur
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+                    if (e.matches) {
+                        document.body.classList.add('light-mode');
+                    } else {
+                        document.body.classList.remove('light-mode');
+                    }
+                });
+            }
+            
+            // Créer des particules d'échecs
+            function createChessParticles() {
+                const container = document.body;
+                const particleCount = 20;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.className = 'chess-particle';
+                        
+                        // Position aléatoire
+                        const posX = Math.random() * window.innerWidth;
+                        const posY = Math.random() * window.innerHeight;
+                        
+                        particle.style.left = `${posX}px`;
+                        particle.style.top = `${posY}px`;
+                        
+                        // Animation de mouvement
+                        const duration = 3 + Math.random() * 5; // 3-8 secondes
+                        const delay = Math.random() * 2; // Jusqu'à 2 secondes de délai
+                        
+                        particle.style.animation = `floatParticle ${duration}s ease-in-out ${delay}s infinite`;
+                        
+                        container.appendChild(particle);
+                    }, i * 100);
+                }
+            }
+            
+            // Initialiser les particules
+            createChessParticles();
+            
+            // Slider Flutter-style pour l'échelle NPS
+            const sliderTrack = document.querySelector('.slider-track');
+            const sliderThumb = document.getElementById('slider-thumb');
+            const sliderProgress = document.getElementById('slider-progress');
+            const sliderValue = document.getElementById('slider-value');
+            const npsValue = document.getElementById('nps-value');
+            
+            let isDragging = false;
+            let currentValue = 5;
+            
+            function updateSlider(clientX) {
+                const rect = sliderTrack.getBoundingClientRect();
+                const position = (clientX - rect.left) / rect.width;
+                const percentage = Math.max(0, Math.min(1, position));
+                currentValue = Math.round(percentage * 10);
+                
+                sliderThumb.style.left = `${percentage * 100}%`;
+                sliderProgress.style.width = `${percentage * 100}%`;
+                sliderValue.textContent = currentValue;
+                npsValue.value = currentValue;
+            }
+            
+            sliderThumb.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    updateSlider(e.clientX);
+                }
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+            
+            sliderTrack.addEventListener('click', function(e) {
+                if (e.target !== sliderThumb) {
+                    updateSlider(e.clientX);
+                }
+            });
+            
+            // Support tactile
+            sliderThumb.addEventListener('touchstart', function(e) {
+                isDragging = true;
+                e.preventDefault();
+            });
+            
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    updateSlider(e.touches[0].clientX);
+                }
+            });
+            
+            document.addEventListener('touchend', function() {
+                isDragging = false;
+            });
+        });
+    </script>
+</body>
+</html>
+
+
