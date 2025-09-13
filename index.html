@@ -21,6 +21,9 @@
             --chess-dark: #b58863;
             --card-bg: rgba(255, 255, 255, 0.1);
             --success-color: #4caf50;
+            --error-color: #f44336;
+            --warning-color: #ff9800;
+            --firebase-color: #ffca28;
         }
         
         * {
@@ -78,6 +81,68 @@
             background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
             margin: 0 auto 20px;
             border-radius: 2px;
+        }
+        
+        /* Indicateur de progression */
+        .progress-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 10%;
+        }
+        
+        .step-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .step-circle.active {
+            background-color: var(--accent-1);
+        }
+        
+        .step-circle.completed {
+            background-color: var(--success-color);
+        }
+        
+        .step-label {
+            font-size: 10px;
+            margin-top: 5px;
+            text-align: center;
+            color: var(--text-secondary);
         }
         
         .section {
@@ -142,6 +207,13 @@
             outline: none;
             border-color: var(--accent-1);
             box-shadow: 0 0 0 2px rgba(44, 166, 160, 0.3);
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
         }
         
         .radio-group,
@@ -294,6 +366,91 @@
             transition: color 0.3s ease;
             position: relative;
             z-index: 10;
+        }
+        
+        /* Notification de sauvegarde automatique */
+        .save-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .save-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .save-notification i {
+            margin-right: 10px;
+        }
+        
+        /* Boutons de sauvegarde */
+        .save-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .save-btn {
+            padding: 8px 15px;
+            background-color: var(--accent-1);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .save-btn:hover {
+            background-color: var(--accent-2);
+        }
+        
+        .clear-btn {
+            padding: 8px 15px;
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .clear-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        /* Firebase Badge */
+        .firebase-badge {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--firebase-color);
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+        
+        .firebase-badge i {
+            margin-right: 5px;
         }
         
         /* Éléments d'échecs animés */
@@ -917,14 +1074,27 @@
             .thank-you-container {
                 padding: 20px 15px;
             }
+            
+            .progress-step {
+                width: 10%;
+            }
+            
+            .step-label {
+                font-size: 8px;
+            }
+            
+            .firebase-badge {
+                bottom: 10px;
+                left: 10px;
+                padding: 6px 10px;
+                font-size: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Plateau d'échecs en arrière-plan -->
     <div class="chess-board">
-        <div class="chess-square"></div>
-        <div class="chess-square"></div>
         <div class="chess-square"></div>
         <div class="chess-square"></div>
         <div class="chess-square"></div>
@@ -998,6 +1168,11 @@
         <div class="chess-path-line"></div>
     </div>
     
+    <!-- Firebase Badge -->
+    <div class="firebase-badge">
+        <i class="fas fa-database"></i> Powered by Firebase
+    </div>
+    
     <!-- Conteneur du formulaire -->
     <div id="form-container" class="container">
         <div class="header">
@@ -1006,465 +1181,549 @@
             <p class="subtitle">Sahel Chess Festival 2025</p>
         </div>
         
-        <form id="evaluation-form" action="https://formsubmit.co/el/zudiru" method="POST">
-            <!-- Options cachées pour FormSubmit -->
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_subject" value="Nouvelle évaluation - Sahel Chess Festival 2025">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_next" value="#">
-            
+        <!-- Indicateur de progression -->
+        <div class="progress-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Progression du formulaire">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-steps">
+                <div class="progress-step">
+                    <div class="step-circle" id="step-1">1</div>
+                    <div class="step-label">Profil</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-2">2</div>
+                    <div class="step-label">Découverte</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-3">3</div>
+                    <div class="step-label">Organisation</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-4">4</div>
+                    <div class="step-label">Tournoi</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-5">5</div>
+                    <div class="step-label">Logistique</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-6">6</div>
+                    <div class="step-label">Communication</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-7">7</div>
+                    <div class="step-label">Expérience</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-8">8</div>
+                    <div class="step-label">Emplacement</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-9">9</div>
+                    <div class="step-label">Suggestions</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-10">10</div>
+                    <div class="step-label">Recommandation</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Boutons de sauvegarde -->
+        <div class="save-buttons">
+            <button type="button" class="save-btn" id="save-form-btn" aria-label="Sauvegarder le formulaire">
+                <i class="fas fa-save"></i> Sauvegarder
+            </button>
+            <button type="button" class="clear-btn" id="clear-form-btn" aria-label="Effacer les données sauvegardées">
+                <i class="fas fa-trash"></i> Effacer
+            </button>
+        </div>
+        
+        <form id="evaluation-form" novalidate>
             <!-- Section 1: Profil du répondant -->
-            <div class="section">
+            <div class="section" id="section-1" data-section="1">
                 <h2 class="section-title"><i class="fas fa-user"></i> Profil du répondant</h2>
                 
                 <div class="form-group">
                     <label for="nom">Nom & Prénom</label>
-                    <input type="text" id="nom" name="Nom" required>
+                    <input type="text" id="nom" name="Nom" required aria-required="true" aria-describedby="nom-error">
+                    <div id="nom-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="age">Âge</label>
-                    <input type="number" id="age" name="Age" min="10" max="100" required>
+                    <input type="number" id="age" name="Age" min="10" max="100" required aria-required="true" aria-describedby="age-error">
+                    <div id="age-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label>Genre</label>
-                    <div class="radio-group">
+                    <div class="radio-group" role="radiogroup" aria-required="true" aria-describedby="genre-error">
                         <div class="radio-option">
-                            <input type="radio" id="homme" name="Genre" value="Homme" required>
+                            <input type="radio" id="homme" name="Genre" value="Homme" required aria-required="true">
                             <label for="homme">Homme</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="femme" name="Genre" value="Femme" required>
+                            <input type="radio" id="femme" name="Genre" value="Femme" required aria-required="true">
                             <label for="femme">Femme</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="autre" name="Genre" value="Autre" required>
+                            <input type="radio" id="autre" name="Genre" value="Autre" required aria-required="true">
                             <label for="autre">Autre</label>
                         </div>
                     </div>
+                    <div id="genre-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="organisation">Organisation / Club / Fédération</label>
-                    <input type="text" id="organisation" name="Organisation">
+                    <input type="text" id="organisation" name="Organisation" aria-describedby="organisation-error">
+                    <div id="organisation-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="pays">Pays de provenance</label>
-                    <input type="text" id="pays" name="Pays" required>
+                    <input type="text" id="pays" name="Pays" required aria-required="true" aria-describedby="pays-error">
+                    <div id="pays-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label>Rôle / Statut</label>
-                    <div class="radio-group">
+                    <div class="radio-group" role="radiogroup" aria-required="true" aria-describedby="role-error">
                         <div class="radio-option">
-                            <input type="radio" id="joueur" name="Role" value="Joueur" required>
+                            <input type="radio" id="joueur" name="Role" value="Joueur" required aria-required="true">
                             <label for="joueur">Joueur</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="delegation" name="Role" value="Responsable de délégation" required>
+                            <input type="radio" id="delegation" name="Role" value="Responsable de délégation" required aria-required="true">
                             <label for="delegation">Responsable de délégation</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="organisateur" name="Role" value="Organisateur" required>
+                            <input type="radio" id="organisateur" name="Role" value="Organisateur" required aria-required="true">
                             <label for="organisateur">Organisateur</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="media" name="Role" value="Média / Journaliste" required>
+                            <input type="radio" id="media" name="Role" value="Média / Journaliste" required aria-required="true">
                             <label for="media">Média / Journaliste</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="autre-role" name="Role" value="Autre" required>
+                            <input type="radio" id="autre-role" name="Role" value="Autre" required aria-required="true">
                             <label for="autre-role">Autre</label>
                         </div>
                     </div>
+                    <div id="role-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
             <!-- Section 2: Découverte de l'événement -->
-            <div class="section">
+            <div class="section" id="section-2" data-section="2">
                 <h2 class="section-title"><i class="fas fa-search"></i> Découverte de l'événement</h2>
                 
                 <div class="form-group">
                     <label>Comment avez-vous connu le Sahel Chess Festival ?</label>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" role="group" aria-describedby="decouverte-error">
                         <div class="checkbox-option">
-                            <input type="checkbox" id="site-web" name="Decouverte[]" value="Site web officiel">
+                            <input type="checkbox" id="site-web" name="Decouverte" value="Site web officiel">
                             <label for="site-web">Site web officiel</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="reseaux-sociaux" name="Decouverte[]" value="Réseaux sociaux">
+                            <input type="checkbox" id="reseaux-sociaux" name="Decouverte" value="Réseaux sociaux">
                             <label for="reseaux-sociaux">Réseaux sociaux</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="bouche-oreille" name="Decouverte[]" value="Bouche-à-oreille">
+                            <input type="checkbox" id="bouche-oreille" name="Decouverte" value="Bouche-à-oreille">
                             <label for="bouche-oreille">Bouche-à-oreille</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="club" name="Decouverte[]" value="Club d'échecs local">
+                            <input type="checkbox" id="club" name="Decouverte" value="Club d'échecs local">
                             <label for="club">Club d'échecs local</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="presse" name="Decouverte[]" value="Presse / Média">
+                            <input type="checkbox" id="presse" name="Decouverte" value="Presse / Média">
                             <label for="presse">Presse / Média</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="autre-decouverte" name="Decouverte[]" value="Autre">
+                            <input type="checkbox" id="autre-decouverte" name="Decouverte" value="Autre">
                             <label for="autre-decouverte">Autre</label>
                         </div>
                     </div>
+                    <div id="decouverte-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="influence">Qu'est-ce qui a le plus influencé votre décision de participer ?</label>
-                    <textarea id="influence" name="Influence" rows="3"></textarea>
+                    <textarea id="influence" name="Influence" rows="3" aria-describedby="influence-error"></textarea>
+                    <div id="influence-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
             <!-- Section 3: Organisation générale -->
-            <div class="section">
+            <div class="section" id="section-3" data-section="3">
                 <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Organisation générale</h2>
                 
                 <div class="rating-group">
                     <div class="rating-label">Qualité générale du festival</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="qualite-5" name="QualiteGenerale" value="5" required>
-                        <label for="qualite-5">★</label>
-                        <input type="radio" id="qualite-4" name="QualiteGenerale" value="4" required>
-                        <label for="qualite-4">★</label>
-                        <input type="radio" id="qualite-3" name="QualiteGenerale" value="3" required>
-                        <label for="qualite-3">★</label>
-                        <input type="radio" id="qualite-2" name="QualiteGenerale" value="2" required>
-                        <label for="qualite-2">★</label>
-                        <input type="radio" id="qualite-1" name="QualiteGenerale" value="1" required>
-                        <label for="qualite-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="qualite-error">
+                        <input type="radio" id="qualite-5" name="QualiteGenerale" value="5" required aria-required="true">
+                        <label for="qualite-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="qualite-4" name="QualiteGenerale" value="4" required aria-required="true">
+                        <label for="qualite-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="qualite-3" name="QualiteGenerale" value="3" required aria-required="true">
+                        <label for="qualite-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="qualite-2" name="QualiteGenerale" value="2" required aria-required="true">
+                        <label for="qualite-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="qualite-1" name="QualiteGenerale" value="1" required aria-required="true">
+                        <label for="qualite-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="qualite-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Respect du programme et des horaires</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="programme-5" name="RespectProgramme" value="5" required>
-                        <label for="programme-5">★</label>
-                        <input type="radio" id="programme-4" name="RespectProgramme" value="4" required>
-                        <label for="programme-4">★</label>
-                        <input type="radio" id="programme-3" name="RespectProgramme" value="3" required>
-                        <label for="programme-3">★</label>
-                        <input type="radio" id="programme-2" name="RespectProgramme" value="2" required>
-                        <label for="programme-2">★</label>
-                        <input type="radio" id="programme-1" name="RespectProgramme" value="1" required>
-                        <label for="programme-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="programme-error">
+                        <input type="radio" id="programme-5" name="RespectProgramme" value="5" required aria-required="true">
+                        <label for="programme-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="programme-4" name="RespectProgramme" value="4" required aria-required="true">
+                        <label for="programme-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="programme-3" name="RespectProgramme" value="3" required aria-required="true">
+                        <label for="programme-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="programme-2" name="RespectProgramme" value="2" required aria-required="true">
+                        <label for="programme-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="programme-1" name="RespectProgramme" value="1" required aria-required="true">
+                        <label for="programme-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="programme-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Implication et professionnalisme de l'équipe</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="equipe-5" name="ImplicationEquipe" value="5" required>
-                        <label for="equipe-5">★</label>
-                        <input type="radio" id="equipe-4" name="ImplicationEquipe" value="4" required>
-                        <label for="equipe-4">★</label>
-                        <input type="radio" id="equipe-3" name="ImplicationEquipe" value="3" required>
-                        <label for="equipe-3">★</label>
-                        <input type="radio" id="equipe-2" name="ImplicationEquipe" value="2" required>
-                        <label for="equipe-2">★</label>
-                        <input type="radio" id="equipe-1" name="ImplicationEquipe" value="1" required>
-                        <label for="equipe-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="equipe-error">
+                        <input type="radio" id="equipe-5" name="ImplicationEquipe" value="5" required aria-required="true">
+                        <label for="equipe-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="equipe-4" name="ImplicationEquipe" value="4" required aria-required="true">
+                        <label for="equipe-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="equipe-3" name="ImplicationEquipe" value="3" required aria-required="true">
+                        <label for="equipe-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="equipe-2" name="ImplicationEquipe" value="2" required aria-required="true">
+                        <label for="equipe-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="equipe-1" name="ImplicationEquipe" value="1" required aria-required="true">
+                        <label for="equipe-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="equipe-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="points-forts">Quels ont été, selon vous, les plus grands points forts de l'événement ?</label>
-                    <textarea id="points-forts" name="PointsForts" rows="3"></textarea>
+                    <textarea id="points-forts" name="PointsForts" rows="3" aria-describedby="points-forts-error"></textarea>
+                    <div id="points-forts-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="ameliorations">Quels aspects nécessitent des améliorations prioritaires ?</label>
-                    <textarea id="ameliorations" name="Ameliorations" rows="3"></textarea>
+                    <textarea id="ameliorations" name="Ameliorations" rows="3" aria-describedby="ameliorations-error"></textarea>
+                    <div id="ameliorations-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
             <!-- Section 4: Tournoi & Niveau sportif -->
-            <div class="section">
+            <div class="section" id="section-4" data-section="4">
                 <h2 class="section-title"><i class="fas fa-chess"></i> Tournoi & Niveau sportif</h2>
                 
                 <div class="rating-group">
                     <div class="rating-label">Qualité de l'arbitrage</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="arbitrage-5" name="QualiteArbitrage" value="5" required>
-                        <label for="arbitrage-5">★</label>
-                        <input type="radio" id="arbitrage-4" name="QualiteArbitrage" value="4" required>
-                        <label for="arbitrage-4">★</label>
-                        <input type="radio" id="arbitrage-3" name="QualiteArbitrage" value="3" required>
-                        <label for="arbitrage-3">★</label>
-                        <input type="radio" id="arbitrage-2" name="QualiteArbitrage" value="2" required>
-                        <label for="arbitrage-2">★</label>
-                        <input type="radio" id="arbitrage-1" name="QualiteArbitrage" value="1" required>
-                        <label for="arbitrage-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="arbitrage-error">
+                        <input type="radio" id="arbitrage-5" name="QualiteArbitrage" value="5" required aria-required="true">
+                        <label for="arbitrage-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="arbitrage-4" name="QualiteArbitrage" value="4" required aria-required="true">
+                        <label for="arbitrage-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="arbitrage-3" name="QualiteArbitrage" value="3" required aria-required="true">
+                        <label for="arbitrage-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="arbitrage-2" name="QualiteArbitrage" value="2" required aria-required="true">
+                        <label for="arbitrage-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="arbitrage-1" name="QualiteArbitrage" value="1" required aria-required="true">
+                        <label for="arbitrage-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="arbitrage-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Clarté du règlement et du système d'appariement</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="reglement-5" name="ClarteReglement" value="5" required>
-                        <label for="reglement-5">★</label>
-                        <input type="radio" id="reglement-4" name="ClarteReglement" value="4" required>
-                        <label for="reglement-4">★</label>
-                        <input type="radio" id="reglement-3" name="ClarteReglement" value="3" required>
-                        <label for="reglement-3">★</label>
-                        <input type="radio" id="reglement-2" name="ClarteReglement" value="2" required>
-                        <label for="reglement-2">★</label>
-                        <input type="radio" id="reglement-1" name="ClarteReglement" value="1" required>
-                        <label for="reglement-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="reglement-error">
+                        <input type="radio" id="reglement-5" name="ClarteReglement" value="5" required aria-required="true">
+                        <label for="reglement-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="reglement-4" name="ClarteReglement" value="4" required aria-required="true">
+                        <label for="reglement-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="reglement-3" name="ClarteReglement" value="3" required aria-required="true">
+                        <label for="reglement-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="reglement-2" name="ClarteReglement" value="2" required aria-required="true">
+                        <label for="reglement-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="reglement-1" name="ClarteReglement" value="1" required aria-required="true">
+                        <label for="reglement-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="reglement-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Niveau des participants</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="niveau-5" name="NiveauParticipants" value="5" required>
-                        <label for="niveau-5">★</label>
-                        <input type="radio" id="niveau-4" name="NiveauParticipants" value="4" required>
-                        <label for="niveau-4">★</label>
-                        <input type="radio" id="niveau-3" name="NiveauParticipants" value="3" required>
-                        <label for="niveau-3">★</label>
-                        <input type="radio" id="niveau-2" name="NiveauParticipants" value="2" required>
-                        <label for="niveau-2">★</label>
-                        <input type="radio" id="niveau-1" name="NiveauParticipants" value="1" required>
-                        <label for="niveau-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="niveau-error">
+                        <input type="radio" id="niveau-5" name="NiveauParticipants" value="5" required aria-required="true">
+                        <label for="niveau-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="niveau-4" name="NiveauParticipants" value="4" required aria-required="true">
+                        <label for="niveau-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="niveau-3" name="NiveauParticipants" value="3" required aria-required="true">
+                        <label for="niveau-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="niveau-2" name="NiveauParticipants" value="2" required aria-required="true">
+                        <label for="niveau-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="niveau-1" name="NiveauParticipants" value="1" required aria-required="true">
+                        <label for="niveau-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="niveau-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Équité et ambiance sportive</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="equite-5" name="EquiteAmbiance" value="5" required>
-                        <label for="equite-5">★</label>
-                        <input type="radio" id="equite-4" name="EquiteAmbiance" value="4" required>
-                        <label for="equite-4">★</label>
-                        <input type="radio" id="equite-3" name="EquiteAmbiance" value="3" required>
-                        <label for="equite-3">★</label>
-                        <input type="radio" id="equite-2" name="EquiteAmbiance" value="2" required>
-                        <label for="equite-2">★</label>
-                        <input type="radio" id="equite-1" name="EquiteAmbiance" value="1" required>
-                        <label for="equite-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="equite-error">
+                        <input type="radio" id="equite-5" name="EquiteAmbiance" value="5" required aria-required="true">
+                        <label for="equite-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="equite-4" name="EquiteAmbiance" value="4" required aria-required="true">
+                        <label for="equite-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="equite-3" name="EquiteAmbiance" value="3" required aria-required="true">
+                        <label for="equite-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="equite-2" name="EquiteAmbiance" value="2" required aria-required="true">
+                        <label for="equite-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="equite-1" name="EquiteAmbiance" value="1" required aria-required="true">
+                        <label for="equite-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="equite-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="commentaires-tournoi">Commentaires / Suggestions</label>
-                    <textarea id="commentaires-tournoi" name="CommentairesTournoi" rows="3"></textarea>
+                    <textarea id="commentaires-tournoi" name="CommentairesTournoi" rows="3" aria-describedby="commentaires-tournoi-error"></textarea>
+                    <div id="commentaires-tournoi-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
             <!-- Section 5: Logistique & Accueil -->
-            <div class="section">
+            <div class="section" id="section-5" data-section="5">
                 <h2 class="section-title"><i class="fas fa-hotel"></i> Logistique & Accueil</h2>
                 
                 <div class="rating-group">
                     <div class="rating-label">Hébergement (qualité, confort, proximité)</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="hebergement-5" name="QualiteHebergement" value="5" required>
-                        <label for="hebergement-5">★</label>
-                        <input type="radio" id="hebergement-4" name="QualiteHebergement" value="4" required>
-                        <label for="hebergement-4">★</label>
-                        <input type="radio" id="hebergement-3" name="QualiteHebergement" value="3" required>
-                        <label for="hebergement-3">★</label>
-                        <input type="radio" id="hebergement-2" name="QualiteHebergement" value="2" required>
-                        <label for="hebergement-2">★</label>
-                        <input type="radio" id="hebergement-1" name="QualiteHebergement" value="1" required>
-                        <label for="hebergement-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="hebergement-error">
+                        <input type="radio" id="hebergement-5" name="QualiteHebergement" value="5" required aria-required="true">
+                        <label for="hebergement-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="hebergement-4" name="QualiteHebergement" value="4" required aria-required="true">
+                        <label for="hebergement-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="hebergement-3" name="QualiteHebergement" value="3" required aria-required="true">
+                        <label for="hebergement-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="hebergement-2" name="QualiteHebergement" value="2" required aria-required="true">
+                        <label for="hebergement-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="hebergement-1" name="QualiteHebergement" value="1" required aria-required="true">
+                        <label for="hebergement-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="hebergement-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Restauration (qualité, variété, organisation)</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="restauration-5" name="QualiteRestauration" value="5" required>
-                        <label for="restauration-5">★</label>
-                        <input type="radio" id="restauration-4" name="QualiteRestauration" value="4" required>
-                        <label for="restauration-4">★</label>
-                        <input type="radio" id="restauration-3" name="QualiteRestauration" value="3" required>
-                        <label for="restauration-3">★</label>
-                        <input type="radio" id="restauration-2" name="QualiteRestauration" value="2" required>
-                        <label for="restauration-2">★</label>
-                        <input type="radio" id="restauration-1" name="QualiteRestauration" value="1" required>
-                        <label for="restauration-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="restauration-error">
+                        <input type="radio" id="restauration-5" name="QualiteRestauration" value="5" required aria-required="true">
+                        <label for="restauration-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="restauration-4" name="QualiteRestauration" value="4" required aria-required="true">
+                        <label for="restauration-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="restauration-3" name="QualiteRestauration" value="3" required aria-required="true">
+                        <label for="restauration-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="restauration-2" name="QualiteRestauration" value="2" required aria-required="true">
+                        <label for="restauration-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="restauration-1" name="QualiteRestauration" value="1" required aria-required="true">
+                        <label for="restauration-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="restauration-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Transport (transferts, accessibilité du lieu)</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="transport-5" name="QualiteTransport" value="5" required>
-                        <label for="transport-5">★</label>
-                        <input type="radio" id="transport-4" name="QualiteTransport" value="4" required>
-                        <label for="transport-4">★</label>
-                        <input type="radio" id="transport-3" name="QualiteTransport" value="3" required>
-                        <label for="transport-3">★</label>
-                        <input type="radio" id="transport-2" name="QualiteTransport" value="2" required>
-                        <label for="transport-2">★</label>
-                        <input type="radio" id="transport-1" name="QualiteTransport" value="1" required>
-                        <label for="transport-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="transport-error">
+                        <input type="radio" id="transport-5" name="QualiteTransport" value="5" required aria-required="true">
+                        <label for="transport-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="transport-4" name="QualiteTransport" value="4" required aria-required="true">
+                        <label for="transport-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="transport-3" name="QualiteTransport" value="3" required aria-required="true">
+                        <label for="transport-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="transport-2" name="QualiteTransport" value="2" required aria-required="true">
+                        <label for="transport-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="transport-1" name="QualiteTransport" value="1" required aria-required="true">
+                        <label for="transport-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="transport-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Accueil à l'aéroport / gare / hôtel</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="accueil-5" name="QualiteAccueil" value="5" required>
-                        <label for="accueil-5">★</label>
-                        <input type="radio" id="accueil-4" name="QualiteAccueil" value="4" required>
-                        <label for="accueil-4">★</label>
-                        <input type="radio" id="accueil-3" name="QualiteAccueil" value="3" required>
-                        <label for="accueil-3">★</label>
-                        <input type="radio" id="accueil-2" name="QualiteAccueil" value="2" required>
-                        <label for="accueil-2">★</label>
-                        <input type="radio" id="accueil-1" name="QualiteAccueil" value="1" required>
-                        <label for="accueil-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="accueil-error">
+                        <input type="radio" id="accueil-5" name="QualiteAccueil" value="5" required aria-required="true">
+                        <label for="accueil-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="accueil-4" name="QualiteAccueil" value="4" required aria-required="true">
+                        <label for="accueil-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="accueil-3" name="QualiteAccueil" value="3" required aria-required="true">
+                        <label for="accueil-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="accueil-2" name="QualiteAccueil" value="2" required aria-required="true">
+                        <label for="accueil-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="accueil-1" name="QualiteAccueil" value="1" required aria-required="true">
+                        <label for="accueil-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="accueil-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Services offerts (traduction, assistance, information)</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="services-5" name="QualiteServices" value="5" required>
-                        <label for="services-5">★</label>
-                        <input type="radio" id="services-4" name="QualiteServices" value="4" required>
-                        <label for="services-4">★</label>
-                        <input type="radio" id="services-3" name="QualiteServices" value="3" required>
-                        <label for="services-3">★</label>
-                        <input type="radio" id="services-2" name="QualiteServices" value="2" required>
-                        <label for="services-2">★</label>
-                        <input type="radio" id="services-1" name="QualiteServices" value="1" required>
-                        <label for="services-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="services-error">
+                        <input type="radio" id="services-5" name="QualiteServices" value="5" required aria-required="true">
+                        <label for="services-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="services-4" name="QualiteServices" value="4" required aria-required="true">
+                        <label for="services-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="services-3" name="QualiteServices" value="3" required aria-required="true">
+                        <label for="services-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="services-2" name="QualiteServices" value="2" required aria-required="true">
+                        <label for="services-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="services-1" name="QualiteServices" value="1" required aria-required="true">
+                        <label for="services-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="services-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="commentaires-logistique">Commentaires</label>
-                    <textarea id="commentaires-logistique" name="CommentairesLogistique" rows="3"></textarea>
+                    <textarea id="commentaires-logistique" name="CommentairesLogistique" rows="3" aria-describedby="commentaires-logistique-error"></textarea>
+                    <div id="commentaires-logistique-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
             <!-- Section 6: Communication & Promotion -->
-            <div class="section">
+            <div class="section" id="section-6" data-section="6">
                 <h2 class="section-title"><i class="fas fa-bullhorn"></i> Communication & Promotion</h2>
                 
                 <div class="rating-group">
                     <div class="rating-label">Informations avant l'événement</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="info-avant-5" name="InfoAvant" value="5" required>
-                        <label for="info-avant-5">★</label>
-                        <input type="radio" id="info-avant-4" name="InfoAvant" value="4" required>
-                        <label for="info-avant-4">★</label>
-                        <input type="radio" id="info-avant-3" name="InfoAvant" value="3" required>
-                        <label for="info-avant-3">★</label>
-                        <input type="radio" id="info-avant-2" name="InfoAvant" value="2" required>
-                        <label for="info-avant-2">★</label>
-                        <input type="radio" id="info-avant-1" name="InfoAvant" value="1" required>
-                        <label for="info-avant-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="info-avant-error">
+                        <input type="radio" id="info-avant-5" name="InfoAvant" value="5" required aria-required="true">
+                        <label for="info-avant-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="info-avant-4" name="InfoAvant" value="4" required aria-required="true">
+                        <label for="info-avant-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="info-avant-3" name="InfoAvant" value="3" required aria-required="true">
+                        <label for="info-avant-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="info-avant-2" name="InfoAvant" value="2" required aria-required="true">
+                        <label for="info-avant-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="info-avant-1" name="InfoAvant" value="1" required aria-required="true">
+                        <label for="info-avant-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="info-avant-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Informations pendant l'événement</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="info-pendant-5" name="InfoPendant" value="5" required>
-                        <label for="info-pendant-5">★</label>
-                        <input type="radio" id="info-pendant-4" name="InfoPendant" value="4" required>
-                        <label for="info-pendant-4">★</label>
-                        <input type="radio" id="info-pendant-3" name="InfoPendant" value="3" required>
-                        <label for="info-pendant-3">★</label>
-                        <input type="radio" id="info-pendant-2" name="InfoPendant" value="2" required>
-                        <label for="info-pendant-2">★</label>
-                        <input type="radio" id="info-pendant-1" name="InfoPendant" value="1" required>
-                        <label for="info-pendant-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="info-pendant-error">
+                        <input type="radio" id="info-pendant-5" name="InfoPendant" value="5" required aria-required="true">
+                        <label for="info-pendant-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="info-pendant-4" name="InfoPendant" value="4" required aria-required="true">
+                        <label for="info-pendant-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="info-pendant-3" name="InfoPendant" value="3" required aria-required="true">
+                        <label for="info-pendant-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="info-pendant-2" name="InfoPendant" value="2" required aria-required="true">
+                        <label for="info-pendant-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="info-pendant-1" name="InfoPendant" value="1" required aria-required="true">
+                        <label for="info-pendant-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="info-pendant-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Visibilité médiatique et couverture presse</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="visibilite-5" name="VisibiliteMediatique" value="5" required>
-                        <label for="visibilite-5">★</label>
-                        <input type="radio" id="visibilite-4" name="VisibiliteMediatique" value="4" required>
-                        <label for="visibilite-4">★</label>
-                        <input type="radio" id="visibilite-3" name="VisibiliteMediatique" value="3" required>
-                        <label for="visibilite-3">★</label>
-                        <input type="radio" id="visibilite-2" name="VisibiliteMediatique" value="2" required>
-                        <label for="visibilite-2">★</label>
-                        <input type="radio" id="visibilite-1" name="VisibiliteMediatique" value="1" required>
-                        <label for="visibilite-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="visibilite-error">
+                        <input type="radio" id="visibilite-5" name="VisibiliteMediatique" value="5" required aria-required="true">
+                        <label for="visibilite-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="visibilite-4" name="VisibiliteMediatique" value="4" required aria-required="true">
+                        <label for="visibilite-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="visibilite-3" name="VisibiliteMediatique" value="3" required aria-required="true">
+                        <label for="visibilite-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="visibilite-2" name="VisibiliteMediatique" value="2" required aria-required="true">
+                        <label for="visibilite-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="visibilite-1" name="VisibiliteMediatique" value="1" required aria-required="true">
+                        <label for="visibilite-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="visibilite-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="rating-group">
                     <div class="rating-label">Clarté des supports digitaux & réseaux sociaux</div>
-                    <div class="rating-stars">
-                        <input type="radio" id="supports-5" name="ClarteSupports" value="5" required>
-                        <label for="supports-5">★</label>
-                        <input type="radio" id="supports-4" name="ClarteSupports" value="4" required>
-                        <label for="supports-4">★</label>
-                        <input type="radio" id="supports-3" name="ClarteSupports" value="3" required>
-                        <label for="supports-3">★</label>
-                        <input type="radio" id="supports-2" name="ClarteSupports" value="2" required>
-                        <label for="supports-2">★</label>
-                        <input type="radio" id="supports-1" name="ClarteSupports" value="1" required>
-                        <label for="supports-1">★</label>
+                    <div class="rating-stars" role="radiogroup" aria-required="true" aria-describedby="supports-error">
+                        <input type="radio" id="supports-5" name="ClarteSupports" value="5" required aria-required="true">
+                        <label for="supports-5" aria-label="5 étoiles">★</label>
+                        <input type="radio" id="supports-4" name="ClarteSupports" value="4" required aria-required="true">
+                        <label for="supports-4" aria-label="4 étoiles">★</label>
+                        <input type="radio" id="supports-3" name="ClarteSupports" value="3" required aria-required="true">
+                        <label for="supports-3" aria-label="3 étoiles">★</label>
+                        <input type="radio" id="supports-2" name="ClarteSupports" value="2" required aria-required="true">
+                        <label for="supports-2" aria-label="2 étoiles">★</label>
+                        <input type="radio" id="supports-1" name="ClarteSupports" value="1" required aria-required="true">
+                        <label for="supports-1" aria-label="1 étoile">★</label>
                     </div>
+                    <div id="supports-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="commentaires-communication">Commentaires</label>
-                    <textarea id="commentaires-communication" name="CommentairesCommunication" rows="3"></textarea>
+                    <textarea id="commentaires-communication" name="CommentairesCommunication" rows="3" aria-describedby="commentaires-communication-error"></textarea>
+                    <div id="commentaires-communication-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
             <!-- Section 7: Expérience & Impact -->
-            <div class="section">
+            <div class="section" id="section-7" data-section="7">
                 <h2 class="section-title"><i class="fas fa-brain"></i> Expérience & Impact</h2>
                 
                 <div class="form-group">
                     <label>Le festival a-t-il répondu à vos attentes ?</label>
-                    <div class="radio-group">
+                    <div class="radio-group" role="radiogroup" aria-required="true" aria-describedby="attentes-error">
                         <div class="radio-option">
-                            <input type="radio" id="attentes-globale-oui" name="AttentesGlobale" value="Oui totalement" required>
+                            <input type="radio" id="attentes-globale-oui" name="AttentesGlobale" value="Oui totalement" required aria-required="true">
                             <label for="attentes-globale-oui">Oui totalement</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="attentes-globale-partiel" name="AttentesGlobale" value="Partiellement" required>
+                            <input type="radio" id="attentes-globale-partiel" name="AttentesGlobale" value="Partiellement" required aria-required="true">
                             <label for="attentes-globale-partiel">Partiellement</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="attentes-globale-non" name="AttentesGlobale" value="Non" required>
+                            <input type="radio" id="attentes-globale-non" name="AttentesGlobale" value="Non" required aria-required="true">
                             <label for="attentes-globale-non">Non</label>
                         </div>
                     </div>
+                    <div id="attentes-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label>Avez-vous ressenti une valeur ajoutée sur :</label>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" role="group" aria-describedby="valeur-error">
                         <div class="checkbox-option">
-                            <input type="checkbox" id="networking" name="ValeurAjoutee[]" value="Networking (contacts, échanges, partenariats)">
+                            <input type="checkbox" id="networking" name="ValeurAjoutee" value="Networking (contacts, échanges, partenariats)">
                             <label for="networking">Networking (contacts, échanges, partenariats)</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="experience" name="ValeurAjoutee[]" value="Expérience sportive et culturelle">
+                            <input type="checkbox" id="experience" name="ValeurAjoutee" value="Expérience sportive et culturelle">
                             <label for="experience">Expérience sportive et culturelle</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="developpement" name="ValeurAjoutee[]" value="Développement de l'image des échecs dans la région">
+                            <input type="checkbox" id="developpement" name="ValeurAjoutee" value="Développement de l'image des échecs dans la région">
                             <label for="developpement">Développement de l'image des échecs dans la région</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="autre-valeur" name="ValeurAjoutee[]" value="Autre">
+                            <input type="checkbox" id="autre-valeur" name="ValeurAjoutee" value="Autre">
                             <label for="autre-valeur">Autre</label>
                         </div>
                     </div>
+                    <div id="valeur-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="nps-group">
@@ -1473,7 +1732,7 @@
                         <div class="slider-value-display" id="slider-value">5</div>
                         <div class="slider-track">
                             <div class="slider-progress" id="slider-progress"></div>
-                            <div class="slider-thumb" id="slider-thumb"></div>
+                            <div class="slider-thumb" id="slider-thumb" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="10" aria-valuenow="5" aria-label="Note de recommandation"></div>
                         </div>
                         <div class="nps-description">
                             <span>Pas du tout probable</span>
@@ -1485,150 +1744,166 @@
                 
                 <div class="form-group">
                     <label for="trois-mots">Trois mots pour décrire votre expérience</label>
-                    <input type="text" id="trois-mots" name="TroisMots" placeholder="Ex: Passionnant, Bien organisé, Enrichissant">
+                    <input type="text" id="trois-mots" name="TroisMots" placeholder="Ex: Passionnant, Bien organisé, Enrichissant" aria-describedby="trois-mots-error">
+                    <div id="trois-mots-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
             <!-- Section 8: Emplacement de la prochaine édition -->
-            <div class="section">
+            <div class="section" id="section-8" data-section="8">
                 <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Emplacement de la prochaine édition</h2>
                 
                 <div class="form-group">
                     <label>Pour la 2ᵉ édition du Sahel Chess Festival, quelle ville préférez-vous ?</label>
-                    <div class="radio-group">
+                    <div class="radio-group" role="radiogroup" aria-required="true" aria-describedby="emplacement-error">
                         <div class="radio-option">
-                            <input type="radio" id="monastir" name="Emplacement" value="Monastir" required>
+                            <input type="radio" id="monastir" name="Emplacement" value="Monastir" required aria-required="true">
                             <label for="monastir">Monastir</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="sousse" name="Emplacement" value="Sousse" required>
+                            <input type="radio" id="sousse" name="Emplacement" value="Sousse" required aria-required="true">
                             <label for="sousse">Sousse</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="mahdia" name="Emplacement" value="Mahdia" required>
+                            <input type="radio" id="mahdia" name="Emplacement" value="Mahdia" required aria-required="true">
                             <label for="mahdia">Mahdia</label>
                         </div>
                     </div>
+                    <div id="emplacement-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label>Pourquoi ce choix d'emplacement ?</label>
-                    <textarea id="raison-emplacement" name="RaisonEmplacement" rows="3" placeholder="Partagez les raisons de votre préférence pour cet emplacement..."></textarea>
+                    <textarea id="raison-emplacement" name="RaisonEmplacement" rows="3" placeholder="Partagez les raisons de votre préférence pour cet emplacement..." aria-describedby="raison-emplacement-error"></textarea>
+                    <div id="raison-emplacement-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label>Quels avantages cet emplacement pourrait-il offrir pour le festival ?</label>
-                    <textarea id="avantages-emplacement" name="AvantagesEmplacement" rows="3" placeholder="Décrivez les avantages potentiels de cet emplacement..."></textarea>
+                    <textarea id="avantages-emplacement" name="AvantagesEmplacement" rows="3" placeholder="Décrivez les avantages potentiels de cet emplacement..." aria-describedby="avantages-emplacement-error"></textarea>
+                    <div id="avantages-emplacement-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
             <!-- Section 9: Suggestions pour la 2ᵉ édition -->
-            <div class="section">
+            <div class="section" id="section-9" data-section="9">
                 <h2 class="section-title"><i class="fas fa-lightbulb"></i> Suggestions pour la 2ᵉ édition</h2>
                 
                 <div class="form-group">
                     <label>Quels nouveaux services / activités aimeriez-vous voir ajoutés ?</label>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" role="group" aria-describedby="services-nouveaux-error">
                         <div class="checkbox-option">
-                            <input type="checkbox" id="conferences" name="NouveauxServices[]" value="Conférences / Masterclass">
+                            <input type="checkbox" id="conferences" name="NouveauxServices" value="Conférences / Masterclass">
                             <label for="conferences">Conférences / Masterclass</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="simultanees" name="NouveauxServices[]" value="Simultanées avec grands maîtres">
+                            <input type="checkbox" id="simultanees" name="NouveauxServices" value="Simultanées avec grands maîtres">
                             <label for="simultanees">Simultanées avec grands maîtres</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="culturelles" name="NouveauxServices[]" value="Activités culturelles & touristiques">
+                            <input type="checkbox" id="culturelles" name="NouveauxServices" value="Activités culturelles & touristiques">
                             <label for="culturelles">Activités culturelles & touristiques</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="junior" name="NouveauxServices[]" value="Tournoi junior / amateur parallèle">
+                            <input type="checkbox" id="junior" name="NouveauxServices" value="Tournoi junior / amateur parallèle">
                             <label for="junior">Tournoi junior / amateur parallèle</label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="autre-service" name="NouveauxServices[]" value="Autre">
+                            <input type="checkbox" id="autre-service" name="NouveauxServices" value="Autre">
                             <label for="autre-service">Autre</label>
                         </div>
                     </div>
+                    <div id="services-nouveaux-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="recommandations">Avez-vous des recommandations précises pour améliorer la prochaine édition ?</label>
-                    <textarea id="recommandations" name="Recommandations" rows="4"></textarea>
+                    <textarea id="recommandations" name="Recommandations" rows="4" aria-describedby="recommandations-error"></textarea>
+                    <div id="recommandations-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
             <!-- Section 10: Recommandation & Fidélisation -->
-            <div class="section">
+            <div class="section" id="section-10" data-section="10">
                 <h2 class="section-title"><i class="fas fa-heart"></i> Recommandation & Fidélisation</h2>
                 
                 <div class="form-group">
                     <label>Recommanderiez-vous le Sahel Chess Festival à d'autres joueurs/organisations ?</label>
-                    <div class="radio-group">
+                    <div class="radio-group" role="radiogroup" aria-required="true" aria-describedby="recommandation-error">
                         <div class="radio-option">
-                            <input type="radio" id="recommandation-oui" name="Recommandation" value="Oui, absolument" required>
+                            <input type="radio" id="recommandation-oui" name="Recommandation" value="Oui, absolument" required aria-required="true">
                             <label for="recommandation-oui">Oui, absolument</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="recommandation-peut-etre" name="Recommandation" value="Peut-être" required>
+                            <input type="radio" id="recommandation-peut-etre" name="Recommandation" value="Peut-être" required aria-required="true">
                             <label for="recommandation-peut-etre">Peut-être</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="recommandation-non" name="Recommandation" value="Non" required>
+                            <input type="radio" id="recommandation-non" name="Recommandation" value="Non" required aria-required="true">
                             <label for="recommandation-non">Non</label>
                         </div>
                     </div>
+                    <div id="recommandation-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label>Souhaitez-vous être contacté pour la 2ᵉ édition ?</label>
-                    <div class="radio-group">
+                    <div class="radio-group" role="radiogroup" aria-required="true" aria-describedby="contact-error">
                         <div class="radio-option">
-                            <input type="radio" id="contact-oui" name="ContactProchaineEdition" value="Oui" required>
+                            <input type="radio" id="contact-oui" name="ContactProchaineEdition" value="Oui" required aria-required="true">
                             <label for="contact-oui">Oui</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="contact-non" name="ContactProchaineEdition" value="Non" required>
+                            <input type="radio" id="contact-non" name="ContactProchaineEdition" value="Non" required aria-required="true">
                             <label for="contact-non">Non</label>
                         </div>
                     </div>
+                    <div id="contact-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label>Préférence de contact pour les futures communications :</label>
-                    <div class="radio-group">
+                    <div class="radio-group" role="radiogroup" aria-required="true" aria-describedby="preference-error">
                         <div class="radio-option">
-                            <input type="radio" id="pref-email" name="PreferenceContact" value="Email" required>
+                            <input type="radio" id="pref-email" name="PreferenceContact" value="Email" required aria-required="true">
                             <label for="pref-email">Email</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="pref-whatsapp" name="PreferenceContact" value="WhatsApp" required>
+                            <input type="radio" id="pref-whatsapp" name="PreferenceContact" value="WhatsApp" required aria-required="true">
                             <label for="pref-whatsapp">WhatsApp</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="pref-sms" name="PreferenceContact" value="SMS" required>
+                            <input type="radio" id="pref-sms" name="PreferenceContact" value="SMS" required aria-required="true">
                             <label for="pref-sms">SMS</label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="pref-autre" name="PreferenceContact" value="Autre" required>
+                            <input type="radio" id="pref-autre" name="PreferenceContact" value="Autre" required aria-required="true">
                             <label for="pref-autre">Autre</label>
                         </div>
                     </div>
+                    <div id="preference-error" class="error-message" role="alert"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="coordonnees">Coordonnées email / WhatsApp</label>
-                    <input type="text" id="coordonnees" name="Coordonnees" placeholder="votre@email.com ou numéro WhatsApp">
+                    <input type="text" id="coordonnees" name="Coordonnees" placeholder="votre@email.com ou numéro WhatsApp" aria-describedby="coordonnees-error">
+                    <div id="coordonnees-error" class="error-message" role="alert"></div>
                 </div>
             </div>
             
-            <button type="submit" class="btn">Soumettre l'évaluation</button>
+            <button type="submit" class="btn" id="submit-btn">Soumettre l'évaluation</button>
         </form>
         
         <div class="footer">
             <p>✅ Merci infiniment pour vos retours 🙏<br>
             Vous contribuez directement à la réussite de la prochaine édition du Sahel Chess Festival 🌍♟️</p>
         </div>
+    </div>
+    
+    <!-- Notification de sauvegarde automatique -->
+    <div id="save-notification" class="save-notification" role="status" aria-live="polite">
+        <i class="fas fa-check-circle"></i>
+        <span>Formulaire sauvegardé automatiquement</span>
     </div>
     
     <!-- Conteneur de remerciement (initialement caché) -->
@@ -1702,6 +1977,10 @@
     <!-- Ajout de Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
+    <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Détecter le mode clair du navigateur et appliquer la classe appropriée
@@ -1719,6 +1998,22 @@
                     }
                 });
             }
+            
+            // Initialiser Firebase - Remplacez ces valeurs par celles de votre projet
+            const firebaseConfig = {
+                apiKey: "AIzaSyDZaxeYOe_RGZ3SO_p0y0xGEKODpucdu7I",
+                authDomain: "forum-chess.firebaseapp.com",
+                projectId: "forum-chess",
+                storageBucket: "forum-chess.firebasestorage.app",
+                messagingSenderId: "635592066086",
+                appId: "1:635592066086:web:0aad03ccca4c1c973652e7"
+            };
+            
+            // Initialiser Firebase
+            firebase.initializeApp(firebaseConfig);
+            
+            // Initialiser Firestore
+            const db = firebase.firestore();
             
             // Créer des particules d'échecs
             function createChessParticles() {
@@ -1751,6 +2046,359 @@
             // Initialiser les particules
             createChessParticles();
             
+            // Fonctionnalités de validation en temps réel
+            const form = document.getElementById('evaluation-form');
+            const formInputs = form.querySelectorAll('input, textarea, select');
+            
+            // Validation des champs de texte
+            function validateTextInput(input) {
+                const errorElement = document.getElementById(`${input.id}-error`);
+                const value = input.value.trim();
+                
+                if (input.hasAttribute('required') && value === '') {
+                    showError(errorElement, 'Ce champ est obligatoire');
+                    return false;
+                }
+                
+                // Validation spécifique pour certains champs
+                if (input.id === 'nom' && value.length < 2) {
+                    showError(errorElement, 'Veuillez entrer un nom valide (au moins 2 caractères)');
+                    return false;
+                }
+                
+                if (input.id === 'age') {
+                    const age = parseInt(value);
+                    if (isNaN(age) || age < 10 || age > 100) {
+                        showError(errorElement, 'Veuillez entrer un âge valide entre 10 et 100');
+                        return false;
+                    }
+                }
+                
+                if (input.id === 'pays' && value.length < 2) {
+                    showError(errorElement, 'Veuillez entrer un pays valide');
+                    return false;
+                }
+                
+                if (input.id === 'coordonnees' && value !== '') {
+                    // Validation basique pour email ou numéro de téléphone
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    const phoneRegex = /^[\d\s\+\-\(\)]+$/;
+                    
+                    if (!emailRegex.test(value) && !phoneRegex.test(value)) {
+                        showError(errorElement, 'Veuillez entrer une adresse email ou un numéro de téléphone valide');
+                        return false;
+                    }
+                }
+                
+                hideError(errorElement);
+                return true;
+            }
+            
+            // Validation des groupes de radio
+            function validateRadioGroup(groupName) {
+                const radios = form.querySelectorAll(`input[name="${groupName}"]`);
+                const errorElement = document.getElementById(`${groupName}-error`);
+                
+                if (radios.length > 0) {
+                    const isChecked = Array.from(radios).some(radio => radio.checked);
+                    
+                    if (radios[0].hasAttribute('required') && !isChecked) {
+                        showError(errorElement, 'Veuillez sélectionner une option');
+                        return false;
+                    }
+                }
+                
+                hideError(errorElement);
+                return true;
+            }
+            
+            // Validation des groupes de cases à cocher
+            function validateCheckboxGroup(groupName) {
+                const checkboxes = form.querySelectorAll(`input[name="${groupName}"]`);
+                const errorElement = document.getElementById(`${groupName}-error`);
+                
+                if (checkboxes.length > 0) {
+                    const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+                    
+                    if (checkboxes[0].hasAttribute('required') && !isChecked) {
+                        showError(errorElement, 'Veuillez sélectionner au moins une option');
+                        return false;
+                    }
+                }
+                
+                hideError(errorElement);
+                return true;
+            }
+            
+            // Afficher un message d'erreur
+            function showError(errorElement, message) {
+                if (errorElement) {
+                    errorElement.textContent = message;
+                    errorElement.style.display = 'block';
+                }
+            }
+            
+            // Masquer un message d'erreur
+            function hideError(errorElement) {
+                if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+            }
+            
+            // Ajouter des écouteurs d'événements pour la validation en temps réel
+            formInputs.forEach(input => {
+                if (input.type === 'text' || input.type === 'email' || input.type === 'number' || input.tagName === 'TEXTAREA') {
+                    input.addEventListener('blur', function() {
+                        validateTextInput(this);
+                    });
+                    
+                    input.addEventListener('input', function() {
+                        // Effacer l'erreur lorsque l'utilisateur commence à taper
+                        const errorElement = document.getElementById(`${this.id}-error`);
+                        if (errorElement && errorElement.style.display === 'block') {
+                            hideError(errorElement);
+                        }
+                        
+                        // Sauvegarde automatique
+                        saveFormData();
+                    });
+                } else if (input.type === 'radio' || input.type === 'checkbox') {
+                    input.addEventListener('change', function() {
+                        if (input.type === 'radio') {
+                            validateRadioGroup(input.name);
+                        } else {
+                            validateCheckboxGroup(input.name);
+                        }
+                        
+                        // Sauvegarde automatique
+                        saveFormData();
+                    });
+                }
+            });
+            
+            // Validation du formulaire complet avant soumission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let isValid = true;
+                
+                // Valider tous les champs de texte
+                const textInputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="number"], textarea');
+                textInputs.forEach(input => {
+                    if (!validateTextInput(input)) {
+                        isValid = false;
+                    }
+                });
+                
+                // Valider tous les groupes de radio
+                const radioGroups = ['Genre', 'Role', 'AttentesGlobale', 'Recommandation', 'ContactProchaineEdition', 'PreferenceContact', 'Emplacement'];
+                radioGroups.forEach(groupName => {
+                    if (!validateRadioGroup(groupName)) {
+                        isValid = false;
+                    }
+                });
+                
+                // Valider tous les groupes de cases à cocher
+                const checkboxGroups = ['Decouverte', 'ValeurAjoutee', 'NouveauxServices'];
+                checkboxGroups.forEach(groupName => {
+                    if (!validateCheckboxGroup(groupName)) {
+                        isValid = false;
+                    }
+                });
+                
+                // Valider les groupes d'étoiles
+                const starGroups = ['QualiteGenerale', 'RespectProgramme', 'ImplicationEquipe', 'QualiteArbitrage', 'ClarteReglement', 'NiveauParticipants', 'EquiteAmbiance', 'QualiteHebergement', 'QualiteRestauration', 'QualiteTransport', 'QualiteAccueil', 'QualiteServices', 'InfoAvant', 'InfoPendant', 'VisibiliteMediatique', 'ClarteSupports'];
+                starGroups.forEach(groupName => {
+                    if (!validateRadioGroup(groupName)) {
+                        isValid = false;
+                    }
+                });
+                
+                if (!isValid) {
+                    // Faire défiler jusqu'au premier champ avec erreur
+                    const firstError = form.querySelector('.error-message[style="display: block;"]');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+                
+                // Afficher un indicateur de chargement
+                const submitButton = document.getElementById('submit-btn');
+                const originalText = submitButton.textContent;
+                submitButton.textContent = 'Envoi en cours...';
+                submitButton.disabled = true;
+                
+                // Créer un objet avec les données du formulaire
+                const formData = new FormData(form);
+                const formDataObj = {};
+                
+                // Convertir FormData en objet
+                for (let [key, value] of formData.entries()) {
+                    // Si la clé existe déjà, créer un tableau
+                    if (formDataObj[key]) {
+                        if (!Array.isArray(formDataObj[key])) {
+                            formDataObj[key] = [formDataObj[key]];
+                        }
+                        formDataObj[key].push(value);
+                    } else {
+                        formDataObj[key] = value;
+                    }
+                }
+                
+                // Ajouter un timestamp
+                formDataObj.timestamp = firebase.firestore.FieldValue.serverTimestamp();
+                
+                // Envoyer les données à Firebase
+                db.collection("evaluations").add(formDataObj)
+                .then((docRef) => {
+                    console.log("Document written with ID: ", docRef.id);
+                    
+                    // Afficher le message de remerciement
+                    document.getElementById('form-container').style.display = 'none';
+                    document.getElementById('thank-you-container').style.display = 'flex';
+                    
+                    // Effacer les données sauvegardées
+                    localStorage.removeItem('sahelChessFormData');
+                    
+                    // Initialiser les éléments de la page de remerciement
+                    initThankYouPage();
+                })
+                .catch((error) => {
+                    console.error("Error adding document: ", error);
+                    
+                    // Afficher un message d'erreur
+                    showNotification("Une erreur s'est produite lors de l'envoi du formulaire. Veuillez réessayer.", "error");
+                    
+                    // Restaurer le bouton
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                });
+            });
+            
+            // Fonctionnalités de sauvegarde automatique
+            function saveFormData() {
+                const formData = new FormData(form);
+                const formDataObj = {};
+                
+                // Convertir FormData en objet
+                for (let [key, value] of formData.entries()) {
+                    // Si la clé existe déjà, créer un tableau
+                    if (formDataObj[key]) {
+                        if (!Array.isArray(formDataObj[key])) {
+                            formDataObj[key] = [formDataObj[key]];
+                        }
+                        formDataObj[key].push(value);
+                    } else {
+                        formDataObj[key] = value;
+                    }
+                }
+                
+                // Sauvegarder dans localStorage
+                localStorage.setItem('sahelChessFormData', JSON.stringify(formDataObj));
+                
+                // Afficher la notification de sauvegarde
+                showSaveNotification();
+            }
+            
+            function loadFormData() {
+                const savedData = localStorage.getItem('sahelChessFormData');
+                
+                if (savedData) {
+                    const formDataObj = JSON.parse(savedData);
+                    
+                    // Remplir les champs de texte et textarea
+                    Object.keys(formDataObj).forEach(key => {
+                        if (Array.isArray(formDataObj[key])) {
+                            // Pour les cases à cocher
+                            formDataObj[key].forEach(value => {
+                                const checkbox = form.querySelector(`input[name="${key}"][value="${value}"]`);
+                                if (checkbox) {
+                                    checkbox.checked = true;
+                                }
+                            });
+                        } else {
+                            // Pour les champs de texte, textarea et radio
+                            const input = form.querySelector(`input[name="${key}"], textarea[name="${key}"]`);
+                            if (input) {
+                                if (input.type === 'radio') {
+                                    const radio = form.querySelector(`input[name="${key}"][value="${formDataObj[key]}"]`);
+                                    if (radio) {
+                                        radio.checked = true;
+                                    }
+                                } else {
+                                    input.value = formDataObj[key];
+                                }
+                            }
+                        }
+                    });
+                    
+                    // Mettre à jour le slider NPS
+                    const npsValue = formDataObj['NPS'];
+                    if (npsValue) {
+                        updateSliderValue(npsValue);
+                    }
+                    
+                    // Mettre à jour la progression
+                    updateProgress();
+                    
+                    return true;
+                }
+                
+                return false;
+            }
+            
+            function clearFormData() {
+                if (confirm('Êtes-vous sûr de vouloir effacer toutes les données sauvegardées ?')) {
+                    localStorage.removeItem('sahelChessFormData');
+                    form.reset();
+                    updateSliderValue(5);
+                    updateProgress();
+                    showNotification('Données effacées avec succès', 'success');
+                }
+            }
+            
+            function showSaveNotification() {
+                const notification = document.getElementById('save-notification');
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            function showNotification(message, type) {
+                // Créer une notification temporaire
+                const notification = document.createElement('div');
+                notification.className = 'save-notification';
+                notification.style.backgroundColor = type === 'success' ? 'var(--success-color)' : 'var(--error-color)';
+                notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i><span>${message}</span>`;
+                document.body.appendChild(notification);
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+            
+            // Boutons de sauvegarde
+            document.getElementById('save-form-btn').addEventListener('click', function() {
+                saveFormData();
+                showNotification('Formulaire sauvegardé manuellement', 'success');
+            });
+            
+            document.getElementById('clear-form-btn').addEventListener('click', clearFormData);
+            
+            // Charger les données sauvegardées au démarrage
+            const hasSavedData = loadFormData();
+            if (hasSavedData) {
+                showNotification('Données du formulaire restaurées', 'success');
+            }
+            
             // Slider Flutter-style pour l'échelle NPS
             const sliderTrack = document.querySelector('.slider-track');
             const sliderThumb = document.getElementById('slider-thumb');
@@ -1771,6 +2419,25 @@
                 sliderProgress.style.width = `${percentage * 100}%`;
                 sliderValue.textContent = currentValue;
                 npsValue.value = currentValue;
+                
+                // Mettre à jour l'attribut ARIA
+                sliderThumb.setAttribute('aria-valuenow', currentValue);
+                
+                // Sauvegarde automatique
+                saveFormData();
+            }
+            
+            function updateSliderValue(value) {
+                currentValue = parseInt(value);
+                const percentage = currentValue / 10;
+                
+                sliderThumb.style.left = `${percentage * 100}%`;
+                sliderProgress.style.width = `${percentage * 100}%`;
+                sliderValue.textContent = currentValue;
+                npsValue.value = currentValue;
+                
+                // Mettre à jour l'attribut ARIA
+                sliderThumb.setAttribute('aria-valuenow', currentValue);
             }
             
             sliderThumb.addEventListener('mousedown', function(e) {
@@ -1810,80 +2477,117 @@
                 isDragging = false;
             });
             
-            // Gestion de la soumission du formulaire
-            const form = document.getElementById('evaluation-form');
-            const formContainer = document.getElementById('form-container');
-            const thankYouContainer = document.getElementById('thank-you-container');
-            const resetButton = document.getElementById('reset-form');
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
+            // Support clavier pour le slider
+            sliderThumb.addEventListener('keydown', function(e) {
+                let newValue = currentValue;
                 
-                // Afficher un indicateur de chargement
-                const submitButton = form.querySelector('.btn');
-                const originalText = submitButton.textContent;
-                submitButton.textContent = 'Envoi en cours...';
-                submitButton.disabled = true;
+                switch(e.key) {
+                    case 'ArrowLeft':
+                    case 'ArrowDown':
+                        newValue = Math.max(0, currentValue - 1);
+                        break;
+                    case 'ArrowRight':
+                    case 'ArrowUp':
+                        newValue = Math.min(10, currentValue + 1);
+                        break;
+                    case 'Home':
+                        newValue = 0;
+                        break;
+                    case 'End':
+                        newValue = 10;
+                        break;
+                    case 'PageDown':
+                        newValue = Math.max(0, currentValue - 2);
+                        break;
+                    case 'PageUp':
+                        newValue = Math.min(10, currentValue + 2);
+                        break;
+                    default:
+                        return;
+                }
                 
-                // Créer un FormData à partir du formulaire
-                const formData = new FormData(form);
-                
-                // Envoyer les données du formulaire à FormSubmit
-                fetch('https://formsubmit.co/el/zudiru', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    // Vérifier si la réponse est OK (statut 200-299)
-                    if (response.ok) {
-                        // Afficher le message de remerciement
-                        formContainer.style.display = 'none';
-                        thankYouContainer.style.display = 'flex';
-                        
-                        // Initialiser les éléments de la page de remerciement
-                        initThankYouPage();
-                        
-                        return response.json(); // Essayer de parser la réponse JSON
-                    } else {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                })
-                .then(data => {
-                    // Si nous avons des données JSON, vérifier le succès
-                    if (data && data.success === false) {
-                        throw new Error('FormSubmit returned unsuccessful response');
-                    }
-                    console.log('Formulaire soumis avec succès:', data);
-                })
-                .catch(error => {
-                    console.error('Erreur lors de la soumission:', error);
-                    
-                    // Même en cas d'erreur, afficher le message de remerciement
-                    // car le formulaire a probablement été soumis malgré tout
-                    formContainer.style.display = 'none';
-                    thankYouContainer.style.display = 'flex';
-                    initThankYouPage();
-                })
-                .finally(() => {
-                    // Restaurer le bouton
-                    submitButton.textContent = originalText;
-                    submitButton.disabled = false;
-                });
+                if (newValue !== currentValue) {
+                    updateSliderValue(newValue);
+                    e.preventDefault();
+                }
             });
             
             // Réinitialiser le formulaire
-            resetButton.addEventListener('click', function(e) {
+            document.getElementById('reset-form').addEventListener('click', function(e) {
                 e.preventDefault();
                 form.reset();
-                formContainer.style.display = 'block';
-                thankYouContainer.style.display = 'none';
+                document.getElementById('form-container').style.display = 'block';
+                document.getElementById('thank-you-container').style.display = 'none';
                 
                 // Réinitialiser le slider
-                currentValue = 5;
-                sliderThumb.style.left = '50%';
-                sliderProgress.style.width = '50%';
-                sliderValue.textContent = '5';
-                npsValue.value = '5';
+                updateSliderValue(5);
+                
+                // Mettre à jour la progression
+                updateProgress();
+            });
+            
+            // Indicateur de progression
+            function updateProgress() {
+                const sections = document.querySelectorAll('.section');
+                const totalSections = sections.length;
+                let completedSections = 0;
+                
+                sections.forEach(section => {
+                    const sectionInputs = section.querySelectorAll('input, textarea, select');
+                    let sectionCompleted = true;
+                    
+                    sectionInputs.forEach(input => {
+                        if (input.hasAttribute('required') && !input.value) {
+                            if (input.type === 'radio') {
+                                const radios = section.querySelectorAll(`input[name="${input.name}"]`);
+                                const isChecked = Array.from(radios).some(radio => radio.checked);
+                                if (!isChecked) {
+                                    sectionCompleted = false;
+                                }
+                            } else if (input.type === 'checkbox') {
+                                // Pour les cases à cocher, on considère la section comme complétée même si aucune n'est cochée
+                                // car elles ne sont pas toutes obligatoires
+                            } else {
+                                sectionCompleted = false;
+                            }
+                        }
+                    });
+                    
+                    if (sectionCompleted) {
+                        completedSections++;
+                        // Mettre à jour l'étape correspondante
+                        const sectionNumber = section.getAttribute('data-section');
+                        const stepCircle = document.getElementById(`step-${sectionNumber}`);
+                        if (stepCircle) {
+                            stepCircle.classList.add('completed');
+                            stepCircle.classList.remove('active');
+                        }
+                    } else {
+                        // Mettre à jour l'étape active
+                        const sectionNumber = section.getAttribute('data-section');
+                        const stepCircle = document.getElementById(`step-${sectionNumber}`);
+                        if (stepCircle) {
+                            stepCircle.classList.add('active');
+                            stepCircle.classList.remove('completed');
+                        }
+                    }
+                });
+                
+                const progressPercentage = (completedSections / totalSections) * 100;
+                const progressFill = document.getElementById('progress-fill');
+                const progressContainer = document.querySelector('.progress-container');
+                
+                progressFill.style.width = `${progressPercentage}%`;
+                progressContainer.setAttribute('aria-valuenow', progressPercentage);
+            }
+            
+            // Mettre à jour la progression au chargement et lors des interactions
+            updateProgress();
+            
+            // Ajouter des écouteurs d'événements pour mettre à jour la progression
+            formInputs.forEach(input => {
+                input.addEventListener('change', updateProgress);
+                input.addEventListener('input', updateProgress);
             });
             
             // Initialiser la page de remerciement
